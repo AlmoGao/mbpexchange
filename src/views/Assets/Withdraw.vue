@@ -1,56 +1,69 @@
 <!-- 提现 -->
 <template>
-    <div class="page-rechagre">
-        <Top :title="_t('t143') + ' ' + (currChannel.name || '')" />
+    <div class="page page-withdraw">
+        <Top :bgColor="'rgba(0,0,0,0)'" :title="'提现'" />
 
-        <!-- 币种列表 -->
-        <div v-if="step == 1">
-            <div class="list_title">{{ _t('t127') }}</div>
-            <div class="list_item" v-for="(item, i) in channel" :key="i" @click="selectChannel(item)">
-                <img class="icon" v-if="item.logo_image" :src="item.logo_image" alt="img">
-                <div class="info">{{ item.name }}</div>
-                <van-icon name="arrow" />
-            </div>
+        <div class="title">银行</div>
+        <div class="btns">
+            <div class="btn" :class="{ 'a_btn': type == 'bank' }">银行卡</div>
+            <div class="btn" :class="{ 'a_btn': type == 'trc20' }">Trc-20</div>
+            <div class="btn" :class="{ 'a_btn': type == 'erc20' }">Erc-20</div>
         </div>
 
-        <!-- 提现详情 -->
-        <div v-if="step == 2">
-            <div class="top_box">
-                <div class="num">{{ userInfo.money || '0.00' }}</div>
-                <div>{{ _t('t144') }}</div>
+        <div class="info">
+            <div class="info_text">点击添加收款方式</div>
+            <van-icon name="arrow" />
+        </div>
+
+        <!-- 余额 -->
+        <div class="amount">余额：0.00</div>
+        <div class="amount">有效余额：0.00</div>
+
+        <!-- 表单 -->
+        <div class="item" style="margin-top: 6rem;">
+            <input type="number" placeholder="请输入金额" class="ipt">
+
+            <span class="all">全部</span>
+        </div>
+        <div class="tip">
+            <span>最小提现金额：</span>
+            <span class="tip_link">0</span>
+        </div>
+        <div class="subtitle">手续费</div>
+        <div class="item">
+            <input type="number" disabled class="ipt">
+        </div>
+        <div class="tip">
+            <span>手续费：</span>
+        </div>
+        <div class="subtitle">交易密码</div>
+        <div class="item">
+            <input type="password" placeholder="请输入交易密码" class="ipt">
+        </div>
+
+        <div class="a_btn submit">提现</div>
+
+
+        <div class="tip_box">
+            <div class="tip_title">*Withdrawal rules*</div>
+            <div>
+                ①. Please keep the total recharge amount of your account.
             </div>
-
-            <div class="form">
-                <!-- <div class="subtitle">提现币种（USDT）</div>
-                <div class="item" style="background-color: #EBEBEB;">
-                    <img class="icon icon_left" src="@/assets/assets/USDT.svg" alt="img">
-                    <span style="flex:1">USDT</span>
-                    <span></span>
-                </div> -->
-                <div class="subtitle">{{ _t('t145') }}</div>
-                <div class="item">
-                    <input v-model="form.amount" type="number" class="ipt" :placeholder="_t('ipt')">
-                    <span style="color: #4936DF;" @click="form.amount = Number(userInfo.money)">{{ _t('t146') }}</span>
-                </div>
-                <!-- <div class="subtitle">提现地址</div>
-                <div class="item">
-                    <input type="text" class="ipt" :placeholder="_t('ipt')">
-                </div> -->
-                <!-- <div class="subtitle">提现密码</div>
-                <div class="item">
-                    <input :type="showPass1 ? 'text' : 'password'" class="ipt" :placeholder="_t('ipt')">
-                    <van-icon @click="showPass1 = false" v-show="showPass1" class="icon icon_right" name="eye-o" />
-                    <van-icon @click="showPass1 = true" v-show="!showPass1" class="icon icon_right" name="closed-eye" />
-                </div> -->
-
-                <div class="tip" @click="goCustomer">
-                    <div>{{ _t('t147') }}<span class="a">{{ _t('t148') }}</span></div>
-                    <br />
-                    <div>{{ _t('t149') }}：{{ currChannel.fee ? currChannel.fee + '%' : '0' }}</div>
-                </div>
-
-                <van-button :loading="loading" @click="submit" style="margin-bottom:10rem" class="btn" type="primary"
-                    size="large">{{ _t('t150') }}</van-button>
+            <div>
+                ②. Withdrawal time: Monday to Friday 10:00 to 12:00. Withdrawals will be credited within 72 hours.
+            </div>
+            <div>
+                ③. Please bind your accurate real name, bank account number, and IFSC code; Minimum withdrawal amount:
+                300-30,000 rupees.
+            </div>
+            <div>
+                ④. Each withdrawal requires a 20% tax (deducted directly from the withdrawal amount, please note)
+            </div>
+            <div>
+                ⚠️Note: If the withdrawal fails, please double-check whether your bank information is correct.
+            </div>
+            <div>
+                If you have any questions, please contact online customer service
             </div>
         </div>
     </div>
@@ -58,143 +71,125 @@
 
 <script setup>
 import Top from '@/components/Top.vue';
-import { ref, computed } from "vue"
-import store from "@/store"
-import http from "@/api"
-import { showToast } from "vant"
-import router from "@/router"
-import { _t } from "@/lang/index";
+import { ref } from "vue"
 
-const userInfo = computed(() => store.state.userInfo || {})
-const channel = computed(() => {
-    return (store.state.config.channel || []).filter(item => item.status == 1)
-})
-const currChannel = ref({})
-const selectChannel = item => {
-    currChannel.value = item
-    step.value = 2
-}
+const type = ref('bank')
 
-
-const form = ref({
-    amount: '',
-    fee: ''
-})
-const loading = ref(false)
-const submit = () => {
-    if (!form.value.amount || form.value.amount <= 0) return showToast(_t('t140'))
-    if (loading.value) return
-    loading.value = true
-    form.value.fee = form.value.amount * currChannel.value.fee / 100
-    http.withdrawal(form.value).then(res => {
-        if (res.code == 1) {
-            showToast(_t('t151'))
-            setTimeout(() => {
-                router.back()
-            }, 1000)
-            store.dispatch('updateUser')
-        }
-    }).finally(() => {
-        setTimeout(() => {
-            loading.value = false
-        }, 1000)
-    })
-}
-
-const step = ref(1)
-const showPass1 = ref(false)
-
-const changeFile = e => {
-    console.error(e.target.files[0])
-}
-
-
-const goCustomer = () => {
-    store.dispatch('goCustomer')
-}
 </script>
 
 <style lang="less" scoped>
-.page-rechagre {
-    padding-top: 16rem;
+.page-withdraw {
+    height: 100%;
+    padding: 18rem 4rem 24rem 4rem;
+    overflow-y: auto;
+    background: linear-gradient(180deg, #0099FF 0%, #010318 32.9%, #0B0B0B 45.68%);
 
-    .list_title {
-        padding: 12rem 4rem 2rem 4rem;
-        font-size: 4rem;
+    .title {
+        font-size: 6rem;
+        color: #eee;
     }
 
-    .list_item {
-        height: 15rem;
+    .btns {
         display: flex;
         align-items: center;
-        padding: 0 4rem;
+        justify-content: space-between;
+        margin: 6rem 0 4rem 0;
 
-        .icon {
-            width: 6rem;
-            height: 6rem;
-            margin-right: 4rem;
-        }
-
-        .info {
-            flex: 1;
-        }
-    }
-
-    .top_box {
-        padding: 10rem 0;
-        border-bottom: 1px solid #e5e5e5;
-        font-size: 4rem;
-        color: #999;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-
-        .num {
-            font-size: 12rem;
-            font-weight: bold;
-            color: #2A18B8;
-            margin-bottom: 2rem;
-        }
-    }
-
-    .form {
-        .form_info {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            color: #000;
-            font-weight: bold;
-
-            img {
-                width: 4rem;
-                height: 4rem;
-            }
-        }
-
-        .upload_box {
-            height: 25rem;
-            position: relative;
+        .btn {
+            width: 30%;
+            height: 8rem;
             display: flex;
             align-items: center;
             justify-content: center;
-
-            .icon {
-                width: 10rem;
-                height: 10rem;
-            }
-
-            .upload_ipt {
-                width: 100%;
-                height: 100%;
-                position: absolute;
-                top: 0;
-                left: 0;
-                z-index: 999;
-                opacity: 0;
-            }
+            background-color: #232323;
+            color: #fff !important;
+            border-radius: 8rem;
         }
+    }
+
+    .info {
+        padding: 4rem;
+        border-radius: 4rem;
+        background-color: #232323;
+        display: flex;
+        align-items: center;
+        color: #eee;
+        font-size: 4rem;
+        margin: 8rem 0;
+
+        .info_text {
+            flex: 1;
+            margin-right: 2rem;
+        }
+    }
+
+    .amount {
+        text-align: right;
+        color: #eee;
+        line-height: 6rem;
+        font-size: 4rem;
+    }
+
+    .tip_box {
+        margin-top: 6rem;
+        line-height: 4.2rem;
+
+        .tip_title {
+            color: #e03e2d;
+            font-size: 4rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+    }
+
+    .item {
+        height: 12rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 4rem;
+        font-size: 4rem;
+        border-radius: 6rem;
+        background-color: #232323;
+        margin-bottom: 8rem;
+
+        .ipt {
+            flex: 1;
+            height: 100%;
+            color: #eee;
+        }
+
+        .all {
+            color: #53d6f0;
+        }
+    }
+
+    .tip {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: relative;
+        top: -7rem;
+        padding: 0 2rem;
+    }
+
+    .subtitle {
+        color: #eee;
+        font-size: 4rem;
+        margin-bottom: 2rem;
+    }
+
+    .submit {
+        height: 12rem;
+        width: 80rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        z-index: 999;
+        bottom: 8rem;
+        left: 50%;
+        transform: translateX(-50%)
     }
 }
 </style>

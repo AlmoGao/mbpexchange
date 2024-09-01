@@ -15,90 +15,70 @@ const routes = [
         name: 'home',
         component: () => import('../views/Home/Home.vue')
       },
+      { // 市场
+        path: '/markets',
+        name: 'markets',
+        component: () => import('../views/Home/Markets.vue')
+      },
+      { // 团队
+        path: '/team',
+        name: 'team',
+        component: () => import('../views/Home/Team.vue')
+      },
       { // 语言
         path: '/lang',
         name: 'lang',
         component: () => import('../views/Home/Lang.vue')
-      },
-      { // 行情
-        path: '/markets',
-        name: 'markets',
-        component: () => import('../views/Markets/Markets.vue')
       },
       { // 资产
         path: '/assets',
         name: 'assets',
         component: () => import('../views/Assets/Assets.vue')
       },
-      { // 充币记录
-        path: '/rcList',
-        name: 'rcList',
-        component: () => import('../views/Assets/RechargeList.vue')
+      { // 安全中心
+        path: '/safe',
+        name: 'safe',
+        component: () => import('../views/Assets/Safe.vue')
       },
-      { // 提现记录
-        path: '/wdList',
-        name: 'wdList',
-        component: () => import('../views/Assets/WithdrawList.vue')
+      { // 登录密码
+        path: '/pass',
+        name: 'pass',
+        component: () => import('../views/Assets/Pass.vue')
       },
-      { // 提现记录
-        path: '/wdList',
-        name: 'wdList',
-        component: () => import('../views/Assets/WithdrawList.vue')
+      { // 登录密码
+        path: '/password',
+        name: 'password',
+        component: () => import('../views/Assets/Password.vue')
+      },
+      { // 地址
+        path: '/address',
+        name: 'address',
+        component: () => import('../views/Assets/Address.vue')
+      },
+      { // 银行卡
+        path: '/bank',
+        name: 'bank',
+        component: () => import('../views/Assets/Bank.vue')
+      },
+      { // 列表
+        path: '/list',
+        name: 'list',
+        component: () => import('../views/Assets/List.vue')
       },
       { // 充值
         path: '/recharge',
         name: 'recharge',
         component: () => import('../views/Assets/Recharge.vue')
       },
-      { // 充值
+      { // 提现
         path: '/withdraw',
         name: 'withdraw',
         component: () => import('../views/Assets/Withdraw.vue')
       },
-      { // 我的
-        path: '/my',
-        name: 'my',
-        component: () => import('../views/My/My.vue')
-      },
-      { // 设置登录密码
-        path: '/passwordSet',
-        name: 'passwordSet',
-        component: () => import('../views/My/PasswordSet.vue')
-      },
-      { // 安全密码
-        path: '/safePassword',
-        name: 'safePassword',
-        component: () => import('../views/My/SafePassword.vue')
-      },
-      { // 修改安全密码
-        path: '/safePasswordChange',
-        name: 'safePasswordChange',
-        component: () => import('../views/My/SafePasswordChange.vue')
-      },
-      { // 邮箱认证
-        path: '/emailSet',
-        name: 'emailSet',
-        component: () => import('../views/My/EmailSet.vue')
-      },
-      { // 邮箱绑定成功
-        path: '/emailSuccess',
-        name: 'emailSuccess',
-        component: () => import('../views/My/EmailSuccess.vue')
-      },
-      { // 初级认证
-        path: '/auth1',
-        name: 'auth1',
-        component: () => import('../views/My/Auth1.vue')
-      },
-      { // 高级认证
-        path: '/auth2',
-        name: 'auth2',
-        component: () => import('../views/My/Auth2.vue')
-      },
       { // 交易
         path: '/trade',
         name: 'trade',
-        component: () => import('../views/Trade/Trade.vue')
+        component: () => import('../views/Home/Trade.vue')
       },
     ]
   },

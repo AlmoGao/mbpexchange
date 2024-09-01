@@ -1,0 +1,222 @@
+<!-- 交易 -->
+<template>
+    <div class="page page-trade">
+        <Top :title="'BTC/USDT'" />
+
+        <!-- k线 -->
+        <div class="klines">
+            <div class="tabs">
+                <div @click="changeType(key)" :class="{ 'active_tab': key == activeType }" class="tab"
+                    v-for="(val, key) in klineType" :key="key">{{ val }}</div>
+            </div>
+            <div class="charts">
+                <Kline ref="klRef" />
+            </div>
+        </div>
+
+        <!-- 表单 -->
+        <div class="form_box">
+
+            <div class="amount_box">
+                <div class="left">
+                    <div>余额</div>
+                    <div>0.00</div>
+                </div>
+                <div class="right">
+                    <van-icon name="arrow-down" />
+                    <input placeholder="金额" type="number" class="ipt">
+                    <img src="@/assets/home/close.png" alt="x">
+                </div>
+
+                <!-- 快捷 -->
+                <div class="percents">
+                    <div class="percent a_btn">全部</div>
+                    <div class="percent a_btn">1/100</div>
+                    <div class="percent a_btn">1/5</div>
+                    <div class="percent a_btn">1/3</div>
+                    <div class="percent a_btn">1/2</div>
+                </div>
+            </div>
+
+            <div class="tabs_box">
+                <div class="tab_item" :class="{ 'a_btn': faster == item.sec }" v-for="(item, i) in fasters" :key="i">
+                    <div>{{ item.sec }}</div>
+                    <div>{{ item.per }}%</div>
+                </div>
+            </div>
+
+            <div class="btns">
+                <div class="btn a_btn">买涨</div>
+                <div class="btn b_btn">买跌</div>
+            </div>
+        </div>
+
+        <!-- 记录 -->
+        <van-tabs animated v-model:active="active">
+            <van-tab title="持仓">
+                <div>1</div>
+            </van-tab>
+            <van-tab title="记录">
+                <div>2</div>
+            </van-tab>
+        </van-tabs>
+    </div>
+</template>
+
+<script setup>
+import Top from '@/components/Top.vue';
+import { ref } from "vue"
+import Kline from "@/components/Kline.vue"
+
+// k线
+const activeType = ref(1)
+const klineType = ref({
+    1: '1m',
+    2: '5m',
+    3: '15m',
+    4: '30m',
+    5: '1h',
+    6: '2h',
+    7: '4h',
+    8: '1d',
+    9: '1w',
+})
+const klRef = ref()
+const changeType = key => {
+    activeType.value = key
+}
+
+// 表单
+const faster = ref(60)
+const fasters = ref([
+    { sec: 60, per: 60 },
+    { sec: 180, per: 70 },
+    { sec: 300, per: 80 },
+])
+
+// 记录
+const active = ref(0)
+</script>
+
+<style lang="less" scoped>
+.page-trade {
+    height: 100%;
+    padding: 16rem 0 10rem 0;
+    overflow-y: auto;
+
+    .klines {
+        .tabs {
+            padding: 4vw;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #f5f5f5;
+
+            .tab {}
+
+            .active_tab {
+                color: #53d6f0;
+                font-weight: bold;
+            }
+        }
+
+        .charts {
+            height: 80vw;
+        }
+    }
+
+    .form_box {
+        padding: 4rem;
+    }
+
+    .tabs_box {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .tab_item {
+            width: 30%;
+            height: 13rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #F6F6F6;
+            border-radius: 10rem;
+            font-size: 4rem;
+            font-weight: bold;
+        }
+    }
+
+    .btns {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 6rem 0 0 0;
+
+        .btn {
+            width: 45%;
+            height: 10rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000 !important;
+        }
+    }
+
+    .amount_box {
+        background-color: #191919;
+        border-radius: 1rem;
+        padding: 2rem;
+        display: flex;
+        align-items: stretch;
+        margin: 0 0 4rem 0;
+        position: relative;
+
+        .percents {
+            position: absolute;
+            width: 100%;
+            top: 100%;
+            left: 0;
+            padding: 4rem;
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #303030;
+
+            .percent {
+                padding: 2rem 4rem;
+            }
+        }
+
+        .left {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-width: 20rem;
+            color: #eee;
+        }
+
+        .right {
+            flex: 1;
+            margin-left: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #303030;
+            height: 12rem;
+            padding: 0 4rem;
+            border-radius: 1rem;
+
+            .ipt {
+                flex: 1;
+                margin: 0 2rem;
+                color: #eee;
+                height: 100%;
+            }
+        }
+    }
+}
+</style>

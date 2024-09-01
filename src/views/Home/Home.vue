@@ -1,47 +1,82 @@
 <!-- 首页 -->
 <template>
   <div class="page-home">
+
     <!-- 顶部 -->
     <div class="top">
-      <!-- <span>行情</span> -->
-      <img style="width:10rem;height:10rem" :src="logo" alt="">
-      <van-icon @click="jump('markets')" name="search" />
+      <img class="logo" src="@/assets/logo.png" alt="">
+      <span>主页</span>
+      <img class="lang" @click="router.push({ name: 'lang' })" src="@/assets/lang/lang.png" alt="">
     </div>
 
-    <van-tabs style="margin-bottom:2rem" shrink v-model:active="activeTab">
-      <van-tab :title="item.name" v-for="(item, i) in category" :key="i"></van-tab>
-    </van-tabs>
+    <div class="content">
+      <!-- banner -->
+      <van-swipe style="margin-bottom:2vw" v-show="activeTab == 0" class="my-swipe" :autoplay="3000"
+        indicator-color="white">
+        <van-swipe-item class="swiper-item" v-for="(item, i) in carousel" :key="i">
+          <img @click="clickBanner(item)" :src="item.image" style="width:100%;height:100%" alt="img">
+        </van-swipe-item>
+      </van-swipe>
 
-    <van-swipe style="margin-bottom:2rem" v-show="activeTab == 0" class="my-swipe" :autoplay="3000"
-      indicator-color="white">
-      <van-swipe-item class="swiper-item" v-for="(item, i) in carousel" :key="i">
-        <img @click="clickBanner(item)" :src="item.image" style="width:100%;height:100%" alt="img">
-      </van-swipe-item>
-    </van-swipe>
-
-    <van-notice-bar class="notice-bar" color="#555" background="#F3F6F8" left-icon="volume-o" :text="notice" />
-
-
-    <div class="navs">
-      <div class="nav curr_nav" @click="jump('recharge')">
-        <img src="@/assets/home/recharge.svg" alt="icon">
-        <div>{{ _t('t108') }}</div>
+      <!-- tabs -->
+      <div class="tabs">
+        <div class="tab">
+          <img src="@/assets/home/tab1.png" alt="img">
+          <div>充值</div>
+        </div>
+        <div class="tab">
+          <img src="@/assets/home/tab2.png" alt="img">
+          <div>提现</div>
+        </div>
+        <div class="tab">
+          <img src="@/assets/home/tab3.png" alt="img">
+          <div>合作</div>
+        </div>
+        <div class="tab">
+          <img src="@/assets/home/tab4.png" alt="img">
+          <div>客服</div>
+        </div>
+        <div class="tab">
+          <img src="@/assets/home/tab5.png" alt="img">
+          <div>邀请</div>
+        </div>
       </div>
-      <div class="nav" @click="jump('withdraw')">
-        <img src="@/assets/home/withdraw.svg" alt="icon">
-        <div>{{ _t('t109') }}</div>
+
+      <!-- notice -->
+      <van-notice-bar class="notice-bar shadow" color="#9FA6B5" background="#232323" left-icon="volume-o"
+        :text="notice" />
+
+      <!-- tabs2 -->
+      <div class="tabs2">
+        <div class="tab shadow">
+          <div>BTC</div>
+          <div class="up">13%</div>
+          <div class="amount up">$21311</div>
+        </div>
+        <div class="tab shadow">
+          <div>BTC</div>
+          <div class="up">13%</div>
+          <div class="amount up">$21311</div>
+        </div>
+        <div class="tab shadow">
+          <div>BTC</div>
+          <div class="up">13%</div>
+          <div class="amount up">$21311</div>
+        </div>
+      </div>
+
+      <!-- list -->
+      <div class="list">
+        <div class="item" v-for="i in 20" :key="i">
+          <div class="left">
+            <div class="name">BTC</div>
+            <div>24Hamount 2342342</div>
+          </div>
+          <div class="amount up">$2342.23</div>
+          <div class="up">23%</div>
+        </div>
       </div>
     </div>
-
-    <div class="hots">
-      <div class="hot" v-for="(item, i) in showHots" :key="i">
-        <div class="name">{{ item.name || '--' }}</div>
-        <div class="" :class="item.percent > 0 ? 'up' : 'down'">{{ item.price ? _trans(item.price) : '--' }}</div>
-        <div class="num" :class="item.percent > 0 ? 'up' : 'down'">{{ item.percent ? item.percent + '%' : '--' }}</div>
-      </div>
-    </div>
-
-    <List :list="list" />
 
 
     <van-dialog v-model:show="showMessage" title="" :show-cancel-button="false" @confirm="confirmMessage">
@@ -148,17 +183,34 @@ const jump = name => {
 
 <style lang="less" scoped>
 .page-home {
-  padding: 4rem;
-  padding-bottom: 22rem;
+  padding-bottom: 16rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 
   .top {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 4rem;
-    font-size: 4.5rem;
-    font-weight: bold;
-    color: #838b9c;
+    padding: 0 4rem;
+    height: 12rem;
+    color: #fff;
+    font-size: 4rem;
+
+    .lang {
+      width: 6rem;
+      height: 6rem;
+    }
+
+    .logo {
+      height: 10rem;
+    }
+  }
+
+  .content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 4rem;
   }
 
   .my-swipe {
@@ -167,9 +219,51 @@ const jump = name => {
 
     .swiper-item {
       height: 50rem;
-      background-color: #f5f5f5;
+      background-color: #000;
     }
   }
+
+  .tabs {
+    display: flex;
+    align-items: stretch;
+
+    .tab {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.6rem;
+      margin: 2rem 0 3rem 0;
+
+      >img {
+        width: 8rem;
+        height: 8rem;
+        margin-bottom: 1rem;
+      }
+    }
+  }
+
+  .tabs2 {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    margin: 2rem 0 4rem 0;
+
+    .tab {
+      width: 31.5%;
+      padding: 3rem;
+      border-radius: 4rem;
+      line-height: 6rem;
+      font-size: 4rem;
+
+      .amount {
+        font-size: 5rem;
+      }
+    }
+  }
+
+
 
   .notice-bar {
     border-radius: 5rem;
@@ -226,6 +320,33 @@ const jump = name => {
 
       .num {
         font-size: 4.2rem;
+      }
+    }
+  }
+
+  .list {
+    .item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 3.4rem;
+      border-radius: 2rem;
+      font-size: 3.4rem;
+      margin-bottom: 2rem;
+      background-color: #232323;
+
+      .left {
+        .name {
+          font-size: 4rem;
+          font-weight: bold;
+          margin-bottom: 1rem;
+          color: #fff;
+        }
+      }
+
+      .amount {
+        font-size: 5rem;
+        font-weight: bold;
       }
     }
   }

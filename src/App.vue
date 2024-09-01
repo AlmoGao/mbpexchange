@@ -87,8 +87,8 @@ body {
 
 #app {
   font-size: 3.2rem;
-  background-color: #fff;
-  color: #333;
+  background: #0B0B0B;
+  color: #9fa6b5;
   width: 100%;
   max-width: 600px;
   margin: 0 auto;
@@ -108,6 +108,92 @@ input {
   outline: none;
 }
 
+.a_btn {
+  background: linear-gradient(90deg, #239aff, #2effb4) !important;
+  box-shadow: 0 0 5rem 0 rgba(158, 220, 255, .5019607843137255) !important;
+  border-radius: 15rem !important;
+  color: #000;
+  font-weight: 600;
+}
+
+.b_btn {
+  background: linear-gradient(90deg, #ef4343, #ffa3a3) !important;
+  box-shadow: 0 0 14px 0 rgba(158, 220, 255, .5019607843137255) !important;
+  border-radius: 15rem !important;
+  font-weight: 600;
+}
+
+.c_btn {
+  background: linear-gradient(90deg, #f6f6f6, #efefef 98.41%) !important;
+  box-shadow: 0 0 14px 0 rgba(158, 220, 255, .5019607843137255) !important;
+  border-radius: 15rem !important;
+  color: #999 !important;
+  font-weight: 600;
+}
+
+.d_btn {
+  background: linear-gradient(90deg, #2e2e2e, #0c0c0c 98.41%) !important;
+  border-radius: 15rem !important;
+  color: #eee !important;
+  font-weight: 600;
+}
+
+.van-button--primary {
+  color: #000 !important;
+  font-weight: bold !important;
+}
+
+.van-dialog {
+  background-color: #232323 !important;
+  padding: 5rem;
+
+  .van-dialog__footer {
+    margin-top: 4rem;
+
+    &::before {
+      display: none;
+    }
+
+    &::after {
+      display: none;
+    }
+  }
+
+  .van-button {
+    background: linear-gradient(90deg, #239aff, #2effb4) !important;
+    border-radius: 15rem !important;
+
+    .van-button__text {
+      color: #000;
+      font-weight: bold;
+    }
+
+    &::before {
+      display: none;
+    }
+
+    &::after {
+      display: none;
+    }
+  }
+}
+
+.van-tabs__nav {
+  background-color: rgba(0, 0, 0, 0) !important;
+
+  .van-tab {
+    color: #888 !important;
+  }
+
+  .van-tab--active {
+    color: #53d6f0 !important;
+  }
+
+  .van-tabs__line {
+    background-color: #fff !important;
+  }
+}
+
 .up {
   color: #09ca70 !important;
 }
@@ -117,20 +203,27 @@ input {
 }
 
 .up-bg {
-  background-color: #ECFBF6;
-  color: #09ca70;
+  background: linear-gradient(90deg, #239aff, #2effb4);
+  color: #000;
 }
 
 .down-bg {
-  background-color: #FBD7DC;
-  color: #e72f2b;
+  background: linear-gradient(90deg, #ef4343, #ffa3a3);
+  color: #000;
+}
+
+.shadow {
+  box-shadow: -1px 1px 1px 0 hsla(0, 0%, 100%, .3215686274509804) inset, 1px -1px 1px 0 hsla(0, 0%, 83.9%, .3215686274509804) inset
 }
 
 .form {
-  padding: 4rem;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 3rem 5rem;
+  border-radius: 4rem;
+  color: #9fa6b5;
 
   .subtitle {
-    margin: 4rem 0;
+    margin: 2rem 0 4rem 0;
   }
 
   .item {
@@ -139,7 +232,7 @@ input {
     justify-content: space-between;
     height: 12rem;
     border-radius: 1rem;
-    border: 1px solid #e5e5e5;
+    border-bottom: 1px solid #666;
     padding: 0 4rem;
 
     .icon {

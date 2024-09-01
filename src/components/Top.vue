@@ -1,9 +1,9 @@
 <!-- 顶部 -->
 <template>
   <div class="top fixd_div" :style="{ color: props.color, backgroundColor: props.bgColor }">
-    <van-icon style="transform: rotate(90deg);" name="down" @click="back" class="back" />
+    <van-icon name="arrow-left" @click="back" class="back" />
     <span class="info">{{ props.title || "" }}</span>
-    <img @click="goCustomer" class="kefu" src="@/assets/my/kefu.svg" alt="img">
+    <!-- <img @click="goCustomer" class="kefu" src="@/assets/my/kefu.svg" alt="img"> -->
   </div>
 </template>
 
@@ -24,11 +24,11 @@ const props = defineProps({
   },
   bgColor: {
     type: String,
-    default: "#fff",
+    default: "#0B0B0B",
   },
   color: {
     type: String,
-    default: "#333",
+    default: "#eee",
   },
   backFunc: {
     type: Function,
@@ -55,11 +55,11 @@ const back = () => {
   z-index: 9;
   font-weight: 600;
   padding: 0 4rem;
-  border-bottom: 1px solid #e5e5e5;
 
   .info {
     flex: 1;
-    margin-left: 4rem;
+    margin-right: 4rem;
+    text-align: center;
   }
 
   .kefu {

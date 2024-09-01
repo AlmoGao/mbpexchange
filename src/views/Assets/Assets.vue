@@ -1,174 +1,266 @@
 <!-- 资产 -->
 <template>
-    <div class="page-assets">
-        <van-tabs shrink v-model:active="activeTab">
-            <van-tab :title="_t('t110')"></van-tab>
-        </van-tabs>
+    <div class="page page-assets">
+        <img class="icon" src="@/assets/assets/icon.png" alt="img">
 
+        <!-- top -->
         <div class="top">
-            <div class="title">
-                <span>{{ _t('t111') }}({{ currency }})</span>
-
-                <van-icon @click="show = false" v-show="show" class="icon" name="eye-o" />
-                <van-icon @click="show = true" v-show="!show" class="icon" name="closed-eye" />
-
-                <van-icon class="icon" name="replay" />
-            </div>
-
-            <div class="num">{{ show ? userInfo.money : '******' }}</div>
-
-            <div class="navs">
-                <div class="nav" @click="jump('recharge')">
-                    <img src="@/assets/assets/nav-1.svg" alt="img">
-                    <div>{{ _t('t112') }}</div>
+            <div class="avatar"></div>
+            <div class="content">
+                <div class="top_item">
+                    <div class="name">asdasd</div>
+                    <div class="num">VIP0</div>
                 </div>
-                <div class="nav" @click="jump('withdraw')">
-                    <img src="@/assets/assets/nav-2.svg" alt="img">
-                    <div>{{ _t('t113') }}</div>
+                <div class="top_item">
+                    <div>UID:345345</div>
+                    <div class="num">Level 0</div>
                 </div>
             </div>
         </div>
 
-        <div class="top" style="border-top: none">
-            <div class="navs">
-                <div class="nav" @click="jump('rcList')">
-                    <img src="@/assets/assets/nav-1.svg" alt="img">
-                    <div>{{ _t('t114') }}</div>
+        <!-- tabs -->
+        <div class="tabs">
+            <div class="tab">总资产 0.00</div>
+            <div class="tab">总充值 0.00</div>
+            <div class="tab">总提现 0.00</div>
+        </div>
+
+        <!-- btns -->
+        <div class="btns">
+            <div class="btn a_btn" @click="jump('recharge')">充值</div>
+            <div class="btn c_btn" @click="jump('withdraw')">提现</div>
+            <div class="btn c_btn">记录</div>
+        </div>
+
+        <!-- 统计 -->
+        <div class="box">
+            <div class="title">总收入</div>
+            <div class="title_val">22422222</div>
+
+            <div class="box_tabs">
+                <div class="box_tab">
+                    <div class="box_title">昨日收入</div>
+                    <div class="num">2123</div>
                 </div>
-                <div class="nav" @click="jump('wdList')">
-                    <img src="@/assets/assets/nav-2.svg" alt="img">
-                    <div>{{ _t('t115') }}</div>
+                <div class="box_tab">
+                    <div class="box_title">今日收入</div>
+                    <div class="num">2123</div>
+                </div>
+                <div class="box_tab">
+                    <div class="box_title">工资收入</div>
+                    <div class="num">2123</div>
+                </div>
+            </div>
+            <div class="box_tabs">
+                <div class="box_tab">
+                    <div class="box_title">当前利润率</div>
+                    <div class="num">2123</div>
+                </div>
+                <div class="box_tab">
+                    <div class="box_title">下级利润率</div>
+                    <div class="num">2123</div>
+                </div>
+                <div class="box_tab">
+                    <div class="box_title">升级有效邀请</div>
+                    <div class="num">0/3</div>
                 </div>
             </div>
         </div>
+
+        <!-- 快捷项 -->
+        <div class="navs">
+            <div class="nav">
+                <img class="nav_icon" src="@/assets/assets/t1.png" alt="img">
+                <span>账变记录</span>
+            </div>
+            <!-- <div class="nav">
+                <img class="nav_icon" src="@/assets/assets/t2.png" alt="img">
+                <span>账变记录</span>
+            </div> -->
+            <div class="nav" @click="jump('bank')">
+                <img class="nav_icon" src="@/assets/assets/t3.png" alt="img">
+                <span>银行卡</span>
+            </div>
+            <div class="nav" @click="jump('address')">
+                <img class="nav_icon" src="@/assets/assets/t4.png" alt="img">
+                <span>USDT 地址</span>
+            </div>
+            <div class="nav" @click="jump('safe')">
+                <img class="nav_icon" src="@/assets/assets/t5.png" alt="img">
+                <span>修改密码</span>
+            </div>
+            <div class="nav">
+                <img class="nav_icon" src="@/assets/assets/t6.png" alt="img">
+                <span>App 下载</span>
+            </div>
+
+            <div class="d_btn login_out">退出</div>
+        </div>
+
     </div>
 </template>
 
 <script setup>
-import { ref, computed } from "vue"
-import router from "@/router";
-import store from "@/store"
-import { _t } from "@/lang/index";
-
-const userInfo = computed(() => store.state.userInfo || {})
-const currency = computed(() => store.state.config.currency || 'USDT')
-
-const activeTab = ref(0)
-const show = ref(true)
+import router from '@/router';
 
 
-const jump = (name) => {
-    router.push({ name })
+const jump = name => {
+    router.push({
+        name
+    })
 }
 </script>
 
 <style lang="less" scoped>
 .page-assets {
-    padding: 2rem 0 18rem 0;
+    padding: 4rem 4rem 16rem 4rem;
+    height: 100%;
+    overflow-y: auto;
+    background-image: url('@/assets/assets/bg.png');
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+
+    .icon {
+        width: 52rem;
+        height: 36rem;
+        position: absolute;
+        top: 4rem;
+        right: 0;
+    }
 
     .top {
-        padding: 8rem 4rem 6rem 4rem;
-        border-top: 1px solid #e5e5e5;
-        border-bottom: 1px solid #e5e5e5;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding-top: 3rem;
 
-        .title {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            color: #999;
-            font-size: 3.6rem;
+        .avatar {
+            width: 15rem;
+            height: 15rem;
+            border-radius: 50%;
+            border: 2px solid #eee;
+            margin-right: 2rem;
 
-            .icon {
-                margin-left: 4rem;
+            img {
+                width: 100%;
+                height: 100%;
             }
         }
 
-        .num {
-            line-height: 24rem;
-            font-size: 8rem;
-            color: #333;
-            font-weight: 600;
-            margin-bottom: 30px;
-        }
+        .content {
+            flex: 1;
 
-        .navs {
-            display: flex;
-            align-items: stretch;
-
-            .nav {
-                flex: 1;
+            .top_item {
                 display: flex;
-                flex-direction: column;
                 align-items: center;
-                justify-content: center;
+                justify-content: flex-start;
+                line-height: 6rem;
 
-                img {
-                    width: 10rem;
-                    height: 10rem;
-                    margin-bottom: 2rem;
+                .name {
+                    color: #EEE;
+                    font-size: 4rem;
+                }
+
+                .num {
+                    margin-left: 2rem;
+                    color: #edb748;
                 }
             }
         }
     }
 
-    .subtitle {
-        font-size: 4rem;
-        font-weight: 600;
-        color: #000;
-        padding: 4rem 4rem 6rem 4rem;
+    .tabs {
+        padding: 4rem 0;
+
+        .tab {
+            color: #eee;
+            font-size: 5rem;
+            line-height: 10rem;
+            font-weight: bold;
+        }
     }
 
-    .item-title {
+    .btns {
         display: flex;
         align-items: center;
-        justify-content: flex-start;
-        font-size: 4rem;
-        font-weight: 600;
-        margin-bottom: 4rem;
-        padding: 0 4rem;
+        justify-content: space-between;
 
-        img {
-            width: 5rem;
-            height: 5rem;
-            margin-right: 1rem;
-        }
-    }
-
-    .line {
-        width: 100%;
-        height: 1px;
-        background-color: #e5e5e5;
-        margin: 4rem 0 6rem 0;
-    }
-
-    .items {
-        display: flex;
-        align-items: stretch;
-        padding: 0 4rem;
-
-
-        .item {
-            flex: 1;
+        .btn {
+            width: 31%;
+            height: 12rem;
+            border-radius: 2rem !important;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-
-            .num {
-                color: #000;
-                font-weight: 600;
-                margin: 4rem 0;
-            }
-        }
-
-        .item1 {
-            align-items: flex-start;
-        }
-
-        .item3 {
-            align-items: flex-end;
+            font-size: 4rem;
         }
     }
 
+    .box {
+        position: relative;
+        margin-top: 6rem;
+        padding: 4rem;
+        border-radius: 4rem;
+        font-weight: bold;
+        background: linear-gradient(178deg, #d8fef2 .06%, #bde7ff 52.58%, #49c4ff 126.09%);
+
+        .title {
+            color: #333;
+            font-size: 3.6rem;
+        }
+
+        .title_val {
+            font-size: 6rem;
+            color: #000;
+            margin: 2rem 0 4rem 0;
+        }
+
+        .box_tabs {
+            display: flex;
+            align-items: stretch;
+
+            .box_tab {
+                flex: 1;
+                border-top: 1px solid #f0f0f0;
+                padding: 4rem 0;
+                font-size: 4rem;
+
+                .num {
+                    color: #000;
+                    margin-top: 2rem;
+                }
+            }
+        }
+    }
+
+    .navs {
+        margin: 6rem 0;
+
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            color: #eee;
+            font-size: 4rem;
+            height: 12rem;
+
+            .nav_icon {
+                width: 6rem;
+                height: 6rem;
+                margin-right: 2rem;
+            }
+        }
+    }
+
+    .login_out {
+        height: 12rem;
+        border-radius: 2rem !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #eee;
+        width: 60vw;
+        margin: 10rem auto 10rem auto;
+    }
 }
 </style>

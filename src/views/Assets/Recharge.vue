@@ -1,44 +1,44 @@
 <!-- 充值 -->
 <template>
-    <div class="page-rechagre">
-        <Top :title="_t('t76') + ' ' + (currChannel.name || '')" />
+    <div class="page page-recharge">
+        <Top :title="'充值'" />
 
-        <!-- 币种列表 -->
-        <div v-if="step == 1">
-            <div class="list_title">{{ _t('t127') }}</div>
-            <div class="list_item" v-for="(item, i) in channel" :key="i" @click="selectChannel(item)">
-                <img class="icon" v-if="item.logo_image" :src="item.logo_image" alt="img">
-                <div class="info">{{ item.name }}</div>
-                <van-icon name="arrow" />
+        <div class="box">
+            <div class="btns">
+                <div class="btn" :class="{ 'a_btn': type == 'bank' }">银行</div>
+                <div class="btn" :class="{ 'a_btn': type == 'usdt' }">USDT</div>
             </div>
+            <div class="amount_box">
+                <div>充值金额</div>
+                <input type="number" class="ipt" placeholder="请输入金额">
+            </div>
+
+            <div class="fasters">
+                <div class="faster shadow" v-for="f in fasters" :key="f">{{ f }}</div>
+            </div>
+
+            <div class="a_btn submit">确认</div>
         </div>
 
-        <!-- 充值详情 -->
-        <div v-if="step == 2">
-            <!-- <div class="top_box">
-                <div class="qrcode"></div>
-            </div> -->
-
-            <div class="form">
-                <!-- <div class="subtitle">充值地址</div>
-                <div class="form_info">
-                    <span>sdasdasasd</span>
-                    <img src="@/assets/my/copy.svg" alt="copy">
-                </div> -->
-                <div class="subtitle">{{ _t('t128') }}</div>
-                <div class="item">
-                    <input v-model="form.amount" type="number" class="ipt" :placeholder="_t('ipt')">
-                </div>
-                <div class="subtitle">{{ _t('t129') }}</div>
-                <div class="item upload_box">
-                    <img class="icon" src="@/assets/common/upload.png" alt="img">
-                    <input @change="changeFile" class="upload_ipt" type="file" accept="images/*">
-                    <img style="position: absolute;width:100%;height:100%;background-color: #fff;top:0;left:0;z-index: 1;"
-                        v-if="form.image" :src="form.image" alt="img">
-                </div>
-
-                <van-button :loading="loading" @click="submit" style="margin-bottom:10rem" class="btn" type="primary"
-                    size="large">{{ _t('t130') }}</van-button>
+        <div class="tip_box">
+            <div class="tip_title">Regarding recharge rules:</div>
+            <div>
+                ①. Do not save the recharge account. Every time you recharge. You must be logged in to your MBP account.
+                Click Recharge to submit the order and obtain the latest bank account number to complete the recharge
+                (recharge is completed, wait a few minutes, and the amount will be automatically deposited into your MBP
+                account.)
+            </div>
+            <div>
+                ②. When Pay1 cannot be recharged, you can choose Pay2/Pay3/Pay4/Pay5 to recharge.
+            </div>
+            <div>
+                ③. The minimum recharge amount for a single transaction is: 500 ₹, and the maximum recharge amount is:
+                20,000 ₹.
+            </div>
+            <div>
+                ④. If the recharge is completed, the amount has not been added to the MBP account after 10 minutes.
+                Please send the detailed bill and mobile phone number screenshot of the completed recharge to the online
+                customer service staff for processing.
             </div>
         </div>
     </div>
@@ -46,150 +46,89 @@
 
 <script setup>
 import Top from '@/components/Top.vue';
-import { ref, computed } from "vue"
-import store from "@/store"
-import http from "@/api"
-import { showLoadingToast, closeToast, showToast } from "vant"
-import router from "@/router"
-import { _t } from "@/lang/index";
+import { ref } from "vue"
 
-const channel = computed(() => {
-    return (store.state.config.channel || []).filter(item => item.status == 0)
-})
-const currChannel = ref({})
-const selectChannel = item => {
-    currChannel.value = item
-    step.value = 2
-}
-
-const step = ref(1)
-
-const form = ref({
-    amount: '',
-    image: ''
-})
-
-const loading = ref(false)
-const submit = () => {
-    if (!form.value.amount) return showToast(_t('t140'))
-    if (!form.value.image) return showToast(_t('t141'))
-    if (loading.value) return
-    loading.value = true
-    http.recharge(form.value).then(res => {
-        if (res.code == 1) {
-            showToast(_t('t142'))
-            form.value = {
-                amount: '',
-                image: ''
-            }
-            setTimeout(() => {
-                router.back()
-            }, 1000)
-        }
-    }).finally(() => {
-        loading.value = false
-    })
-}
-
-const changeFile = async e => {
-    form.value.image = await upload(e.target.files[0])
-}
-
-const upload = file => {
-    showLoadingToast({
-        message: '',
-        forbidClick: true,
-    });
-    return new Promise(resolve => {
-        http.upload({ file: file }).then(res => {
-            resolve(res.fullurl)
-        }).catch(() => {
-            resolve('')
-        }).finally(() => {
-            closeToast()
-        })
-    })
-}
-
-
+const type = ref('bank')
+const fasters = ref([500, 1000, 2000, 5000, 10000, 20000])
 </script>
 
 <style lang="less" scoped>
-.page-rechagre {
-    padding-top: 16rem;
+.page-recharge {
+    padding: 18rem 4rem 4rem 4rem;
 
-    .list_title {
-        padding: 12rem 4rem 2rem 4rem;
-        font-size: 4rem;
-    }
+    .box {
+        padding: 4rem;
+        border-radius: 4rem;
+        background-color: #191919;
 
-    .list_item {
-        height: 15rem;
-        display: flex;
-        align-items: center;
-        padding: 0 4rem;
-
-        .icon {
-            width: 6rem;
-            height: 6rem;
-            margin-right: 4rem;
-        }
-
-        .info {
-            flex: 1;
-        }
-    }
-
-    .top_box {
-        padding: 10rem 0;
-        border-bottom: 1px solid #e5e5e5;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        .qrcode {
-            width: 45rem;
-            height: 45rem;
-            border: 1px solid #4936DF;
-        }
-    }
-
-    .form {
-        .form_info {
-            width: 100%;
+        .btns {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            color: #000;
-            font-weight: bold;
 
-            img {
-                width: 4rem;
-                height: 4rem;
+            .btn {
+                width: 45%;
+                height: 10rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: #232323;
+                color: #fff !important;
+                border-radius: 10rem;
             }
         }
 
-        .upload_box {
-            height: 25rem;
-            position: relative;
+        .amount_box {
+            margin: 6rem 0;
+            padding: 4rem;
+            border-radius: 4rem;
+            background-color: #303030;
+
+            input {
+                height: 10rem;
+                color: #eee;
+                font-size: 4rem;
+            }
+        }
+
+        .fasters {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+
+            .faster {
+                height: 10rem;
+                border-radius: 1rem;
+                background-color: #313131;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #eee;
+                font-size: 4rem;
+                margin-bottom: 4rem;
+                min-width: 30%;
+            }
+        }
+
+        .submit {
+            height: 12rem;
+            margin: 6rem 0rem 4rem 0rem;
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+    }
 
-            .icon {
-                width: 10rem;
-                height: 10rem;
-            }
+    .tip_box {
+        margin-top: 6rem;
+        line-height: 4.2rem;
 
-            .upload_ipt {
-                width: 100%;
-                height: 100%;
-                position: absolute;
-                top: 0;
-                left: 0;
-                z-index: 999;
-                opacity: 0;
-            }
+        .tip_title {
+            color: #e03e2d;
+            font-size: 4rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
         }
     }
 }

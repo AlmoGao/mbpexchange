@@ -13,16 +13,14 @@
 <script setup>
 import { ref, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import icon1 from "@/assets/bottom/bt-1.jpeg";
-import icon11 from "@/assets/bottom/bt-11.jpeg";
-import icon2 from "@/assets/bottom/bt-2.jpeg";
-import icon22 from "@/assets/bottom/bt-22.jpeg";
-import icon3 from "@/assets/bottom/bt-3.jpeg";
-import icon33 from "@/assets/bottom/bt-33.jpeg";
-import icon4 from "@/assets/bottom/bt-4.jpeg";
-import icon44 from "@/assets/bottom/bt-44.jpeg";
-import icon5 from "@/assets/bottom/bt-5.jpeg";
-import icon55 from "@/assets/bottom/bt-55.jpeg";
+import icon1 from "@/assets/bottom/bt-1.png";
+import icon11 from "@/assets/bottom/bt-11.png";
+import icon2 from "@/assets/bottom/bt-2.png";
+import icon22 from "@/assets/bottom/bt-22.png";
+import icon3 from "@/assets/bottom/bt-3.png";
+import icon33 from "@/assets/bottom/bt-33.png";
+import icon4 from "@/assets/bottom/bt-4.png";
+import icon44 from "@/assets/bottom/bt-44.png";
 import { _t } from "@/lang/index";
 import store from '@/store'
 
@@ -33,11 +31,10 @@ const token = computed(() => store.state.token)
 
 
 const navs = ref([
-  { title: _t("t116"), route: "home", icon: icon1, icon2: icon11 },
-  { title: _t("t117"), route: "markets", icon: icon2, icon2: icon22 },
-  { title: _t("t118"), route: "trade", icon: icon3, icon2: icon33 },
-  { title: _t("t119"), route: "assets", icon: icon4, icon2: icon44 },
-  { title: _t("t120"), route: "my", icon: icon5, icon2: icon55 },
+  { title: '首页', route: "home", icon: icon1, icon2: icon11 },
+  { title: '市场', route: "markets", icon: icon2, icon2: icon22 },
+  { title: '团队', route: "team", icon: icon3, icon2: icon33 },
+  { title: '资金', route: "assets", icon: icon4, icon2: icon44 },
 ]);
 
 const jump = (item) => {
@@ -45,9 +42,9 @@ const jump = (item) => {
   //   window.open("https://bursamalaysia.info/addons/kefu/index");
   //   return;
   // }
-  if (!token.value) return router.push({
-    name: 'login'
-  })
+  // if (!token.value) return router.push({
+  //   name: 'login'
+  // })
   router.push({
     name: item.route,
   });
@@ -66,9 +63,11 @@ const jump = (item) => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #fff;
-  color: #999;
-  border-top: 1px solid #ddd;
+  background-color: #232323;
+  color: #9FA6B5;
+  border-top-left-radius: 5rem;
+  border-top-right-radius: 5rem;
+  box-shadow: 0 -3px 2px 0 rgba(37, 37, 48, .83);
 
   .bottom-tab {
     flex: 1;
@@ -87,7 +86,7 @@ const jump = (item) => {
   }
 
   .curr-tab {
-    color: #4936DF;
+    color: #fff;
   }
 }
 </style>
