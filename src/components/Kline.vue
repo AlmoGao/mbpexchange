@@ -12,6 +12,7 @@ import { ref, computed, onUnmounted, onMounted } from "vue";
 import api from "@/api/index";
 import { _t } from "@/lang/index";
 import { _trans } from "@/tools/utils"
+import pako from "pako"
 
 const config = {
   // 网格线
@@ -558,18 +559,81 @@ const config = {
 const chart = ref();
 const currGood = computed(() => store.state.currGood || {});
 
+
+
+const socketK = ref(null)
+const hburl = "wss://api.huobi.pro/ws"
+const initWS = (key = 'btcusdt', t = '5min') => {
+  if (socketK.value) socketK.value.close()
+  chart.value.applyNewData([])
+  const params = {
+    sub: `market.${key.toLowerCase()}.kline.${t}`
+  }
+  // 请求历史数据
+  console.error('请求历史数据')
+  const url = `https://api.huobi.pro/market/history/kline?symbol=${key.toLowerCase()}&period=${t}&size=100`
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      console.error('k线', data.data)
+      if (data && data.data) {
+        const klineData = data.data.map(item => {
+          return {
+            timestamp: item.id * 1000,
+            open: item.open,
+            close: item.close,
+            high: item.high,
+            low: item.low,
+            volume: item.vol,
+            turnover: item.count
+          }
+        }).reverse();
+        chart.value.applyNewData(klineData)
+      } else {
+        console.error('获取历史K线数据失败:', data);
+      }
+    })
+    .catch(error => {
+      console.error('请求失败:', error);
+    });
+  socketK.value = new WebSocket(hburl)
+  socketK.value.onopen = () => {
+    console.log("connection establish");
+    socketK.value.send(JSON.stringify(params))
+  }
+  socketK.value.onmessage = (event) => {
+    let blob = event.data;
+    let reader = new FileReader();
+    reader.onload = function (e) {
+      let ploydata = new Uint8Array(e.target.result);
+      let msg = pako.inflate(ploydata, { to: "string" });
+      handleData(msg)
+    };
+    reader.readAsArrayBuffer(blob, "utf-8");
+  }
+}
+const handleData = str => {
+  console.error('---收到', str)
+  const data = JSON.parse(str)
+  if (data.ping) return socketK.value.send(JSON.stringify({ "pong": data.ping }))
+  if (data.status === "ok") return
+  if (!data.tick) return
+  const d = {
+    timestamp: data.tick.id * 1000,
+    open: data.tick.open,
+    close: data.tick.close,
+    high: data.tick.high,
+    low: data.tick.low,
+    volume: data.tick.vol,
+    turnover: data.tick.count
+  }
+  chart.value.updateData(d)
+}
+
+
 const _init = (list) => {
-  chart.value.applyNewData(list.map(item => {
-    return {
-      timestamp: item.timestamp * 1000,
-      open: _trans(item.open_price),
-      close: _trans(item.close_price),
-      high: _trans(item.high_price),
-      low: _trans(item.low_price),
-      amount: item.turnover || 0,
-      vol: item.volume || 0,
-    }
-  }));
+  console.error('---初始化')
+  initWS()
 }
 
 onMounted(() => {

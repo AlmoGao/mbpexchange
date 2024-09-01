@@ -65,26 +65,32 @@
 
 <script setup>
 import Top from '@/components/Top.vue';
-import { ref } from "vue"
+import { ref, onMounted } from "vue"
 import Kline from "@/components/Kline.vue"
 
 // k线
 const activeType = ref(1)
 const klineType = ref({
-    1: '1m',
-    2: '5m',
-    3: '15m',
-    4: '30m',
-    5: '1h',
-    6: '2h',
-    7: '4h',
-    8: '1d',
-    9: '1w',
+    1: '1min',
+    2: '5min',
+    3: '15min',
+    4: '30min',
+    5: '1hour',
+    6: '2hour',
+    7: '4hour',
+    8: '1day',
+    9: '1week',
 })
 const klRef = ref()
 const changeType = key => {
     activeType.value = key
+    setTimeout(() => {
+        klRef.value && klRef.value._init()
+    }, 500)
 }
+onMounted(() => {
+    changeType(0)
+})
 
 // 表单
 const faster = ref(60)
