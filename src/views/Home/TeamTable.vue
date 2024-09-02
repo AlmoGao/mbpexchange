@@ -6,12 +6,12 @@
             <div class="td">充值金额</div>
             <div class="td">提现金额</div>
         </div>
-        <div class="tr">
+        <!-- <div class="tr">
             <div class="td">注册时间</div>
             <div class="td">用户名</div>
             <div class="td">充值金额</div>
             <div class="td">提现金额</div>
-        </div>
+        </div> -->
     </div>
 </template>
 

@@ -12,10 +12,10 @@ http.config().then(res => {
   // console.error('配置', res)
   store.commit('setConfig', res || {})
   document.title = res.name || '--'
-  setTimeout(() => {
-    globalWebSocket.connect()
-  }, 100)
-  if (!localStorage.getItem("lang")) {
+  // setTimeout(() => {
+  //   globalWebSocket.connect()
+  // }, 100)
+  if (!localStorage.getItem("lang") && res.lang) {
     _changeLang(res.lang)
   }
 })
@@ -192,6 +192,10 @@ input {
   .van-tabs__line {
     background-color: #fff !important;
   }
+}
+
+.loading {
+  opacity: 0.5;
 }
 
 .up {

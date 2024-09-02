@@ -6,36 +6,36 @@
         <!-- 列表 -->
         <div class="list_box" v-if="step == 1">
             <div class="list">
-                <div class="item" v-for="i in 3" :key="i">
-                    <div class="title">TRC20/USDT</div>
-                    <div class="info">asdasdasdasdasdasdas</div>
+                <div class="item" v-for="(item, i) in wallet" :key="i">
+                    <div class="title">{{ item.type == 0 ? 'TRC20/USDT' : 'ERC20/USDT' }}</div>
+                    <div class="info">{{ item.address }}</div>
                 </div>
             </div>
-            <div class="a_btn submit" @click="step = 2">添加</div>
+            <div class="a_btn submit" @click="step = 2, address = ''">添加</div>
         </div>
 
         <!-- 添加 -->
         <div class="add_box" v-if="step == 2">
             <div class="btns">
-                <div class="btn" :class="{ 'a_btn': type == 'trc20' }">Trc-20</div>
-                <div class="btn" :class="{ 'a_btn': type == 'erc20' }">Erc-20</div>
+                <div class="btn" @click="type = 'trc20'" :class="{ 'a_btn': type == 'trc20' }">Trc-20</div>
+                <div class="btn" @click="type = 'erc20'" :class="{ 'a_btn': type == 'erc20' }">Erc-20</div>
             </div>
 
             <div class="box">
                 <div class="subtitle">地址</div>
                 <div class="item">
-                    <input class="ipt" type="text" placeholder="地址">
+                    <input v-model="address" class="ipt" type="text" placeholder="地址">
                 </div>
-                <div style="margin:4rem 0;border-top:1px solid #333"></div>
+                <!-- <div style="margin:4rem 0;border-top:1px solid #333"></div>
                 <div class="subtitle">交易密码</div>
                 <div class="item">
                     <input class="ipt" type="password" placeholder="交易密码">
-                </div>
+                </div> -->
             </div>
 
             <div style="flex: 1;"></div>
 
-            <div class="a_btn submit" @click="step = 1">确认</div>
+            <div class="a_btn submit" @click="add" :class="{ 'loading': loading }">确认</div>
         </div>
 
     </div>
@@ -43,11 +43,34 @@
 
 <script setup>
 import Top from '@/components/Top.vue';
-import { ref } from "vue"
+import http from "@/api"
+import { ref, computed } from "vue"
+import store from "@/store"
+import { showToast } from "vant"
+import router from "@/router"
 
 const step = ref(1)
+const wallet = computed(() => store.state.userInfo?.wallet || [])
 
-const type = ref('trc20')
+const type = ref('trc20') // 0-trc20 1-erc20
+const address = ref('')
+const loading = ref(false)
+const add = () => {
+    if (loading.value || !address.value) return
+    loading.value = true
+    http.bindaddress({
+        type: type.value == 'trc20' ? 0 : 1,
+        address: address.value
+    }).then(res => {
+        if (res.code == 1) {
+            showToast('操作成功')
+            store.dispatch("updateUser");
+            step.value = 1
+        }
+    }).finally(() => {
+        loading.value = false
+    })
+}
 </script>
 
 <style lang="less" scoped>

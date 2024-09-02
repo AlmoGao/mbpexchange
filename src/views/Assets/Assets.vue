@@ -5,24 +5,25 @@
 
         <!-- top -->
         <div class="top">
-            <div class="avatar"></div>
+            <div class="avatar">
+                <img :src="userInfo.avatar" alt="avatar">
+            </div>
             <div class="content">
                 <div class="top_item">
-                    <div class="name">asdasd</div>
-                    <div class="num">VIP0</div>
+                    <div class="name">{{ userInfo.username }}</div>
+                    <!-- <div class="num">VIP0</div> -->
                 </div>
                 <div class="top_item">
-                    <div>UID:345345</div>
-                    <div class="num">Level 0</div>
+                    <div>UID:{{ userInfo.id }}</div>
+                    <div class="num">Level {{ userInfo.level }}</div>
                 </div>
             </div>
         </div>
 
         <!-- tabs -->
         <div class="tabs">
-            <div class="tab">总资产 0.00</div>
-            <div class="tab">总充值 0.00</div>
-            <div class="tab">总提现 0.00</div>
+            <div class="tab">总资产 {{ userInfo.money }}</div>
+            <!-- <div class="tab">总提现 0.00</div> -->
         </div>
 
         <!-- btns -->
@@ -35,30 +36,30 @@
         <!-- 统计 -->
         <div class="box">
             <div class="title">总收入</div>
-            <div class="title_val">22422222</div>
+            <div class="title_val">0</div>
 
             <div class="box_tabs">
                 <div class="box_tab">
                     <div class="box_title">昨日收入</div>
-                    <div class="num">2123</div>
+                    <div class="num">0</div>
                 </div>
                 <div class="box_tab">
                     <div class="box_title">今日收入</div>
-                    <div class="num">2123</div>
+                    <div class="num">0</div>
                 </div>
                 <div class="box_tab">
                     <div class="box_title">工资收入</div>
-                    <div class="num">2123</div>
+                    <div class="num">0</div>
                 </div>
             </div>
             <div class="box_tabs">
                 <div class="box_tab">
                     <div class="box_title">当前利润率</div>
-                    <div class="num">2123</div>
+                    <div class="num">0</div>
                 </div>
                 <div class="box_tab">
                     <div class="box_title">下级利润率</div>
-                    <div class="num">2123</div>
+                    <div class="num">0</div>
                 </div>
                 <div class="box_tab">
                     <div class="box_title">升级有效邀请</div>
@@ -94,7 +95,7 @@
                 <span>App 下载</span>
             </div>
 
-            <div class="d_btn login_out">退出</div>
+            <div class="d_btn login_out" @click="logout">退出</div>
         </div>
 
     </div>
@@ -102,12 +103,25 @@
 
 <script setup>
 import router from '@/router';
+import store from "@/store"
+import { computed } from "vue"
+import http from "@/api"
 
+const userInfo = computed(() => store.state.userInfo || {})
 
 const jump = name => {
     router.push({
         name
     })
+}
+
+const logout = () => {
+    http.logout()
+    setTimeout(() => {
+        router.push({
+            name: 'login'
+        })
+    }, 500)
 }
 </script>
 
@@ -140,6 +154,7 @@ const jump = name => {
             border-radius: 50%;
             border: 2px solid #eee;
             margin-right: 2rem;
+            overflow: hidden;
 
             img {
                 width: 100%;

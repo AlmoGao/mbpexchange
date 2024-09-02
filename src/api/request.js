@@ -21,7 +21,7 @@ class Interceptors {
         const token = store.state.token;
         if (token) {
           config.headers["token"] = token;
-          config.headers["uid"] = store.state.userInfo.id;
+          config.headers["uid"] = store.state?.userInfo?.id;
         }
         config.headers["lang"] = _getLocal();
         config.headers["think_var"] = _getLocal();

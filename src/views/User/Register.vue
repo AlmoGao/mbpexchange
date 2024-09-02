@@ -12,25 +12,29 @@
     <div class="form">
 
       <!-- 账号注册 -->
-      <div class="subtitle">{{ _t("t4") }}</div>
+      <div class="subtitle">账号</div>
       <div class="item">
-        <input v-model.trim="form.username" type="text" :placeholder="_t('t5')">
+        <input v-model.trim="form.username" type="text" :placeholder="'账号'">
       </div>
-      <div class="subtitle">{{ _t("t6") }}</div>
+      <div class="subtitle">邮箱</div>
       <div class="item">
-        <input v-model="form.password" :type="showPass1 ? 'text' : 'password'" :placeholder="_t('ipt')" class="ipt">
+        <input v-model.trim="form.email" type="text" :placeholder="'邮箱'">
+      </div>
+      <div class="subtitle">密码</div>
+      <div class="item">
+        <input v-model="form.password" :type="showPass1 ? 'text' : 'password'" :placeholder="'密码'" class="ipt">
         <van-icon @click="showPass1 = false" v-show="showPass1" class="icon icon_right" name="eye-o" />
         <van-icon @click="showPass1 = true" v-show="!showPass1" class="icon icon_right" name="closed-eye" />
       </div>
-      <div class="subtitle">{{ _t("t19") }}</div>
+      <div class="subtitle">确认密码</div>
       <div class="item">
-        <input v-model="form.password2" :type="showPass2 ? 'text' : 'password'" :placeholder="_t('ipt')" class="ipt">
+        <input v-model="form.password2" :type="showPass2 ? 'text' : 'password'" :placeholder="'确认密码'" class="ipt">
         <van-icon @click="showPass2 = false" v-show="showPass2" class="icon icon_right" name="eye-o" />
         <van-icon @click="showPass2 = true" v-show="!showPass2" class="icon icon_right" name="closed-eye" />
       </div>
-      <div class="subtitle">{{ _t("t20") }}</div>
+      <div class="subtitle">邀请码</div>
       <div class="item">
-        <input v-model="form.invite_code" type="text" :placeholder="_t('ipt')">
+        <input v-model="form.invite_code" type="text" :placeholder="'邀请码'">
       </div>
 
       <van-button :loading="loading" class="btn a_btn" type="primary" size="large" @click="goRegister">注册</van-button>
@@ -66,26 +70,21 @@ const form = ref({
 
 const loading = ref(false)
 const goRegister = () => {
-  if (activeTab.value == 1) {
-    form.value.email = ''
-    if (!form.value.username) return showToast(_t('t13'))
-  } else {
-    form.value.username = ''
-    if (!form.value.email) return showToast(_t('t24'))
-    if (!form.value.code) return showToast(_t('t25'))
-  }
-  if (!form.value.password) return showToast(_t('t14'))
-  if (form.value.password != form.value.password2) return showToast(_t('t26'))
+  if (!form.value.username) return
+  if (!form.value.email) return
+  if (!form.value.password) return
+  if (form.value.password != form.value.password2) return showToast('两次密码不一致')
   if (loading.value) return
   loading.value = true
   https.register(form.value).then(res => {
     if (res && res.userinfo) {
-      showToast(_t('t27'))
+      showToast('注册成功')
       store.commit('setToken', res.userinfo.token)
       store.commit('setUserInfo', res.userinfo)
       setTimeout(() => {
+        store.dispatch("updateUser");
         router.replace({
-          name: 'my'
+          name: 'assets'
         })
       }, 1000);
     }

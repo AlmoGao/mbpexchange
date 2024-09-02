@@ -4,18 +4,44 @@
         <div class="title">市场</div>
 
         <div class="content">
-            <div class="item" v-for="i in 20" :key="i">
-                <div class="icon"></div>
-                <div class="left">
-                    <div class="name">BTC</div>
-                    <div>24Hamount 2342342</div>
+            <div class="item" v-for="(item, i) in goods" :key="i" @click="goInfo(item)">
+                <div class="icon">
+                    <img :src="item.image" :alt="item.name">
                 </div>
-                <div class="amount up">$2342.23</div>
-                <div class="percent up-bg">23%</div>
+                <div class="left">
+                    <div class="name">{{ item.name }}</div>
+                    <div>24Hamount --</div>
+                </div>
+                <div class="amount up">--</div>
+                <div class="percent up-bg">--</div>
             </div>
         </div>
     </div>
 </template>
+
+<script setup>
+import http from "@/api/index"
+import { ref, computed, onMounted } from "vue"
+import store from "@/store"
+import router from "@/router"
+
+const goods = computed(() => store.state.goods || [])
+//  产品列表
+const products = () => {
+    http.product().then(res => {
+        store.commit('setGoods', res || [])
+    })
+}
+products()
+
+
+const goInfo = item => {
+    store.commit('setCurrGood', item)
+    router.push({
+        name: 'trade'
+    })
+}
+</script>
 
 <style lang="less" scoped>
 .page-markets {
@@ -54,6 +80,12 @@
                 border-radius: 50%;
                 background-color: #000;
                 margin-right: 2rem;
+                overflow: hidden;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                }
             }
 
             .left {

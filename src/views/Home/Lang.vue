@@ -21,15 +21,15 @@ import { _t } from "@/lang/index";
 const locale = computed(() => _getLocal())
 const columns = ref([
     { text: "中文简体", value: "zh-cn" },
-    { text: "中文繁體", value: "zh-tw" },
-    { text: "English", value: "en" },
-    { text: "แบบไทย", value: "th" },
-    { text: "한국인", value: "kr" },
-    { text: "日本語", value: "jp" },
-    { text: "Tiếng Việt", value: "vi" },
-    { text: "Bahasa Indonesia", value: "id" },
-    { text: "Melayu", value: "ms" },
-    { text: "Русский", value: "ru-RU" },
+    // { text: "中文繁體", value: "zh-tw" },
+    // { text: "English", value: "en" },
+    // { text: "แบบไทย", value: "th" },
+    // { text: "한국인", value: "kr" },
+    // { text: "日本語", value: "jp" },
+    // { text: "Tiếng Việt", value: "vi" },
+    // { text: "Bahasa Indonesia", value: "id" },
+    // { text: "Melayu", value: "ms" },
+    // { text: "Русский", value: "ru-RU" },
 ]);
 
 const onConfirm = item => {

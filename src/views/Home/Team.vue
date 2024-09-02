@@ -41,14 +41,14 @@
                 <div class="tab shadow">
                     <div class="left">
                         <div>邀请码</div>
-                        <div class="val">234234</div>
+                        <div class="val">--</div>
                     </div>
                     <van-icon style="font-size: 5rem" name="description" />
                 </div>
                 <div class="tab shadow">
                     <div class="left">
                         <div>邀请链接</div>
-                        <div class="val">https://www.mbpexchange.com/#/pages/base/index</div>
+                        <div class="val">--</div>
                     </div>
                     <van-icon style="font-size: 5rem" name="description" />
                 </div>
@@ -75,10 +75,11 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import TeamTable from "./TeamTable.vue"
+import store from "@/store"
 
-
+const userInfo = computed(() => store.state.userInfo || {})
 const active = ref(0)
 </script>
 

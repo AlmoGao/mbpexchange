@@ -14,6 +14,7 @@ import { _t } from "@/lang/index";
 import { _trans } from "@/tools/utils"
 import pako from "pako"
 
+
 const config = {
   // 网格线
   grid: {
@@ -133,10 +134,10 @@ const config = {
       // 例如：想显示时间，开盘和收盘，配置[{ title: 'time', value: '{time}' }, { title: 'open', value: '{open}' }, { title: 'close', value: '{close}' }]
       custom: [
         { title: "", value: "{time}" },
-        { title: _t("t29") + "：", value: "{high}" },
-        { title: _t("t30") + "：", value: "{low}" },
-        { title: _t("t121") + "：", value: "{open}" },
-        { title: _t("t122") + "：", value: "{close}" },
+        { title: "high：", value: "{high}" },
+        { title: "low：", value: "{low}" },
+        { title: "open：", value: "{open}" },
+        { title: "close：", value: "{close}" },
       ],
       defaultValue: "n/a",
       rect: {
@@ -575,7 +576,13 @@ const initWS = (key = 'btcusdt', t = '5min') => {
   fetch(url)
     .then(response => response.json())
     .then(data => {
-      console.error('k线', data.data)
+      // console.error('k线', data.data)
+      if (data.data && data.data[0]) [
+        store.commit('setCurrGood', {
+          ...currGood.value,
+          close: data.data[0].close
+        })
+      ]
       if (data && data.data) {
         const klineData = data.data.map(item => {
           return {
@@ -613,7 +620,7 @@ const initWS = (key = 'btcusdt', t = '5min') => {
   }
 }
 const handleData = str => {
-  console.error('---收到', str)
+  // console.error('---收到', str)
   const data = JSON.parse(str)
   if (data.ping) return socketK.value.send(JSON.stringify({ "pong": data.ping }))
   if (data.status === "ok") return
@@ -628,12 +635,20 @@ const handleData = str => {
     turnover: data.tick.count
   }
   chart.value.updateData(d)
+  store.commit('setCurrGood', {
+    ...currGood.value,
+    close: d.close
+  })
 }
 
 
-const _init = (list) => {
-  console.error('---初始化')
-  initWS()
+const _init = (type) => {
+  type = type.replace('m', 'min')
+  type = type.replace('h', 'hour')
+  type = type.replace('d', 'day')
+  type = type.replace('w', 'week')
+  console.error('---初始化' + type)
+  initWS(currGood.value.code, type)
 }
 
 onMounted(() => {
@@ -644,6 +659,7 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
+  if (socketK.value) socketK.value.close()
   dispose("chart");
 });
 

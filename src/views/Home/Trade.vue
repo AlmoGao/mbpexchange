@@ -1,16 +1,16 @@
 <!-- 交易 -->
 <template>
     <div class="page page-trade">
-        <Top :title="'BTC/USDT'" />
+        <Top :title="currGood.name" />
 
         <!-- k线 -->
         <div class="klines">
             <div class="tabs">
-                <div @click="changeType(key)" :class="{ 'active_tab': key == activeType }" class="tab"
+                <div @click="changeType(val)" :class="{ 'active_tab': val == activeType }" class="tab"
                     v-for="(val, key) in klineType" :key="key">{{ val }}</div>
             </div>
             <div class="charts">
-                <Kline ref="klRef" />
+                <Kline ref="klRef" :activeType="activeType" />
             </div>
         </div>
 
@@ -20,44 +20,45 @@
             <div class="amount_box">
                 <div class="left">
                     <div>余额</div>
-                    <div>0.00</div>
+                    <div>{{ userInfo.money }}</div>
                 </div>
                 <div class="right">
-                    <van-icon name="arrow-down" />
-                    <input placeholder="金额" type="number" class="ipt">
+                    <van-icon name="arrow-down" @click="openMenu = !openMenu" />
+                    <input v-model="amount" placeholder="金额" type="number" class="ipt">
                     <img src="@/assets/home/close.png" alt="x">
                 </div>
 
                 <!-- 快捷 -->
-                <div class="percents">
-                    <div class="percent a_btn">全部</div>
-                    <div class="percent a_btn">1/100</div>
-                    <div class="percent a_btn">1/5</div>
-                    <div class="percent a_btn">1/3</div>
-                    <div class="percent a_btn">1/2</div>
+                <div class="percents" v-show="openMenu">
+                    <div class="percent a_btn" @click="put(1)">全部</div>
+                    <div class="percent a_btn" @click="put(100)">1/100</div>
+                    <div class="percent a_btn" @click="put(5)">1/5</div>
+                    <div class="percent a_btn" @click="put(3)">1/3</div>
+                    <div class="percent a_btn" @click="put(2)">1/2</div>
                 </div>
             </div>
 
             <div class="tabs_box">
-                <div class="tab_item" :class="{ 'a_btn': faster == item.sec }" v-for="(item, i) in fasters" :key="i">
+                <div class="tab_item" @click="faster = item.sec" :class="{ 'a_btn': faster == item.sec }"
+                    v-for="(item, i) in fasters" :key="i">
                     <div>{{ item.sec }}</div>
                     <div>{{ item.per }}%</div>
                 </div>
             </div>
 
-            <div class="btns">
-                <div class="btn a_btn">买涨</div>
-                <div class="btn b_btn">买跌</div>
+            <div class="btns" :class="{ 'loading': loading }">
+                <div class="btn a_btn" @click="buy(0)">买涨</div>
+                <div class="btn b_btn" @click="buy(1)">买跌</div>
             </div>
         </div>
 
         <!-- 记录 -->
         <van-tabs animated v-model:active="active">
             <van-tab title="持仓">
-                <div>1</div>
+                <div></div>
             </van-tab>
             <van-tab title="记录">
-                <div>2</div>
+                <div></div>
             </van-tab>
         </van-tabs>
     </div>
@@ -65,40 +66,77 @@
 
 <script setup>
 import Top from '@/components/Top.vue';
-import { ref, onMounted } from "vue"
+import { ref, onMounted, computed } from "vue"
 import Kline from "@/components/Kline.vue"
+import store from "@/store"
+import { showToast } from "vant"
+import http from "@/api"
 
-// k线
-const activeType = ref(1)
-const klineType = ref({
-    1: '1min',
-    2: '5min',
-    3: '15min',
-    4: '30min',
-    5: '1hour',
-    6: '2hour',
-    7: '4hour',
-    8: '1day',
-    9: '1week',
-})
-const klRef = ref()
-const changeType = key => {
-    activeType.value = key
-    setTimeout(() => {
-        klRef.value && klRef.value._init()
-    }, 500)
-}
-onMounted(() => {
-    changeType(0)
-})
+const currGood = computed(() => store.state.currGood || {})
+const userInfo = computed(() => store.state.userInfo || {})
+const openMenu = ref(false)
 
 // 表单
+const amount = ref('') // 下注金额
 const faster = ref(60)
 const fasters = ref([
     { sec: 60, per: 60 },
     { sec: 180, per: 70 },
     { sec: 300, per: 80 },
 ])
+
+const loading = ref(false)
+const buy = (dir) => {
+    if (loading.value) return
+    if (!amount.value || amount.value <= 0) return
+    if (amount.value > userInfo.value.money) return showToast('余额不足')
+    if (!currGood.value.close) return showToast('获取价格中')
+    const params = {
+        product_id: currGood.value.id,
+        buy_price: currGood.value.close,
+        direction: dir,
+        amount: amount.value,
+        duration: faster.value
+    }
+    loading.value = true
+    http.buy(params).then(res => {
+        if (res.code == 1) {
+            showToast('购买成功')
+            amount.value = ''
+            store.dispatch('updateUser')
+        }
+    }).finally(() => {
+        loading.value = false
+    })
+}
+const put = num => {
+    amount.value = Number(userInfo.value.money * 1 / num).toFixed(2)
+    openMenu.value = false
+}
+
+// k线
+const activeType = ref('5m')
+const klineType = ref({
+    1: '1m',
+    2: '5m',
+    3: '15m',
+    4: '30m',
+    7: '4h',
+    8: '1d',
+    9: '1w',
+})
+const klRef = ref()
+const changeType = key => {
+    activeType.value = key
+    setTimeout(() => {
+        klRef.value && klRef.value._init(key)
+    }, 500)
+}
+onMounted(() => {
+    changeType('5m')
+})
+
+
 
 // 记录
 const active = ref(0)

@@ -39,7 +39,7 @@ export default createStore({
       api.userConfig().then(res => {
         // setCookie('token', res.userinfo.token, 30)
         // setCookie('uid', res.userinfo.id, 30)
-        commit('setUserInfo', res.welcome)
+        commit('setUserInfo', res)
       })
     },
     updateList({ commit, state }, id) {

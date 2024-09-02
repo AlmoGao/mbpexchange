@@ -37,7 +37,7 @@ const messages = {
   'ru-RU': ru,
 };
 
-const lang = localStorage.getItem("lang") || "zh-tw";
+const lang = localStorage.getItem("lang") || "zh-cn";
 const i18n = createI18n({
   messages,
   locale: lang,

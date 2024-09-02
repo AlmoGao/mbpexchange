@@ -11,8 +11,7 @@
 
     <div class="content">
       <!-- banner -->
-      <van-swipe style="margin-bottom:2vw" v-show="activeTab == 0" class="my-swipe" :autoplay="3000"
-        indicator-color="white">
+      <van-swipe style="margin-bottom:2vw" class="my-swipe" :autoplay="3000" indicator-color="white">
         <van-swipe-item class="swiper-item" v-for="(item, i) in carousel" :key="i">
           <img @click="clickBanner(item)" :src="item.image" style="width:100%;height:100%" alt="img">
         </van-swipe-item>
@@ -20,23 +19,23 @@
 
       <!-- tabs -->
       <div class="tabs">
-        <div class="tab">
+        <div class="tab" @click="jump('recharge')">
           <img src="@/assets/home/tab1.png" alt="img">
           <div>充值</div>
         </div>
-        <div class="tab">
+        <div class="tab" @click="jump('withdraw')">
           <img src="@/assets/home/tab2.png" alt="img">
           <div>提现</div>
         </div>
-        <div class="tab">
+        <div class="tab" @click="openLink(whats_app)">
           <img src="@/assets/home/tab3.png" alt="img">
           <div>合作</div>
         </div>
-        <div class="tab">
+        <div class="tab" @click="openLink(telegram)">
           <img src="@/assets/home/tab4.png" alt="img">
           <div>客服</div>
         </div>
-        <div class="tab">
+        <div class="tab" @click="jump('team')">
           <img src="@/assets/home/tab5.png" alt="img">
           <div>邀请</div>
         </div>
@@ -44,10 +43,10 @@
 
       <!-- notice -->
       <van-notice-bar class="notice-bar shadow" color="#9FA6B5" background="#232323" left-icon="volume-o"
-        :text="notice" />
+        :text="notice.content" />
 
       <!-- tabs2 -->
-      <div class="tabs2">
+      <!-- <div class="tabs2">
         <div class="tab shadow">
           <div>BTC</div>
           <div class="up">13%</div>
@@ -63,24 +62,25 @@
           <div class="up">13%</div>
           <div class="amount up">$21311</div>
         </div>
-      </div>
+      </div> -->
 
+      <div style="height: 5rem"></div>
       <!-- list -->
       <div class="list">
-        <div class="item" v-for="i in 20" :key="i">
+        <div class="item" v-for="(item, i) in goods" :key="i" @click="goInfo(item)">
           <div class="left">
-            <div class="name">BTC</div>
-            <div>24Hamount 2342342</div>
+            <div class="name">{{ item.name }}</div>
+            <div>24Hamount --</div>
           </div>
-          <div class="amount up">$2342.23</div>
-          <div class="up">23%</div>
+          <div class="amount up">--</div>
+          <div class="up">--%</div>
         </div>
       </div>
     </div>
 
 
-    <van-dialog v-model:show="showMessage" title="" :show-cancel-button="false" @confirm="confirmMessage">
-      <div v-html="messageContent" style="padding:1rem 4rem"></div>
+    <van-dialog v-model:show="showMessage" :title="''" :show-cancel-button="false" @confirm="confirmMessage">
+      <div v-html="popup.content" style="padding:1rem 4rem"></div>
     </van-dialog>
   </div>
 </template>
@@ -88,7 +88,7 @@
 
 <script setup>
 import router from "@/router"
-import { ref, computed } from "vue"
+import { ref, computed, onMounted } from "vue"
 import List from "@/components/List.vue"
 import http from "@/api/index"
 import store from "@/store"
@@ -97,82 +97,56 @@ import { _t } from "@/lang/index";
 import { showConfirmDialog } from "vant"
 
 const token = computed(() => store.state.token || '')
+const goods = computed(() => store.state.goods || [])
+const telegram = computed(() => store.state.config.telegram || '')
+const whats_app = computed(() => store.state.config.whats_app || '')
 const carousel = computed(() => store.state.config.carousel || []) // 轮播
-const notice = computed(() => store.state.config.notice || '') // 公告
-const logo = computed(() => store.state.config.logo || '') // 公告
-
-// 分类
-const activeTab = ref(0)
-const list = computed(() => {
-  if (category.value[activeTab.value]) {
-    const arr = store.state.goods.filter(item => {
-      return item.category_id == category.value[activeTab.value].id
-    })
-    return arr
-  } else {
-    return store.state.goods
+const notice = computed(() => {
+  if (store.state.config.news && store.state.config.news?.length) return store.state.config.news[0]
+  return {
+    content: ''
   }
-})
+}) // 公告
+const popup = computed(() => store.state.config.popup || {}) // 公告
 
-// 获取分类
-const category = ref([])
-const getcategory = () => {
-  http.category().then(res => {
-    category.value = res || []
+
+//  产品列表
+const products = () => {
+  http.product().then(res => {
+    store.commit('setGoods', res || [])
   })
 }
-getcategory()
-
-
-// 热门产品
-const hots = ref([])
-const showHots = computed(() => {
-  const arr = []
-  hots.value.forEach(item => {
-    const target = store.state.goods.find(a => a.code == item.code)
-    if (target) {
-      arr.push(target)
-    }
-  })
-  return arr
-})
-const getHots = () => {
-  http.hot().then(res => {
-    hots.value = res || []
+products()
+const goInfo = item => {
+  store.commit('setCurrGood', item)
+  router.push({
+    name: 'trade'
   })
 }
-getHots()
 
+const openLink = link => {
+  window.open(link)
+}
 
-// 获取公告消息
 const showMessage = ref(false)
-const messageContent = ref('')
-const messageId = ref('')
-const getMessage = () => {
-  http.message().then(res => {
-    if (res && res.content) {
-      messageId.value = res.id
-      messageContent.value = res.content
-      showMessage.value = true
-    }
-  })
-}
-if (token.value) {
-  getMessage()
-}
 const confirmMessage = () => {
   showMessage.value = false
-  http.messageRead({
-    id: messageId.value
-  })
+  // http.messageRead({
+  //   id: messageId.value
+  // })
 }
+
+onMounted(() => {
+  if (popup.value && popup.value.content) {
+    showMessage.value = true
+  }
+})
 
 
 const clickBanner = item => {
   if (item.url) {
     window.open(item.url)
   }
-
 }
 
 const jump = name => {

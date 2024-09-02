@@ -29,17 +29,17 @@
 
       <!-- <div class="tip" style="text-align: right;color: #4936DF;">忘记密码</div> -->
       <van-button :loading="loading" @click="submit" class="btn a_btn" type="primary" size="large">登录</van-button>
-      <van-button :loading="loading" @click="router.push({ name: 'register' })" style="margin-top:4rem"
-        class="btn b_btn" type="primary" size="large">注册</van-button>
+      <van-button @click="router.push({ name: 'register' })" style="margin-top:4rem" class="btn b_btn" type="primary"
+        size="large">注册</van-button>
 
     </div>
 
-    <img class="kf" src="@/assets/kf.png" alt="kf">
+    <img class="kf" src="@/assets/kf.png" alt="kf" @click="openLink">
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue"
+import { ref, computed } from "vue"
 import router from "@/router"
 import https from "@/api/index"
 import { showToast } from 'vant';
@@ -47,6 +47,15 @@ import store from "@/store"
 import { _t } from "@/lang/index";
 
 const showPass1 = ref(false)
+const telegram = computed(() => store.state.config.telegram || '')
+const whats_app = computed(() => store.state.config.whats_app || '')
+
+const openLink = () => {
+  const url = telegram.value || whats_app.value
+  if (url) {
+    window.open(url)
+  }
+}
 
 const form = ref({
   account: '',
@@ -66,8 +75,9 @@ const submit = () => {
       store.commit('setToken', res.userinfo.token)
       store.commit('setUserInfo', res.userinfo)
       setTimeout(() => {
+        store.dispatch("updateUser");
         router.replace({
-          name: 'my'
+          name: 'assets'
         })
       }, 1000);
     }

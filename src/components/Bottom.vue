@@ -42,9 +42,9 @@ const jump = (item) => {
   //   window.open("https://bursamalaysia.info/addons/kefu/index");
   //   return;
   // }
-  // if (!token.value) return router.push({
-  //   name: 'login'
-  // })
+  if (!token.value) return router.push({
+    name: 'login'
+  })
   router.push({
     name: item.route,
   });

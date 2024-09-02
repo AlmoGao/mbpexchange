@@ -5,27 +5,61 @@
 
         <div class="subtitle">账号</div>
         <div class="item" style="color: #eee;">
-            sadasdasd
+            {{ userInfo.username }}
         </div>
-        <div class="subtitle">旧密码</div>
-        <div class="item">
-            <input placeholder="旧密码" type="password" class="ipt">
+        <div class="subtitle" v-if="userInfo.fundpassword">旧密码</div>
+        <div class="item" v-if="userInfo.fundpassword">
+            <input v-model="form.oldpassword" placeholder="旧密码" type="password" class="ipt">
         </div>
         <div class="subtitle">新密码</div>
         <div class="item">
-            <input placeholder="新密码" type="password" class="ipt">
+            <input v-model="form.newpassword" placeholder="新密码" type="password" class="ipt">
         </div>
         <div class="subtitle">确认密码</div>
         <div class="item">
-            <input placeholder="确认密码" type="password" class="ipt">
+            <input v-model="form.newpassword2" placeholder="确认密码" type="password" class="ipt">
         </div>
 
-        <div class="a_btn submit">确认修改</div>
+        <div class="a_btn submit" :class="{ 'loading': loading }" @click="changePass">确认修改</div>
     </div>
 </template>
 
 <script setup>
 import Top from '@/components/Top.vue';
+import http from "@/api"
+import { ref, computed } from "vue"
+import store from "@/store"
+import { showToast } from "vant"
+import router from "@/router"
+
+const userInfo = computed(() => store.state.userInfo || {})
+
+const form = ref({
+    oldpassword: '',
+    newpassword: '',
+    newpassword2: ''
+})
+const loading = ref(false)
+const changePass = () => {
+    if (userInfo.value.fundpassword) {
+        if (!form.value.oldpassword) return
+    }
+    if (!form.value.newpassword) return
+    if (form.value.newpassword != form.value.newpassword2) return showToast('两次密码不一致')
+    if (loading.value) return
+    loading.value = true
+    http.changefundpwd(form.value).then(res => {
+        if (res.code == 1) {
+            showToast('操作成功')
+            store.dispatch('updateUser')
+            setTimeout(() => {
+                router.back()
+            }, 500)
+        }
+    }).finally(() => {
+        loading.value = false
+    })
+}
 </script>
 
 <style lang="less" scoped>

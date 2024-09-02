@@ -1,27 +1,9 @@
 import http from "./request";
 
 class HttpService {
-  message() {
-    // 未读公告
-    return http("/api/user/message", {
-      method: "get",
-    });
-  }
-  hot() {
-    // 热门产品
-    return http("/api/product/hot", {
-      method: "get",
-    });
-  }
   config() {
     // 网站配置
-    return http("/api/index/config", {
-      method: "get",
-    });
-  }
-  category() {
-    // 产品分类
-    return http("/api/product/category", {
+    return http("/api/index/index", {
       method: "get",
     });
   }
@@ -52,100 +34,44 @@ class HttpService {
       data,
     });
   }
-  productList(data) {
-    // 分类产品
-    return http("/api/product/list", {
-      method: "post",
-      data,
-    });
-  }
   changepwd(data) {
-    // 修改密码
+    // 修改登录密码
     return http("/api/user/changepwd", {
       method: "post",
       data,
     });
   }
-  kline(data) {
-    // k线
-    return http("/api/product/kline", {
+  changefundpwd(data) {
+    // 修改交易密码
+    return http("/api/user/changefundpwd", {
+      method: "post",
+      data,
+    });
+  }
+  bindaddress(data) {
+    // 绑定钱包地址
+    return http("/api/user/bindaddress", {
+      method: "post",
+      data,
+    });
+  }
+  bindbank(data) {
+    // 绑定银行卡
+    return http("/api/user/bindbank", {
+      method: "post",
+      data,
+    });
+  }
+  product(data) {
+    // 产品列表
+    return http("/api/product/list", {
       method: "post",
       data,
     });
   }
   buy(data) {
-    // 下单
+    // 购买
     return http("/api/order/buy", {
-      method: "post",
-      data,
-    });
-  }
-  setfFundpwd(data) {
-    // 设置资金密码
-    return http("/api/user/setf_fundpwd", {
-      method: "post",
-      data,
-    });
-  }
-  changeFundpwd(data) {
-    // 修改资金密码
-    return http("/api/user/change_fundpwd", {
-      method: "post",
-      data,
-    });
-  }
-  verif(data) {
-    // 实名认证
-    return http("/api/user/verif", {
-      method: "post",
-      data,
-    });
-  }
-  recharge(data) {
-    // 充值
-    return http("/api/order/recharge", {
-      method: "post",
-      data,
-    });
-  }
-  bindBank(data) {
-    // 绑卡
-    return http("/api/user/bind_bank", {
-      method: "post",
-      data,
-    });
-  }
-  rechargeList(data) {
-    // 充值记录
-    return http("/api/order/recharge_list", {
-      method: "post",
-      data,
-    });
-  }
-  withdrawalList(data) {
-    // 提现记录
-    return http("/api/order/withdrawal_list", {
-      method: "post",
-      data,
-    });
-  }
-  orderList(data) {
-    // 订单列表
-    return http("/api/order/order_list", {
-      method: "post",
-      data,
-    });
-  }
-  withdrawal(data) {
-    // 提现
-    return http("/api/order/withdrawal", {
-      method: "post",
-      data,
-    });
-  }
-  messageRead(data) {
-    // 提现
-    return http("/api/user/message", {
       method: "post",
       data,
     });
