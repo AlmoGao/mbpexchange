@@ -42,56 +42,6 @@ export default createStore({
         commit('setUserInfo', res)
       })
     },
-    updateList({ commit, state }, id) {
-      // commit('setGoods', [])
-      api.productList({
-        category_id: 'all'
-      }).then(res => {
-        const arr = (res || []).map(item => {
-          item.price = item.close_price
-          const target = state.goods.find(a => a.code == item.code)
-          if (target) {
-            target.name = item.name
-            return target
-          }
-          return item
-        })
-        commit('setGoods', arr)
-        if (arr.length) {
-          if (!location.href.includes('trade')) {
-            commit('setCurrGood', arr[0])
-          }
-
-        }
-
-        // 取消订阅
-        ws.send(JSON.stringify({
-          "cmd_id": 22006,
-          "seq_id": 123,
-          "trace": "asdfsdfa",
-          "data": {
-            "cancel_type": 1,
-          }
-        }))
-        setTimeout(() => {
-          // 订阅
-          const codeList = res.map(item => {
-            return {
-              code: item.code
-            }
-          })
-          const params = {
-            "cmd_id": 22004,
-            "seq_id": 106254124,
-            "trace": "3baaa938-f92c-4a74-a228-fd49d5e2",
-            "data": {
-              "symbol_list": codeList,
-            }
-          }
-          ws.send(JSON.stringify(params))
-        }, 2000)
-      })
-    }
   },
   plugins: [createPersistedState()]
 })

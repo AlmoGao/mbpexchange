@@ -23,13 +23,52 @@ http.config().then(res => {
 if (store.state.token) {
   store.dispatch("updateUser");
 }
+//  产品列表
+const products = () => {
+  http.product().then(res => {
+    store.commit('setGoods', res || [])
 
-// setTimeout(() => {
+    setTimeout(() => {
+      store.state.goods.forEach((item, i) => {
+        setTimeout(() => {
+          const url = `https://api.huobi.pro/market/history/kline?symbol=${item.code.toLowerCase()}&period=1day&size=1`
+          fetch(url)
+            .then(response => response.json())
+            .then(data => {
+              if (data.data[0]) {
+                store.state.goods[i] = {
+                  ...item,
+                  ...data.data[0]
+                }
+                store.commit('setGoods', store.state.goods)
+              }
+            })
+        }, i * 300);
+      })
+    }, 0)
+    setInterval(() => {
+      store.state.goods.forEach((item, i) => {
+        setTimeout(() => {
+          const url = `https://api.huobi.pro/market/history/kline?symbol=${item.code.toLowerCase()}&period=1day&size=1`
+          fetch(url)
+            .then(response => response.json())
+            .then(data => {
+              if (data.data[0]) {
+                store.state.goods[i] = {
+                  ...item,
+                  ...data.data[0]
+                }
+                store.commit('setGoods', store.state.goods)
+              }
+            })
+        }, i * 300);
+      })
+    }, 10000)
+  })
+}
+products()
 
-//   setTimeout(() => {
-//     store.dispatch('updateList')
-//   }, 1000)
-// }, 1000);
+
 
 
 // 设置根元素的字体大小

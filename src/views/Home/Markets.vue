@@ -10,10 +10,11 @@
                 </div>
                 <div class="left">
                     <div class="name">{{ item.name }}</div>
-                    <div>24Hamount --</div>
+                    <div>24H {{ item.amount || '--' }}</div>
                 </div>
-                <div class="amount up">--</div>
-                <div class="percent up-bg">--</div>
+                <div class="amount" :class="[getPercent(item) > 0 ? 'up' : 'down']">{{ item.close || '--' }}</div>
+                <div class="percent" :class="[getPercent(item) > 0 ? 'up-bg' : 'down-bg']">{{ getPercent(item) ?
+                    getPercent(item) + '%' : '--'}}</div>
             </div>
         </div>
     </div>
@@ -26,20 +27,19 @@ import store from "@/store"
 import router from "@/router"
 
 const goods = computed(() => store.state.goods || [])
-//  产品列表
-const products = () => {
-    http.product().then(res => {
-        store.commit('setGoods', res || [])
-    })
-}
-products()
-
 
 const goInfo = item => {
     store.commit('setCurrGood', item)
     router.push({
         name: 'trade'
     })
+}
+
+const getPercent = item => {
+    if (item.open && item.close) {
+        return Number((item.close - item.open) * 100 / item.open).toFixed(2)
+    }
+    return 0
 }
 </script>
 

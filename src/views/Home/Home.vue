@@ -42,8 +42,13 @@
       </div>
 
       <!-- notice -->
-      <van-notice-bar class="notice-bar shadow" color="#9FA6B5" background="#232323" left-icon="volume-o"
-        :text="notice.content" />
+      <div style="position: relative">
+        <van-notice-bar class="notice-bar shadow" color="#9FA6B5" background="#232323" left-icon="volume-o"
+          :text="notice.title" />
+
+        <van-icon @click="jump('notice')" style="position: absolute;right: 4rem;top: 2.4rem;font-size: 5.4rem;"
+          name="wap-nav" />
+      </div>
 
       <!-- tabs2 -->
       <!-- <div class="tabs2">
@@ -70,17 +75,18 @@
         <div class="item" v-for="(item, i) in goods" :key="i" @click="goInfo(item)">
           <div class="left">
             <div class="name">{{ item.name }}</div>
-            <div>24Hamount --</div>
+            <div>24H {{ item.amount || '--' }}</div>
           </div>
-          <div class="amount up">--</div>
-          <div class="up">--%</div>
+          <div class="amount" :class="[getPercent(item) > 0 ? 'up' : 'down']">{{ item.close || '--' }}</div>
+          <div :class="[getPercent(item) > 0 ? 'up' : 'down']">{{ getPercent(item) ? getPercent(item) + '%' : '--' }}
+          </div>
         </div>
       </div>
     </div>
 
 
     <van-dialog v-model:show="showMessage" :title="''" :show-cancel-button="false" @confirm="confirmMessage">
-      <div v-html="popup.content" style="padding:1rem 4rem"></div>
+      <div v-html="popup.content" style="padding:1rem 4rem;max-height: 60vh;overflow-y: auto;"></div>
     </van-dialog>
   </div>
 </template>
@@ -109,14 +115,13 @@ const notice = computed(() => {
 }) // 公告
 const popup = computed(() => store.state.config.popup || {}) // 公告
 
-
-//  产品列表
-const products = () => {
-  http.product().then(res => {
-    store.commit('setGoods', res || [])
-  })
+const getPercent = item => {
+  if (item.open && item.close) {
+    return Number((item.close - item.open) * 100 / item.open).toFixed(2)
+  }
+  return 0
 }
-products()
+
 const goInfo = item => {
   store.commit('setCurrGood', item)
   router.push({

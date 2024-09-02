@@ -123,7 +123,7 @@ const config = {
     // 提示
     tooltip: {
       // 'always' | 'follow_cross' | 'none'
-      showRule: "always",
+      showRule: "follow_cross",
       // 'standard' | 'rect'
       showType: "standard",
       // 自定义显示，可以是回调方法也可以是数组，当是一个方法时，需要返回一个数组
@@ -560,7 +560,7 @@ const config = {
 const chart = ref();
 const currGood = computed(() => store.state.currGood || {});
 
-
+const volId = ref('')
 
 const socketK = ref(null)
 const hburl = "wss://api.huobi.pro/ws"
@@ -596,6 +596,15 @@ const initWS = (key = 'btcusdt', t = '5min') => {
           }
         }).reverse();
         chart.value.applyNewData(klineData)
+
+        setTimeout(() => {
+          if (volId.value) {
+            chart.value.createIndicator('VOL', false, { id: volId.value })
+          } else {
+            volId.value = chart.value.createIndicator('VOL', false)
+          }
+          chart.value.createIndicator('MA', true, { id: 'candle_pane' })
+        }, 200)
       } else {
         console.error('获取历史K线数据失败:', data);
       }
@@ -647,7 +656,6 @@ const _init = (type) => {
   type = type.replace('h', 'hour')
   type = type.replace('d', 'day')
   type = type.replace('w', 'week')
-  console.error('---初始化' + type)
   initWS(currGood.value.code, type)
 }
 

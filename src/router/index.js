@@ -15,6 +15,16 @@ const routes = [
         name: 'home',
         component: () => import('../views/Home/Home.vue')
       },
+      { // 公告
+        path: '/notice',
+        name: 'notice',
+        component: () => import('../views/Home/NoticeList.vue')
+      },
+      { // 公告
+        path: '/noticeInfo',
+        name: 'noticeInfo',
+        component: () => import('../views/Home/NoticeInfo.vue')
+      },
       { // 市场
         path: '/markets',
         name: 'markets',
