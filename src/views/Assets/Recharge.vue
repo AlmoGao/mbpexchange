@@ -1,7 +1,7 @@
 <!-- 充值 -->
 <template>
     <div class="page page-recharge">
-        <Top :title="'充值'" />
+        <Top :title="'充值'" :rightRecord="true" @clickRight="rightRecord" />
 
         <div class="box">
             <div class="btns">
@@ -46,15 +46,23 @@
 
 <script setup>
 import Top from '@/components/Top.vue';
+import router from '@/router';
 import { ref } from "vue"
 
 const type = ref('bank')
 const fasters = ref([500, 1000, 2000, 5000, 10000, 20000])
+
+const rightRecord = () => {
+    router.push({
+        name: 'rList'
+    })
+}
 </script>
 
 <style lang="less" scoped>
 .page-recharge {
     padding: 18rem 4rem 4rem 4rem;
+    position: relative;
 
     .box {
         padding: 4rem;

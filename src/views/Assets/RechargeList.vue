@@ -1,7 +1,7 @@
 <!-- 列表 -->
 <template>
     <div class="page page-list">
-        <Top :title="'账变记录'" />
+        <Top :title="'充值记录'" />
 
         <div class="tr th">
             <div class="td td1" style="flex:1.5">时间</div>

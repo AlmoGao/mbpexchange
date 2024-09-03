@@ -74,10 +74,10 @@
                 <img class="nav_icon" src="@/assets/assets/t1.png" alt="img">
                 <span>账变记录</span>
             </div>
-            <!-- <div class="nav">
+            <div class="nav" @click="jump('oList')">
                 <img class="nav_icon" src="@/assets/assets/t2.png" alt="img">
-                <span>账变记录</span>
-            </div> -->
+                <span>订单记录</span>
+            </div>
             <div class="nav" @click="jump('bank')">
                 <img class="nav_icon" src="@/assets/assets/t3.png" alt="img">
                 <span>银行卡</span>
@@ -140,6 +140,7 @@ const logout = () => {
         position: absolute;
         top: 4rem;
         right: 0;
+        pointer-events: none;
     }
 
     .top {

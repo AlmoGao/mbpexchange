@@ -1,7 +1,7 @@
 <!-- 提现 -->
 <template>
     <div class="page page-withdraw">
-        <Top :bgColor="'rgba(0,0,0,0)'" :title="'提现'" />
+        <Top :bgColor="'rgba(0,0,0,0)'" :title="'提现'" :rightRecord="true" @clickRight="rightRecord" />
 
         <div class="title">银行</div>
         <div class="btns">
@@ -71,10 +71,15 @@
 
 <script setup>
 import Top from '@/components/Top.vue';
+import router from '@/router';
 import { ref } from "vue"
 
 const type = ref('bank')
-
+const rightRecord = () => {
+    router.push({
+        name: 'wList'
+    })
+}
 </script>
 
 <style lang="less" scoped>

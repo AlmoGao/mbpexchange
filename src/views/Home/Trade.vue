@@ -57,12 +57,12 @@
             <van-tab title="持仓">
                 <div class="item" v-for="(item, i) in list" :key="i">
                     <div class="tr" style="margin-bottom: 2rem;">
-                        <div class="time">{{ item.createtime }}</div>
+                        <div class="time">{{ parseTime(item.createtime) }}</div>
                         <div></div>
                     </div>
                     <div class="tr">
                         <div class="t">方向</div>
-                        <div class="v">{{ item.direction }}</div>
+                        <div class="v">{{ item.direction == 0 ? '买涨' : '买跌' }}</div>
                     </div>
                     <div class="tr">
                         <div class="t">金额</div>
@@ -74,7 +74,7 @@
                     </div>
                     <div class="tr">
                         <div class="t">时长</div>
-                        <div class="v">{{ item.duration }}</div>
+                        <div class="v">{{ item.duration }}s</div>
                     </div>
                 </div>
                 <NoData v-if="!list.length" />
@@ -88,7 +88,7 @@
                     </div>
                     <div class="tr">
                         <div class="t">方向</div>
-                        <div class="v">{{ item.direction }}</div>
+                        <div class="v">{{ item.direction == 0 ? '买涨' : '买跌' }}</div>
                     </div>
                     <div class="tr">
                         <div class="t">金额</div>
@@ -100,7 +100,7 @@
                     </div>
                     <div class="tr">
                         <div class="t">时长</div>
-                        <div class="v">{{ item.duration }}</div>
+                        <div class="v">{{ item.duration }}s</div>
                     </div>
                     <div class="tr">
                         <div class="t">出售价格</div>
@@ -134,11 +134,17 @@ const openMenu = ref(false)
 // 表单
 const amount = ref('') // 下注金额
 const faster = ref(60)
-const fasters = ref([
-    { sec: 60, per: 60 },
-    { sec: 180, per: 70 },
-    { sec: 300, per: 80 },
-])
+const fasters = computed(() => {
+    if (!store.state.config.contract_play) return []
+    const arr = []
+    for (let key in store.state.config.contract_play) {
+        arr.push({
+            sec: key,
+            per: store.state.config.contract_play[key]
+        })
+    }
+    return arr
+})
 
 const loading = ref(false)
 const buy = (dir) => {
@@ -159,6 +165,7 @@ const buy = (dir) => {
             showToast('购买成功')
             amount.value = ''
             store.dispatch('updateUser')
+            getList()
         }
     }).finally(() => {
         loading.value = false

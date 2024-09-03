@@ -90,6 +90,21 @@ const routes = [
         name: 'aList',
         component: () => import('../views/Assets/AccountList.vue')
       },
+      { // 交易记录
+        path: '/oList',
+        name: 'oList',
+        component: () => import('../views/Assets/OrderList.vue')
+      },
+      { // 充值记录
+        path: '/rList',
+        name: 'rList',
+        component: () => import('../views/Assets/RechargeList.vue')
+      },
+      { // 提现记录
+        path: '/wList',
+        name: 'wList',
+        component: () => import('../views/Assets/WithdrawList.vue')
+      },
       { // 交易
         path: '/trade',
         name: 'trade',

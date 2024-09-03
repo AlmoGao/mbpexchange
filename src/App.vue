@@ -33,7 +33,7 @@ const products = () => {
     }, 0)
     setInterval(() => {
       setWsData()
-    }, 20000)
+    }, 30000)
   })
 }
 products()
@@ -50,6 +50,7 @@ function setWsData() {
             store.state.goods[i] = {
               ...item,
               ...data.data[0],
+              amount: Number(data.data[0].amount).toFixed(2),
               list: data.data
             }
             store.commit('setGoods', store.state.goods)

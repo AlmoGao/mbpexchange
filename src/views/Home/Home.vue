@@ -52,25 +52,15 @@
       </div>
 
       <!-- tabs2 -->
-      <!-- <div class="tabs2">
-        <div class="tab shadow">
-          <div>BTC</div>
-          <div class="up">13%</div>
-          <div class="amount up">$21311</div>
+      <div class="tabs2">
+        <div class="tab shadow" v-for="(item, i) in recommends" :key="i">
+          <div>{{ item.name }}</div>
+          <div :class="[getPercent(item) > 0 ? 'up' : 'down']">{{ getPercent(item) ? getPercent(item) + '%' : '--' }}
+          </div>
+          <div class="amount" :class="[getPercent(item) > 0 ? 'up' : 'down']">{{ item.close || '--' }}</div>
         </div>
-        <div class="tab shadow">
-          <div>BTC</div>
-          <div class="up">13%</div>
-          <div class="amount up">$21311</div>
-        </div>
-        <div class="tab shadow">
-          <div>BTC</div>
-          <div class="up">13%</div>
-          <div class="amount up">$21311</div>
-        </div>
-      </div> -->
+      </div>
 
-      <div style="height: 5rem"></div>
       <!-- list -->
       <div class="list">
         <div class="item" v-for="(item, i) in goods" :key="i" @click="goInfo(item)">
@@ -111,6 +101,7 @@ import Area from "@/components/Area.vue"
 
 const token = computed(() => store.state.token || '')
 const goods = computed(() => store.state.goods || [])
+const recommends = computed(() => (store.state.goods || []).slice(0, 3))
 const config = computed(() => store.state.config || {})
 const telegram = computed(() => store.state.config.telegram || '')
 const whats_app = computed(() => store.state.config.whats_app || '')
@@ -235,7 +226,7 @@ const jump = name => {
     display: flex;
     align-items: stretch;
     justify-content: space-between;
-    margin: 2rem 0 4rem 0;
+    margin: 4rem 0 4rem 0;
 
     .tab {
       width: 31.5%;

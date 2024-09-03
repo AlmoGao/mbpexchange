@@ -4,6 +4,7 @@
     <van-icon name="arrow-left" @click="back" class="back" />
     <span class="info">{{ props.title || "" }}</span>
     <!-- <img @click="goCustomer" class="kefu" src="@/assets/my/kefu.svg" alt="img"> -->
+    <van-icon v-if="rightRecord" class="kefu" name="todo-list-o" @click="clickRight" />
   </div>
 </template>
 
@@ -12,9 +13,6 @@ import { defineProps } from "vue";
 import { useRouter } from "vue-router";
 import store from "@/store"
 
-const goCustomer = () => {
-  store.dispatch('goCustomer')
-}
 
 const router = useRouter();
 const props = defineProps({
@@ -33,12 +31,21 @@ const props = defineProps({
   backFunc: {
     type: Function,
   },
+  rightRecord: {
+    type: Boolean,
+    default: false,
+  }
 });
 
 const back = () => {
   if (props.backFunc) return props.backFunc();
   router.back();
 };
+
+const emits = defineEmits('clickRight')
+const clickRight = () => {
+  emits('clickRight')
+}
 </script>
 
 <style lang="less" scoped>
@@ -63,8 +70,7 @@ const back = () => {
   }
 
   .kefu {
-    width: 6rem;
-    height: 6rem;
+    font-size: 6rem;
   }
 }
 </style>

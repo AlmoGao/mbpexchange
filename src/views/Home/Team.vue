@@ -45,7 +45,7 @@
 
             <!-- tabs -->
             <div class="tabs">
-                <div class="tab shadow">
+                <div class="tab shadow" @click="copyCode">
                     <div class="left">
                         <div>邀请码</div>
                         <div class="val">{{ teamInfo.invite_code || '--' }}</div>
@@ -99,6 +99,12 @@ const active = ref(0)
 const copyLink = () => {
     if (teamInfo.value.invite_url) {
         copyText(teamInfo.value.invite_url)
+        showToast('已复制')
+    }
+}
+const copyCode = () => {
+    if (teamInfo.value.invite_code) {
+        copyText(teamInfo.value.invite_code)
         showToast('已复制')
     }
 }
