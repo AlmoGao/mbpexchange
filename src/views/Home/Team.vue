@@ -63,18 +63,18 @@
             <div class="box link" @click="copyLink">复制邀请链接</div>
 
 
-            <van-tabs animated v-model:active="active">
+            <van-tabs animated v-model:active="active" @change="getTeam">
                 <van-tab title="全部">
-                    <TeamTable />
+                    <TeamTable :level_list="teamInfo.level_list || []" />
                 </van-tab>
                 <van-tab title="Level1">
-                    <TeamTable />
+                    <TeamTable :level_list="teamInfo.level_list || []" />
                 </van-tab>
                 <van-tab title="Level2">
-                    <TeamTable />
+                    <TeamTable :level_list="teamInfo.level_list || []" />
                 </van-tab>
                 <van-tab title="Level3">
-                    <TeamTable />
+                    <TeamTable :level_list="teamInfo.level_list || []" />
                 </van-tab>
             </van-tabs>
         </div>
@@ -109,7 +109,6 @@ const form = ref({
 })
 const show = ref(false)
 const onConfirm = values => {
-    console.error(values)
     form.value.start = values[0]
     form.value.end = values[1]
     show.value = false
@@ -120,10 +119,11 @@ const onConfirm = values => {
 
 const teamInfo = ref({})
 const getTeam = (start, end) => {
+    teamInfo.value.level_list = []
     http.team({
         start_time: start || '',
         end_time: end || '',
-        level: 'all'
+        level: active.value ? active.value : 'all'
     }).then(res => {
         teamInfo.value = res || {}
     })
@@ -136,6 +136,7 @@ getTeam()
     background: linear-gradient(180deg, #0099FF 0%, #010318 32.9%, #0B0B0B 45.68%);
     height: 100%;
     padding: 0 0 16rem 0;
+    overflow-y: auto;
 
     .top {
         display: flex;
