@@ -85,6 +85,11 @@ const routes = [
         name: 'withdraw',
         component: () => import('../views/Assets/Withdraw.vue')
       },
+      { // 账变记录
+        path: '/aList',
+        name: 'aList',
+        component: () => import('../views/Assets/AccountList.vue')
+      },
       { // 交易
         path: '/trade',
         name: 'trade',

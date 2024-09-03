@@ -140,6 +140,17 @@ onMounted(() => {
 
 // 记录
 const active = ref(0)
+const list = ref([])
+
+const getList = () => {
+    list.value = []
+    http.orderList({
+        status: active.value // 0-持仓  1-平仓
+    }).then(res => {
+        console.error(res)
+    })
+}
+getList()
 </script>
 
 <style lang="less" scoped>

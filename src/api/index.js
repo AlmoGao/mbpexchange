@@ -76,6 +76,27 @@ class HttpService {
       data,
     });
   }
+  team(data) {
+    // 团队
+    return http("/api/user/team", {
+      method: "post",
+      data,
+    });
+  }
+  orderList(data) {
+    // 合约记录
+    return http("/api/order/list", {
+      method: "post",
+      data,
+    });
+  }
+  money_log(data) {
+    // 账变记录
+    return http("/api/user/money_log", {
+      method: "post",
+      data,
+    });
+  }
   upload(data) {
     // 上传
     return http("/api/common/upload", {

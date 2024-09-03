@@ -30,7 +30,7 @@
         <div class="btns">
             <div class="btn a_btn" @click="jump('recharge')">充值</div>
             <div class="btn c_btn" @click="jump('withdraw')">提现</div>
-            <div class="btn c_btn">记录</div>
+            <div class="btn c_btn" @click="jump('aList')">记录</div>
         </div>
 
         <!-- 统计 -->
@@ -41,15 +41,15 @@
             <div class="box_tabs">
                 <div class="box_tab">
                     <div class="box_title">昨日收入</div>
-                    <div class="num">0</div>
+                    <div class="num">{{ userInfo.yesterday_income || '0' }}</div>
                 </div>
                 <div class="box_tab">
                     <div class="box_title">今日收入</div>
-                    <div class="num">0</div>
+                    <div class="num">{{ userInfo.today_income || '0' }}</div>
                 </div>
                 <div class="box_tab">
                     <div class="box_title">工资收入</div>
-                    <div class="num">0</div>
+                    <div class="num">{{ userInfo.salary || '0' }}</div>
                 </div>
             </div>
             <div class="box_tabs">
@@ -70,7 +70,7 @@
 
         <!-- 快捷项 -->
         <div class="navs">
-            <div class="nav">
+            <div class="nav" @click="jump('aList')">
                 <img class="nav_icon" src="@/assets/assets/t1.png" alt="img">
                 <span>账变记录</span>
             </div>
