@@ -29,46 +29,35 @@ const products = () => {
     store.commit('setGoods', res || [])
 
     setTimeout(() => {
-      store.state.goods.forEach((item, i) => {
-        setTimeout(() => {
-          const url = `https://api.huobi.pro/market/history/kline?symbol=${item.code.toLowerCase()}&period=1day&size=1`
-          fetch(url)
-            .then(response => response.json())
-            .then(data => {
-              if (data.data[0]) {
-                store.state.goods[i] = {
-                  ...item,
-                  ...data.data[0]
-                }
-                store.commit('setGoods', store.state.goods)
-              }
-            })
-        }, i * 300);
-      })
+      setWsData()
     }, 0)
     setInterval(() => {
-      store.state.goods.forEach((item, i) => {
-        setTimeout(() => {
-          const url = `https://api.huobi.pro/market/history/kline?symbol=${item.code.toLowerCase()}&period=1day&size=1`
-          fetch(url)
-            .then(response => response.json())
-            .then(data => {
-              if (data.data[0]) {
-                store.state.goods[i] = {
-                  ...item,
-                  ...data.data[0]
-                }
-                store.commit('setGoods', store.state.goods)
-              }
-            })
-        }, i * 300);
-      })
+      setWsData()
     }, 20000)
   })
 }
 products()
 
 
+function setWsData() {
+  store.state.goods.forEach((item, i) => {
+    setTimeout(() => {
+      const url = `https://api.huobi.pro/market/history/kline?symbol=${item.code.toLowerCase()}&period=1day&size=100`
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          if (data.data[0]) {
+            store.state.goods[i] = {
+              ...item,
+              ...data.data[0],
+              list: data.data
+            }
+            store.commit('setGoods', store.state.goods)
+          }
+        })
+    }, i * 300);
+  })
+}
 
 
 // 设置根元素的字体大小

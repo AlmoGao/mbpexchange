@@ -4,7 +4,8 @@
 
     <!-- 顶部 -->
     <div class="top">
-      <img class="logo" src="@/assets/logo.png" alt="">
+      <img :class="config.logo" v-if="config.logo" src="@/assets/logo.png" alt="">
+      <span v-else></span>
       <span>主页</span>
       <img class="lang" @click="router.push({ name: 'lang' })" src="@/assets/lang/lang.png" alt="">
     </div>
@@ -78,7 +79,12 @@
             <div>24H {{ item.amount || '--' }}</div>
           </div>
           <div class="amount" :class="[getPercent(item) > 0 ? 'up' : 'down']">{{ item.close || '--' }}</div>
-          <div :class="[getPercent(item) > 0 ? 'up' : 'down']">{{ getPercent(item) ? getPercent(item) + '%' : '--' }}
+          <div>
+            <div :class="[getPercent(item) > 0 ? 'up' : 'down']">{{ getPercent(item) ? getPercent(item) + '%' : '--' }}
+            </div>
+            <div class="chart" style="width:20rem;height:8rem;position: relative" v-if="item.list">
+              <Area :up="getPercent(item) > 0" :id="i" :list="item.list || []" />
+            </div>
           </div>
         </div>
       </div>
@@ -101,9 +107,11 @@ import store from "@/store"
 import { _trans } from "@/tools/utils"
 import { _t } from "@/lang/index";
 import { showConfirmDialog } from "vant"
+import Area from "@/components/Area.vue"
 
 const token = computed(() => store.state.token || '')
 const goods = computed(() => store.state.goods || [])
+const config = computed(() => store.state.config || {})
 const telegram = computed(() => store.state.config.telegram || '')
 const whats_app = computed(() => store.state.config.whats_app || '')
 const carousel = computed(() => store.state.config.carousel || []) // 轮播

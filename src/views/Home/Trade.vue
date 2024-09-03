@@ -53,12 +53,65 @@
         </div>
 
         <!-- 记录 -->
-        <van-tabs animated v-model:active="active">
+        <van-tabs animated v-model:active="active" @change="getList">
             <van-tab title="持仓">
-                <div></div>
+                <div class="item" v-for="(item, i) in list" :key="i">
+                    <div class="tr" style="margin-bottom: 2rem;">
+                        <div class="time">{{ item.createtime }}</div>
+                        <div></div>
+                    </div>
+                    <div class="tr">
+                        <div class="t">方向</div>
+                        <div class="v">{{ item.direction }}</div>
+                    </div>
+                    <div class="tr">
+                        <div class="t">金额</div>
+                        <div class="v">{{ item.amount }}</div>
+                    </div>
+                    <div class="tr">
+                        <div class="t">购买价格</div>
+                        <div class="v">{{ item.buy_price }}</div>
+                    </div>
+                    <div class="tr">
+                        <div class="t">时长</div>
+                        <div class="v">{{ item.duration }}</div>
+                    </div>
+                </div>
+                <NoData v-if="!list.length" />
             </van-tab>
             <van-tab title="记录">
-                <div></div>
+                <div class="item" v-for="(item, i) in list" :key="i">
+                    <div class="tr" style="margin-bottom: 2rem;">
+                        <div class="time">{{ parseTime(item.createtime) }}</div>
+                        <div class="amount" :class="[Number(item.pl_amount) > 0 ? 'up' : 'down']">{{
+                            Number(item.pl_amount) > 0 ? '+' + item.pl_amount : item.pl_amount }}</div>
+                    </div>
+                    <div class="tr">
+                        <div class="t">方向</div>
+                        <div class="v">{{ item.direction }}</div>
+                    </div>
+                    <div class="tr">
+                        <div class="t">金额</div>
+                        <div class="v">{{ item.amount }}</div>
+                    </div>
+                    <div class="tr">
+                        <div class="t">购买价格</div>
+                        <div class="v">{{ item.buy_price }}</div>
+                    </div>
+                    <div class="tr">
+                        <div class="t">时长</div>
+                        <div class="v">{{ item.duration }}</div>
+                    </div>
+                    <div class="tr">
+                        <div class="t">出售价格</div>
+                        <div class="v">{{ item.sell_price }}</div>
+                    </div>
+                    <div class="tr">
+                        <div class="t">状态</div>
+                        <div class="v">{{ item.status_text }}</div>
+                    </div>
+                </div>
+                <NoData v-if="!list.length" />
             </van-tab>
         </van-tabs>
     </div>
@@ -71,6 +124,8 @@ import Kline from "@/components/Kline.vue"
 import store from "@/store"
 import { showToast } from "vant"
 import http from "@/api"
+import NoData from '@/components/NoData.vue';
+import { parseTime } from "@/tools/utils"
 
 const currGood = computed(() => store.state.currGood || {})
 const userInfo = computed(() => store.state.userInfo || {})
@@ -143,12 +198,14 @@ const active = ref(0)
 const list = ref([])
 
 const getList = () => {
-    list.value = []
-    http.orderList({
-        status: active.value // 0-持仓  1-平仓
-    }).then(res => {
-        console.error(res)
-    })
+    setTimeout(() => {
+        list.value = []
+        http.orderList({
+            status: active.value // 0-持仓  1-平仓
+        }).then(res => {
+            list.value = res || []
+        })
+    }, 0)
 }
 getList()
 </script>
@@ -216,6 +273,31 @@ getList()
             align-items: center;
             justify-content: center;
             color: #000 !important;
+        }
+    }
+
+    .item {
+        padding: 4rem;
+        border-radius: 2rem;
+        margin: 4rem 4rem 0 4rem;
+        background-color: #303030;
+
+        .tr {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            line-height: 5.4rem;
+
+            .amount {
+                font-size: 4rem;
+                font-weight: bold;
+            }
+
+            .t {}
+
+            .v {
+                color: #eee;
+            }
         }
     }
 

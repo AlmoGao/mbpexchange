@@ -36,7 +36,7 @@
         <!-- 统计 -->
         <div class="box">
             <div class="title">总收入</div>
-            <div class="title_val">0</div>
+            <div class="title_val">{{ userInfo.total_income || '0' }}</div>
 
             <div class="box_tabs">
                 <div class="box_tab">

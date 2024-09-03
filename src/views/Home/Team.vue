@@ -63,7 +63,7 @@
             <div class="box link" @click="copyLink">复制邀请链接</div>
 
 
-            <van-tabs animated v-model:active="active" @change="getTeam">
+            <van-tabs animated v-model:active="active" @change="changeTab">
                 <van-tab title="全部">
                     <TeamTable :level_list="teamInfo.level_list || []" />
                 </van-tab>
@@ -129,6 +129,9 @@ const getTeam = (start, end) => {
     })
 }
 getTeam()
+const changeTab = () => {
+    getTeam(parseTime(form.value.start, '{y}-{m}-{d}'), parseTime(form.value.end, '{y}-{m}-{d}'))
+}
 </script>
 
 <style lang="less" scoped>
