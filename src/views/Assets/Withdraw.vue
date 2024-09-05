@@ -6,8 +6,8 @@
         <div class="title">银行</div>
         <div class="btns">
             <div class="btn" :class="{ 'a_btn': type == 'bank' }">银行卡</div>
-            <div class="btn" :class="{ 'a_btn': type == 'trc20' }">Trc-20</div>
-            <div class="btn" :class="{ 'a_btn': type == 'erc20' }">Erc-20</div>
+            <!-- <div class="btn" :class="{ 'a_btn': type == 'trc20' }">Trc-20</div>
+            <div class="btn" :class="{ 'a_btn': type == 'erc20' }">Erc-20</div> -->
         </div>
 
         <div class="info">
@@ -16,8 +16,8 @@
         </div>
 
         <!-- 余额 -->
-        <div class="amount">余额：0.00</div>
-        <div class="amount">有效余额：0.00</div>
+        <div class="amount">余额：{{ userInfo.money }}</div>
+        <!-- <div class="amount">有效余额：0.00</div> -->
 
         <!-- 表单 -->
         <div class="item" style="margin-top: 6rem;">
@@ -72,7 +72,10 @@
 <script setup>
 import Top from '@/components/Top.vue';
 import router from '@/router';
-import { ref } from "vue"
+import { ref, computed } from "vue"
+import store from "@/store"
+
+const userInfo = computed(() => store.state.userInfo || {})
 
 const type = ref('bank')
 const rightRecord = () => {

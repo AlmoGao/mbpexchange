@@ -6,7 +6,7 @@
         <div class="box">
             <div class="btns">
                 <div class="btn" :class="{ 'a_btn': type == 'bank' }">银行</div>
-                <div class="btn" :class="{ 'a_btn': type == 'usdt' }">USDT</div>
+                <!-- <div class="btn" :class="{ 'a_btn': type == 'usdt' }">USDT</div> -->
             </div>
             <div class="amount_box">
                 <div>充值金额</div>

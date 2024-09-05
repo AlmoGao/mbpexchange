@@ -14,8 +14,8 @@
                     <!-- <div class="num">VIP0</div> -->
                 </div>
                 <div class="top_item">
-                    <div>UID:{{ userInfo.id }}</div>
-                    <div class="num">Level {{ userInfo.level }}</div>
+                    <div>UID:{{ userInfo.invite_code }}</div>
+                    <div class="num">VIP {{ userInfo.level - 1 }}</div>
                 </div>
             </div>
         </div>
@@ -82,10 +82,10 @@
                 <img class="nav_icon" src="@/assets/assets/t3.png" alt="img">
                 <span>银行卡</span>
             </div>
-            <div class="nav" @click="jump('address')">
+            <!-- <div class="nav" @click="jump('address')">
                 <img class="nav_icon" src="@/assets/assets/t4.png" alt="img">
                 <span>USDT 地址</span>
-            </div>
+            </div> -->
             <div class="nav" @click="jump('safe')">
                 <img class="nav_icon" src="@/assets/assets/t5.png" alt="img">
                 <span>修改密码</span>
