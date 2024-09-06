@@ -10,10 +10,15 @@
             <div class="btn" :class="{ 'a_btn': type == 'erc20' }">Erc-20</div> -->
         </div>
 
-        <div class="info">
+        <div class="info" @click="goBank" v-if="!userInfo.bank.length">
             <div class="info_text">点击添加收款方式</div>
             <van-icon name="arrow" />
         </div>
+        <div class="info" v-if="userInfo.bank.length" @click="showPicker = true">
+            <div class="info_text">{{ currBank.card }}--{{ currBank.code }}</div>
+            <van-icon name="arrow" />
+        </div>
+
 
         <!-- 余额 -->
         <div class="amount">余额：{{ userInfo.money }}</div>
@@ -21,9 +26,9 @@
 
         <!-- 表单 -->
         <div class="item" style="margin-top: 6rem;">
-            <input type="number" placeholder="请输入金额" class="ipt">
+            <input v-model="amount" type="number" placeholder="请输入金额" class="ipt">
 
-            <span class="all">全部</span>
+            <span class="all" @click="amount = userInfo.money">全部</span>
         </div>
         <div class="tip">
             <span>最小提现金额：</span>
@@ -31,10 +36,10 @@
         </div>
         <div class="subtitle">手续费</div>
         <div class="item">
-            <input type="number" disabled class="ipt">
+            <input v-model="fee" type="number" disabled class="ipt">
         </div>
         <div class="tip">
-            <span>手续费：</span>
+            <span>手续费：{{ config.withdraw_fee }}%</span>
         </div>
         <div class="subtitle">交易密码</div>
         <div class="item">
@@ -50,7 +55,8 @@
                 ①. Please keep the total recharge amount of your account.
             </div>
             <div>
-                ②. Withdrawal time: Monday to Friday 10:00 to 12:00. Withdrawals will be credited within 72 hours.
+                ②. Withdrawal time: Monday to Friday {{ config.withdrawal_start_time }} to {{ config.withdrawal_end_time
+                }}. Withdrawals will be credited within 72 hours.
             </div>
             <div>
                 ③. Please bind your accurate real name, bank account number, and IFSC code; Minimum withdrawal amount:
@@ -67,6 +73,10 @@
             </div>
         </div>
     </div>
+
+    <van-popup v-model:show="showPicker" round position="bottom">
+        <van-picker :columns="columns" @cancel="showPicker = false" @confirm="onConfirm" />
+    </van-popup>
 </template>
 
 <script setup>
@@ -76,11 +86,45 @@ import { ref, computed } from "vue"
 import store from "@/store"
 
 const userInfo = computed(() => store.state.userInfo || {})
+const config = computed(() => store.state.config || {})
+
+const amount = ref('')
+const fee = computed(() => {
+    if (!amount.value) return '--'
+    return (amount.value * config.value.withdraw_fee / 100).toFixed(2)
+})
 
 const type = ref('bank')
+const currBank = ref({})
+if (userInfo.value.bank && userInfo.value.bank[0]) {
+    currBank.value = userInfo.value.bank[0]
+}
+const showPicker = ref(false)
+const columns = computed(() => {
+    return userInfo.value.bank.map(item => {
+        return {
+            text: item.card + '--' + item.code,
+            value: item.id,
+            ...item
+        }
+    })
+})
+const onConfirm = item => {
+    currBank.value = item.selectedOptions[0]
+    showPicker.value = false
+}
+
+
 const rightRecord = () => {
     router.push({
         name: 'wList'
+    })
+}
+
+
+const goBank = () => {
+    router.push({
+        name: 'bank'
     })
 }
 </script>

@@ -36,10 +36,14 @@ export default createStore({
       }
     },
     updateUser({ commit }) {
-      api.userConfig().then(res => {
-        // setCookie('token', res.userinfo.token, 30)
-        // setCookie('uid', res.userinfo.id, 30)
-        commit('setUserInfo', res)
+      return new Promise(resolve => {
+        api.userConfig().then(res => {
+          // setCookie('token', res.userinfo.token, 30)
+          // setCookie('uid', res.userinfo.id, 30)
+          commit('setUserInfo', res)
+        }).finally(() => {
+          resolve(true)
+        })
       })
     },
   },

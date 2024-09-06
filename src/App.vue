@@ -51,7 +51,8 @@ function setWsData() {
               ...item,
               ...data.data[0],
               amount: Number(data.data[0].amount).toFixed(2),
-              list: data.data
+              list: data.data,
+              id: item.id
             }
             store.commit('setGoods', store.state.goods)
           }

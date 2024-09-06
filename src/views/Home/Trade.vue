@@ -22,10 +22,13 @@
                     <div>余额</div>
                     <div>{{ userInfo.money }}</div>
                 </div>
-                <div class="right">
+                <div class="right" v-if="!currGood.balance_ratio">
                     <van-icon name="arrow-down" @click="openMenu = !openMenu" />
                     <input v-model="amount" placeholder="金额" type="number" class="ipt">
                     <img src="@/assets/home/close.png" alt="x">
+                </div>
+                <div class="right" v-if="currGood.balance_ratio">
+                    投注金额：{{ amount }}
                 </div>
 
                 <!-- 快捷 -->
@@ -133,6 +136,9 @@ const openMenu = ref(false)
 
 // 表单
 const amount = ref('') // 下注金额
+if (currGood.value.balance_ratio) {
+    amount.value = Number(userInfo.value.money * currGood.value.balance_ratio / 100).toFixed(2)
+}
 const faster = ref(60)
 const fasters = computed(() => {
     if (!store.state.config.contract_play) return []
@@ -150,7 +156,8 @@ const loading = ref(false)
 const buy = (dir) => {
     if (loading.value) return
     if (!amount.value || amount.value <= 0) return
-    if (amount.value > userInfo.value.money) return showToast('余额不足')
+    console.error(amount.value, userInfo.value.money, Number(amount.value) > Number(userInfo.value.money))
+    if (Number(amount.value) > Number(userInfo.value.money)) return showToast('余额不足')
     if (!currGood.value.close) return showToast('获取价格中')
     const params = {
         product_id: currGood.value.id,
@@ -160,12 +167,12 @@ const buy = (dir) => {
         duration: faster.value
     }
     loading.value = true
-    http.buy(params).then(res => {
+    http.buy(params).then(async res => {
         if (res.code == 1) {
             showToast('购买成功')
-            amount.value = ''
-            store.dispatch('updateUser')
             getList()
+            await store.dispatch('updateUser')
+            amount.value = amount.value = Number(userInfo.value.money * currGood.value.balance_ratio / 100).toFixed(2)
         }
     }).finally(() => {
         loading.value = false

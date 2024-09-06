@@ -10,11 +10,11 @@
             </div>
             <div class="amount_box">
                 <div>充值金额</div>
-                <input type="number" class="ipt" placeholder="请输入金额">
+                <input v-model="amount" type="number" class="ipt" placeholder="请输入金额">
             </div>
 
             <div class="fasters">
-                <div class="faster shadow" v-for="f in fasters" :key="f">{{ f }}</div>
+                <div @click="amount = f" class="faster shadow" v-for="f in fasters" :key="f">{{ f }}</div>
             </div>
 
             <div class="a_btn submit">确认</div>
@@ -47,10 +47,14 @@
 <script setup>
 import Top from '@/components/Top.vue';
 import router from '@/router';
-import { ref } from "vue"
+import { ref, computed } from "vue"
+import store from '@/store';
 
 const type = ref('bank')
-const fasters = ref([500, 1000, 2000, 5000, 10000, 20000])
+const fasters = computed(() => store.state.config.recharge_quick || [])
+
+
+const amount = ref('')
 
 const rightRecord = () => {
     router.push({
