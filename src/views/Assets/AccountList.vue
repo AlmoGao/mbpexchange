@@ -28,7 +28,6 @@ import NoData from '@/components/NoData.vue';
 const list = ref([])
 const getList = () => {
     http.money_log().then(res => {
-        console.error(res)
         list.value = res || []
     })
 }
@@ -58,6 +57,7 @@ getList()
 
         .td1 {
             justify-content: flex-start;
+            word-break: normal;
         }
 
         .td2 {

@@ -9,12 +9,8 @@ import http from "@/api"
 import { _changeLang } from "@/lang/index";
 
 http.config().then(res => {
-  // console.error('配置', res)
   store.commit('setConfig', res || {})
   document.title = res.name || '--'
-  // setTimeout(() => {
-  //   globalWebSocket.connect()
-  // }, 100)
   if (!localStorage.getItem("lang") && res.lang) {
     _changeLang(res.lang)
   }
@@ -113,6 +109,10 @@ body {
 .van-popup--bottom {
   left: 50% !important;
   transform: translateX(-50%) !important;
+}
+
+.van-dialog__message {
+  color: #eee !important;
 }
 
 #app {

@@ -97,6 +97,34 @@ class HttpService {
       data,
     });
   }
+  recharge(data) {
+    // 充值
+    return http("/api/pay/recharge", {
+      method: "post",
+      data,
+    });
+  }
+  withdraw(data) {
+    // 提现
+    return http("/api/pay/withdraw", {
+      method: "post",
+      data,
+    });
+  }
+  withdraw_log(data) {
+    // 提现记录
+    return http("/api/pay/withdraw_log", {
+      method: "post",
+      data,
+    });
+  }
+  recharge_log(data) {
+    // 充值记录
+    return http("/api/pay/recharge_log", {
+      method: "post",
+      data,
+    });
+  }
   upload(data) {
     // 上传
     return http("/api/common/upload", {

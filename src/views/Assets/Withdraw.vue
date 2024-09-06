@@ -31,8 +31,8 @@
             <span class="all" @click="amount = userInfo.money">全部</span>
         </div>
         <div class="tip">
-            <span>最小提现金额：</span>
-            <span class="tip_link">0</span>
+            <!-- <span>最小提现金额：</span>
+            <span class="tip_link">0</span> -->
         </div>
         <div class="subtitle">手续费</div>
         <div class="item">
@@ -43,10 +43,10 @@
         </div>
         <div class="subtitle">交易密码</div>
         <div class="item">
-            <input type="password" placeholder="请输入交易密码" class="ipt">
+            <input v-model="password" type="password" placeholder="请输入交易密码" class="ipt">
         </div>
 
-        <div class="a_btn submit">提现</div>
+        <div class="a_btn submit" :style="{ opacity: loading ? '0.4' : '1' }" @click="submit">提现</div>
 
 
         <div class="tip_box">
@@ -84,6 +84,8 @@ import Top from '@/components/Top.vue';
 import router from '@/router';
 import { ref, computed } from "vue"
 import store from "@/store"
+import http from "@/api/index"
+import { showToast } from 'vant';
 
 const userInfo = computed(() => store.state.userInfo || {})
 const config = computed(() => store.state.config || {})
@@ -125,6 +127,29 @@ const rightRecord = () => {
 const goBank = () => {
     router.push({
         name: 'bank'
+    })
+}
+
+const password = ref('')
+const loading = ref(false)
+const submit = () => {
+    if (!amount.value || amount.value < 0) return
+    if (!password.value) return
+    if (loading.value) return
+    loading.value = true
+    http.withdraw({
+        money: Number(amount.value),
+        user_bank_id: currBank.value.id,
+        fee: Number(fee.value),
+        fundpassword: password.value
+    }).then(res => {
+        if (res.code == 1) {
+            amount.value = ''
+            password.value = ''
+            showToast('申请成功')
+        }
+    }).finally(() => {
+        loading.value = false
     })
 }
 </script>

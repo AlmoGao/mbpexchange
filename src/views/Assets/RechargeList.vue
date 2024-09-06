@@ -5,13 +5,13 @@
 
         <div class="tr th">
             <div class="td td1" style="flex:1.5">时间</div>
-            <div class="td">说明</div>
-            <div class="td td2">金额</div>
+            <div class="td">金额</div>
+            <div class="td td2">状态</div>
         </div>
         <div class="tr" v-for="(item, i) in list" :key="i">
             <div class="td td1" style="flex:1.5">{{ parseTime(item.createtime) }}</div>
-            <div class="td">{{ item.type_text }}</div>
-            <div class="td td2">{{ item.money }}</div>
+            <div class="td">{{ item.amount }}</div>
+            <div class="td td2">{{ item.status_text }}</div>
         </div>
 
         <NoData v-if="!list.length" />
@@ -27,8 +27,8 @@ import NoData from '@/components/NoData.vue';
 
 const list = ref([])
 const getList = () => {
-    http.money_log().then(res => {
-        console.error(res)
+    http.recharge_log().then(res => {
+        error(res)
         list.value = res || []
     })
 }
@@ -58,6 +58,7 @@ getList()
 
         .td1 {
             justify-content: flex-start;
+            word-break: normal;
         }
 
         .td2 {

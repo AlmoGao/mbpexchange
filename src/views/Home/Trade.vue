@@ -156,7 +156,6 @@ const loading = ref(false)
 const buy = (dir) => {
     if (loading.value) return
     if (!amount.value || amount.value <= 0) return
-    console.error(amount.value, userInfo.value.money, Number(amount.value) > Number(userInfo.value.money))
     if (Number(amount.value) > Number(userInfo.value.money)) return showToast('余额不足')
     if (!currGood.value.close) return showToast('获取价格中')
     const params = {

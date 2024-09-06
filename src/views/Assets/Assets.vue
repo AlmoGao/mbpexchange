@@ -52,7 +52,7 @@
                     <div class="num">{{ userInfo.salary || '0' }}</div>
                 </div>
             </div>
-            <div class="box_tabs">
+            <!-- <div class="box_tabs">
                 <div class="box_tab">
                     <div class="box_title">当前利润率</div>
                     <div class="num">0</div>
@@ -65,7 +65,7 @@
                     <div class="box_title">升级有效邀请</div>
                     <div class="num">0/3</div>
                 </div>
-            </div>
+            </div> -->
         </div>
 
         <!-- 快捷项 -->

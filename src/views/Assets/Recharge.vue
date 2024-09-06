@@ -5,8 +5,9 @@
 
         <div class="box">
             <div class="btns">
-                <div class="btn" :class="{ 'a_btn': type == 'bank' }">银行</div>
-                <!-- <div class="btn" :class="{ 'a_btn': type == 'usdt' }">USDT</div> -->
+                <div class="btn" @click="channel = item.id" v-for="(item, i) in channels" :key="i"
+                    :class="{ 'a_btn': channel == item.id }">{{
+                        item.name }}</div>
             </div>
             <div class="amount_box">
                 <div>充值金额</div>
@@ -17,7 +18,7 @@
                 <div @click="amount = f" class="faster shadow" v-for="f in fasters" :key="f">{{ f }}</div>
             </div>
 
-            <div class="a_btn submit">确认</div>
+            <div :style="{ opacity: loading ? '0.4' : '1' }" class="a_btn submit" @click="submit">确认</div>
         </div>
 
         <div class="tip_box">
@@ -49,16 +50,48 @@ import Top from '@/components/Top.vue';
 import router from '@/router';
 import { ref, computed } from "vue"
 import store from '@/store';
+import http from "@/api/index"
+import { showConfirmDialog } from 'vant';
 
-const type = ref('bank')
 const fasters = computed(() => store.state.config.recharge_quick || [])
+const channels = computed(() => store.state.config.channel || [])
 
 
 const amount = ref('')
+const channel = ref('')
+if (channels.value && channels.value[0]) {
+    channel.value = channels.value[0].id
+}
 
 const rightRecord = () => {
     router.push({
         name: 'rList'
+    })
+}
+
+const loading = ref(false)
+const submit = () => {
+    if (!amount.value || amount.value < 0) return
+    if (loading.value) return
+    loading.value = true
+    http.recharge({
+        money: Number(amount.value),
+        channel_id: channel.value
+    }).then(res => {
+        if (res.url) {
+            amount.value = ''
+            showConfirmDialog({
+                showCancelButton: false,
+                title: '',
+                message:
+                    '提交成功，是否跳转充值页面？',
+            })
+                .then(() => {
+                    window.open(res.url)
+                })
+        }
+    }).finally(() => {
+        loading.value = false
     })
 }
 </script>

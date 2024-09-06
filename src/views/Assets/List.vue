@@ -42,6 +42,7 @@ import Top from '@/components/Top.vue';
 
         .td1 {
             justify-content: flex-start;
+            word-break: normal;
         }
 
         .td2 {

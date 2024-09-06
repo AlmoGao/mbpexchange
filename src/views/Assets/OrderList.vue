@@ -50,7 +50,6 @@ const getList = () => {
     http.orderList({
         status: 1
     }).then(res => {
-        console.error(res)
         list.value = res || []
     })
 }

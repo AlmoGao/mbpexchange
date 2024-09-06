@@ -571,7 +571,7 @@ const initWS = (key = 'btcusdt', t = '5min') => {
     sub: `market.${key.toLowerCase()}.kline.${t}`
   }
   // 请求历史数据
-  console.error('请求历史数据')
+  // console.error('请求历史数据')
   const url = `https://api.huobi.pro/market/history/kline?symbol=${key.toLowerCase()}&period=${t}&size=100`
   fetch(url)
     .then(response => response.json())
@@ -606,15 +606,15 @@ const initWS = (key = 'btcusdt', t = '5min') => {
           chart.value.createIndicator('MA', true, { id: 'candle_pane' })
         }, 200)
       } else {
-        console.error('获取历史K线数据失败:', data);
+        // console.error('获取历史K线数据失败:', data);
       }
     })
     .catch(error => {
-      console.error('请求失败:', error);
+      // console.error('请求失败:', error);
     });
   socketK.value = new WebSocket(hburl)
   socketK.value.onopen = () => {
-    console.log("connection establish");
+    // console.log("connection establish");
     socketK.value.send(JSON.stringify(params))
   }
   socketK.value.onmessage = (event) => {
