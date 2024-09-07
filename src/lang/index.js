@@ -1,40 +1,20 @@
 import { createI18n } from "vue-i18n";
 import zh from "./zh"; // 中文简体
-import tw from "./tw"; // 中文繁体
 import en from "./en"; // 英文
-import th from "./th"; // 泰语
-import vi from "./vi"; // 越南语
-import ms from "./ms"; // 马来语
-import jp from "./jp"; // 日语
-import kr from "./kr"; // 韩语
-import id from "./id"; // 印尼
-import ru from "./ru"; // 俄语
+import hi from "./hi-Deva"; // 英文
 
 import { Locale } from "vant";
 
 import zhCN from "vant/es/locale/lang/zh-CN";
-import zhTW from "vant/es/locale/lang/zh-TW";
 import enUS from "vant/es/locale/lang/en-US";
-import thTH from "vant/es/locale/lang/th-TH";
-import koKR from "vant/es/locale/lang/ko-KR";
-import jaJP from "vant/es/locale/lang/ja-JP";
-import viVN from "vant/es/locale/lang/vi-VN";
-import idID from "vant/es/locale/lang/id-ID";
-import ruRU from "vant/es/locale/lang/ru-RU";
-import msMS from "./vant/ms-MS"
-// import esES from "vant/es/locale/lang/es-ES";
+import hiIN from "vant/es/locale/lang/hi-IN";
+
+// import msMS from "./vant/ms-MS"
 
 const messages = {
   'zh-cn': zh,
-  'zh-tw': tw,
   en,
-  th,
-  kr,
-  jp,
-  vi,
-  id,
-  ms,
-  'ru-RU': ru,
+  'hi-Deva': hi
 };
 
 const lang = localStorage.getItem("lang") || "zh-cn";
@@ -61,33 +41,12 @@ function useVant(l) {
     case "zh-cn":
       Locale.use("zh-CN", zhCN);
       break;
-    case "zh-tw":
-      Locale.use("zh-TW", zhTW);
-      break;
     case "en":
       Locale.use("en-US", enUS);
       break;
-    case "th":
-      Locale.use("th-TH", thTH);
-      break;
-    case "kr":
-      Locale.use("ko-KR", koKR);
-      break;
-    case "jp":
-      Locale.use("ja-JP", jaJP);
-      break;
-    case "vi":
-      Locale.use("vi-VN", viVN);
-      break;
-    case "id":
-      Locale.use("id-ID", idID);
-      break;
-    case "ms":
-      Locale.use("ms-MS", msMS);
-      break;
-    case "ru-RU":
-      Locale.use("ru-RU", ruRU);
-      break;
+    case 'hi-IN':
+      Locale.use("hi-IN", hiIN);
+      break
   }
 }
 

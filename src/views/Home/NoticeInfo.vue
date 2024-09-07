@@ -1,7 +1,7 @@
 <!-- 公告详情 -->
 <template>
     <div class="page page-notice">
-        <Top :title="'详情'" />
+        <Top :title="_t('t20')" />
 
         <div class="title">{{ info.title }}</div>
 
@@ -13,6 +13,7 @@
 import Top from '@/components/Top.vue';
 import { ref, computed, onMounted } from "vue"
 import store from "@/store"
+import { _t } from "@/lang/index";
 
 
 const info = ref({})

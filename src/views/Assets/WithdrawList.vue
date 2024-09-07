@@ -1,13 +1,13 @@
 <!-- 列表 -->
 <template>
     <div class="page page-list">
-        <Top :title="'提现记录'" />
+        <Top :title="_t('t99')" />
 
         <div class="tr th">
-            <div class="td td1" style="flex:1.5">时间</div>
-            <div class="td">金额</div>
-            <div class="td">手续费</div>
-            <div class="td td2">状态</div>
+            <div class="td td1" style="flex:1.5">{{ _t('t55') }}</div>
+            <div class="td">{{ _t('t46') }}</div>
+            <div class="td">{{ _t('t96') }}</div>
+            <div class="td td2">{{ _t('t50') }}</div>
         </div>
         <div class="tr" v-for="(item, i) in list" :key="i">
             <div class="td td1" style="flex:1.5">{{ parseTime(item.createtime) }}</div>
@@ -26,6 +26,7 @@ import http from "@/api"
 import { ref } from "vue"
 import { parseTime } from "@/tools/utils"
 import NoData from '@/components/NoData.vue';
+import { _t } from "@/lang/index";
 
 const list = ref([])
 const getList = () => {

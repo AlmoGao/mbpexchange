@@ -1,26 +1,26 @@
 <!-- 修改登录密码 -->
 <template>
     <div class="page page-pass">
-        <Top :title="'登录密码'" />
+        <Top :title="_t('t83')" />
 
-        <div class="subtitle">账号</div>
+        <div class="subtitle">{{ _t('t1') }}</div>
         <div class="item" style="color: #eee;">
             {{ userInfo.username }}
         </div>
-        <div class="subtitle">旧密码</div>
+        <div class="subtitle">{{ _t('t84') }}</div>
         <div class="item">
-            <input v-model="form.oldpassword" placeholder="旧密码" type="password" class="ipt">
+            <input v-model="form.oldpassword" :placeholder="_t('t84')" type="password" class="ipt">
         </div>
-        <div class="subtitle">新密码</div>
+        <div class="subtitle">{{ _t('t85') }}</div>
         <div class="item">
-            <input v-model="form.newpassword" placeholder="新密码" type="password" class="ipt">
+            <input v-model="form.newpassword" :placeholder="_t('t85')" type="password" class="ipt">
         </div>
-        <div class="subtitle">确认密码</div>
+        <div class="subtitle">{{ _t('t86') }}</div>
         <div class="item">
-            <input v-model="form.newpassword2" placeholder="确认密码" type="password" class="ipt">
+            <input v-model="form.newpassword2" :placeholder="_t('t86')" type="password" class="ipt">
         </div>
 
-        <div class="a_btn submit" :class="{ 'loading': loading }" @click="changePass">确认修改</div>
+        <div class="a_btn submit" :class="{ 'loading': loading }" @click="changePass">{{ _t('t87') }}</div>
     </div>
 </template>
 
@@ -31,6 +31,7 @@ import { ref, computed } from "vue"
 import store from "@/store"
 import { showToast } from "vant"
 import router from "@/router"
+import { _t } from "@/lang/index";
 
 const userInfo = computed(() => store.state.userInfo || {})
 
@@ -42,12 +43,12 @@ const form = ref({
 const loading = ref(false)
 const changePass = () => {
     if (!form.value.oldpassword || !form.value.newpassword) return
-    if (form.value.newpassword != form.value.newpassword2) return showToast('两次密码不一致')
+    if (form.value.newpassword != form.value.newpassword2) return showToast(_t('t11'))
     if (loading.value) return
     loading.value = true
     http.changepwd(form.value).then(res => {
         if (res.code == 1) {
-            showToast('修改成功')
+            showToast(_t('t88'))
             setTimeout(() => {
                 router.replace({
                     name: 'login'

@@ -1,7 +1,7 @@
 <!-- 充值 -->
 <template>
     <div class="page page-recharge">
-        <Top :title="'充值'" :rightRecord="true" @clickRight="rightRecord" />
+        <Top :title="_t('t14')" :rightRecord="true" @clickRight="rightRecord" />
 
         <div class="box">
             <div class="btns">
@@ -10,37 +10,20 @@
                         item.name }}</div>
             </div>
             <div class="amount_box">
-                <div>充值金额</div>
-                <input v-model="amount" type="number" class="ipt" placeholder="请输入金额">
+                <div>{{ _t('t38') }}</div>
+                <input v-model="amount" type="number" class="ipt" :placeholder="_t('t90')">
             </div>
 
             <div class="fasters">
                 <div @click="amount = f" class="faster shadow" v-for="f in fasters" :key="f">{{ f }}</div>
             </div>
 
-            <div :style="{ opacity: loading ? '0.4' : '1' }" class="a_btn submit" @click="submit">确认</div>
+            <div :style="{ opacity: loading ? '0.4' : '1' }" class="a_btn submit" @click="submit">{{ _t('t61') }}</div>
         </div>
 
         <div class="tip_box">
             <div class="tip_title">Regarding recharge rules:</div>
-            <div>
-                ①. Do not save the recharge account. Every time you recharge. You must be logged in to your MBP account.
-                Click Recharge to submit the order and obtain the latest bank account number to complete the recharge
-                (recharge is completed, wait a few minutes, and the amount will be automatically deposited into your MBP
-                account.)
-            </div>
-            <div>
-                ②. When Pay1 cannot be recharged, you can choose Pay2/Pay3/Pay4/Pay5 to recharge.
-            </div>
-            <div>
-                ③. The minimum recharge amount for a single transaction is: 500 ₹, and the maximum recharge amount is:
-                20,000 ₹.
-            </div>
-            <div>
-                ④. If the recharge is completed, the amount has not been added to the MBP account after 10 minutes.
-                Please send the detailed bill and mobile phone number screenshot of the completed recharge to the online
-                customer service staff for processing.
-            </div>
+            <div v-html="config.recharge_text"></div>
         </div>
     </div>
 </template>
@@ -52,7 +35,9 @@ import { ref, computed } from "vue"
 import store from '@/store';
 import http from "@/api/index"
 import { showConfirmDialog } from 'vant';
+import { _t } from "@/lang/index";
 
+const config = computed(() => store.state.config || [])
 const fasters = computed(() => store.state.config.recharge_quick || [])
 const channels = computed(() => store.state.config.channel || [])
 
@@ -84,7 +69,7 @@ const submit = () => {
                 showCancelButton: false,
                 title: '',
                 message:
-                    '提交成功，是否跳转充值页面？',
+                    _t('t91'),
             })
                 .then(() => {
                     window.open(res.url)

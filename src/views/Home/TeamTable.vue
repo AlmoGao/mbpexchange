@@ -1,10 +1,10 @@
 <template>
     <div class="team_table">
         <div class="tr" style="background-color: #232323;">
-            <div class="td" style="flex:1.5">注册时间</div>
-            <div class="td">用户名</div>
-            <div class="td">充值金额</div>
-            <div class="td">提现金额</div>
+            <div class="td" style="flex:1.5">{{ _t('t36') }}</div>
+            <div class="td">{{ _t('t37') }}</div>
+            <div class="td">{{ _t('t38') }}</div>
+            <div class="td">{{ _t('t39') }}</div>
         </div>
         <div class="tr" v-for="(item, i) in level_list" :key="i">
             <div class="td" style="flex:1.5;font-size: 3rem">{{ parseTime(item.jointime) || '--' }}</div>
@@ -16,6 +16,7 @@
 </template>
 
 <script setup>
+import { _t } from "@/lang/index";
 import { parseTime } from "@/tools/utils"
 const props = defineProps({
     level_list: {

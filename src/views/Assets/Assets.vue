@@ -15,40 +15,40 @@
                 </div>
                 <div class="top_item">
                     <div>UID:{{ userInfo.invite_code }}</div>
-                    <div class="num">VIP {{ userInfo.level - 1 }}</div>
+                    <div class="num">VIP {{ userInfo.level }}</div>
                 </div>
             </div>
         </div>
 
         <!-- tabs -->
         <div class="tabs">
-            <div class="tab">总资产 {{ userInfo.money }}</div>
+            <div class="tab">{{ _t('t63') }} {{ userInfo.money }}</div>
             <!-- <div class="tab">总提现 0.00</div> -->
         </div>
 
         <!-- btns -->
         <div class="btns">
-            <div class="btn a_btn" @click="jump('recharge')">充值</div>
-            <div class="btn c_btn" @click="jump('withdraw')">提现</div>
-            <div class="btn c_btn" @click="jump('aList')">记录</div>
+            <div class="btn a_btn" @click="jump('recharge')">{{ _t('t14') }}</div>
+            <div class="btn c_btn" @click="jump('withdraw')">{{ _t('t15') }}</div>
+            <div class="btn c_btn" @click="jump('aList')">{{ _t('t64') }}</div>
         </div>
 
         <!-- 统计 -->
         <div class="box">
-            <div class="title">总收入</div>
+            <div class="title">{{ _t('t65') }}</div>
             <div class="title_val">{{ userInfo.total_income || '0' }}</div>
 
             <div class="box_tabs">
                 <div class="box_tab">
-                    <div class="box_title">昨日收入</div>
+                    <div class="box_title">{{ _t('t66') }}</div>
                     <div class="num">{{ userInfo.yesterday_income || '0' }}</div>
                 </div>
                 <div class="box_tab">
-                    <div class="box_title">今日收入</div>
+                    <div class="box_title">{{ _t('t67') }}</div>
                     <div class="num">{{ userInfo.today_income || '0' }}</div>
                 </div>
                 <div class="box_tab">
-                    <div class="box_title">工资收入</div>
+                    <div class="box_title">{{ _t('t68') }}</div>
                     <div class="num">{{ userInfo.salary || '0' }}</div>
                 </div>
             </div>
@@ -72,15 +72,15 @@
         <div class="navs">
             <div class="nav" @click="jump('aList')">
                 <img class="nav_icon" src="@/assets/assets/t1.png" alt="img">
-                <span>账变记录</span>
+                <span>{{ _t('t69') }}</span>
             </div>
             <div class="nav" @click="jump('oList')">
                 <img class="nav_icon" src="@/assets/assets/t2.png" alt="img">
-                <span>订单记录</span>
+                <span>{{ _t('t70') }}</span>
             </div>
             <div class="nav" @click="jump('bank')">
                 <img class="nav_icon" src="@/assets/assets/t3.png" alt="img">
-                <span>银行卡</span>
+                <span>{{ _t('t71') }}</span>
             </div>
             <!-- <div class="nav" @click="jump('address')">
                 <img class="nav_icon" src="@/assets/assets/t4.png" alt="img">
@@ -88,14 +88,14 @@
             </div> -->
             <div class="nav" @click="jump('safe')">
                 <img class="nav_icon" src="@/assets/assets/t5.png" alt="img">
-                <span>修改密码</span>
+                <span>{{ _t('t72') }}</span>
             </div>
             <div class="nav">
                 <img class="nav_icon" src="@/assets/assets/t6.png" alt="img">
-                <span>App 下载</span>
+                <span>{{ _t('t73') }}</span>
             </div>
 
-            <div class="d_btn login_out" @click="logout">退出</div>
+            <div class="d_btn login_out" @click="logout">{{ _t('t74') }}</div>
         </div>
 
     </div>
@@ -106,6 +106,7 @@ import router from '@/router';
 import store from "@/store"
 import { computed } from "vue"
 import http from "@/api"
+import { _t } from "@/lang/index";
 
 const userInfo = computed(() => store.state.userInfo || {})
 

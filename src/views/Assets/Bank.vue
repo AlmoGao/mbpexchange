@@ -1,32 +1,36 @@
 <!-- 银行卡 -->
 <template>
     <div class="page page-bank">
-        <Top :title="'银行卡'" />
+        <Top :title="_t('t75')" />
 
         <!-- 列表 -->
         <div class="list_box" v-if="step == 1">
             <div class="list">
                 <div class="item" v-for="(item, i) in bank" :key="i">
-                    <div class="title">{{ item.code }}-{{ item.ifsc }}</div>
-                    <div class="info">{{ item.card }}</div>
+                    <div class="title">{{ item.name }}-{{ item.code }}</div>
+                    <div class="info">{{ item.ifsc }}-{{ item.card }}</div>
                 </div>
             </div>
-            <div class="a_btn submit" @click="step = 2">添加</div>
+            <div class="a_btn submit" @click="step = 2">{{ _t('t76') }}</div>
         </div>
 
         <template v-if="step == 2">
             <div class="box">
-                <div class="subtitle">姓名</div>
+                <div class="subtitle">{{ _t('t77') }}</div>
                 <div class="item">
-                    <input v-model="form.real_name" type="text" class="ipt" placeholder="姓名">
+                    <input v-model="form.real_name" type="text" class="ipt" :placeholder="_t('t77')">
                 </div>
-                <div class="subtitle">银行编码</div>
+                <div class="subtitle">{{ _t('t78') }}</div>
                 <div class="item">
-                    <input v-model="form.code" type="text" class="ipt" placeholder="银行编码">
+                    <input v-model="form.name" type="text" class="ipt" :placeholder="_t('t78')">
                 </div>
-                <div class="subtitle">银行卡号</div>
+                <div class="subtitle">{{ _t('t79') }}</div>
                 <div class="item">
-                    <input v-model="form.card" type="text" class="ipt" placeholder="银行卡号">
+                    <input v-model="form.code" type="text" class="ipt" :placeholder="_t('t79')">
+                </div>
+                <div class="subtitle">{{ _t('t80') }}</div>
+                <div class="item">
+                    <input v-model="form.card" type="text" class="ipt" :placeholder="_t('t80')">
                 </div>
                 <div class="subtitle">IFSC</div>
                 <div class="item">
@@ -34,7 +38,7 @@
                 </div>
             </div>
 
-            <div class="a_btn submit" :class="{ 'loading': loading }" @click="submit">提交</div>
+            <div class="a_btn submit" :class="{ 'loading': loading }" @click="submit">{{ _t('t81') }}</div>
         </template>
     </div>
 </template>
@@ -46,12 +50,14 @@ import { ref, computed } from "vue"
 import store from "@/store"
 import { showToast } from "vant"
 import router from "@/router"
+import { _t } from "@/lang/index";
 
 const step = ref(1)
 const bank = computed(() => store.state.userInfo?.bank || [])
 
 const form = ref({
     real_name: '',
+    name: '',
     card: '',
     ifsc: '',
     code: ''
@@ -59,15 +65,16 @@ const form = ref({
 const loading = ref(false)
 const submit = () => {
     if (loading.value) return
-    if (!form.value.real_name || !form.value.card || !form.value.ifsc || !form.value.code) return
+    if (!form.value.real_name || !form.value.name || !form.value.card || !form.value.ifsc || !form.value.code) return
     loading.value = true
     http.bindbank(form.value).then(res => {
         if (res.code == 1) {
-            showToast('操作成功')
+            showToast(_t('t62'))
             store.dispatch("updateUser");
             step.value = 1
             form.value = {
                 real_name: '',
+                name: '',
                 card: '',
                 ifsc: '',
                 code: ''

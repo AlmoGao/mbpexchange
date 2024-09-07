@@ -1,16 +1,16 @@
 <!-- 安全中心 -->
 <template>
     <div class="page page-safe">
-        <Top :title="'安全中心'" />
+        <Top :title="_t('t93')" />
 
         <div class="box">
             <div class="item" @click="jump('pass')">
-                <span>登录密码</span>
+                <span>{{ _t('t83') }}</span>
                 <van-icon name="arrow" />
             </div>
             <div style="height:1px;width:100%;background-color: #333"></div>
             <div class="item" @click="jump('password')">
-                <span>交易密码</span>
+                <span>{{ _t('t89') }}</span>
                 <van-icon name="arrow" />
             </div>
         </div>
@@ -20,6 +20,7 @@
 <script setup>
 import Top from '@/components/Top.vue';
 import router from '@/router';
+import { _t } from "@/lang/index";
 
 const jump = name => {
     router.push({

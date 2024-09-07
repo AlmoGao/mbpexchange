@@ -31,10 +31,10 @@ const token = computed(() => store.state.token)
 
 
 const navs = ref([
-  { title: '首页', route: "home", icon: icon1, icon2: icon11 },
-  { title: '市场', route: "markets", icon: icon2, icon2: icon22 },
-  { title: '团队', route: "team", icon: icon3, icon2: icon33 },
-  { title: '资金', route: "assets", icon: icon4, icon2: icon44 },
+  { title: _t('t101'), route: "home", icon: icon1, icon2: icon11 },
+  { title: _t('t102'), route: "markets", icon: icon2, icon2: icon22 },
+  { title: _t('t103'), route: "team", icon: icon3, icon2: icon33 },
+  { title: _t('t104'), route: "assets", icon: icon4, icon2: icon44 },
 ]);
 
 const jump = (item) => {

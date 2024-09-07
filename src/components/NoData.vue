@@ -1,6 +1,6 @@
 <!-- 暂无数据 -->
 <template>
-  <van-empty image-size="100" :description="_t('t126')" />
+  <van-empty image-size="100" :description="_t('t100')" />
 </template>
 
 <script setup>

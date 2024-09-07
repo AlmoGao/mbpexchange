@@ -1,7 +1,7 @@
 <!-- 列表 -->
 <template>
     <div class="page page-list">
-        <Top :title="'列表'" />
+        <Top :title="_t('t82')" />
 
         <div class="item" v-for="(item, i) in list" :key="i">
             <div class="tr" style="margin-bottom: 2rem;">
@@ -10,27 +10,27 @@
                     Number(item.pl_amount) > 0 ? '+' + item.pl_amount : item.pl_amount }}</div>
             </div>
             <div class="tr">
-                <div class="t">方向</div>
-                <div class="v">{{ item.direction }}</div>
+                <div class="t">{{ _t('t45') }}</div>
+                <div class="v">{{ item.direction == 0 ? _t('t42') : _t('t43') }}</div>
             </div>
             <div class="tr">
-                <div class="t">金额</div>
+                <div class="t">{{ _t('t41') }}</div>
                 <div class="v">{{ item.amount }}</div>
             </div>
             <div class="tr">
-                <div class="t">购买价格</div>
+                <div class="t">{{ _t('t47') }}</div>
                 <div class="v">{{ item.buy_price }}</div>
             </div>
             <div class="tr">
-                <div class="t">时长</div>
+                <div class="t">{{ _t('t48') }}</div>
                 <div class="v">{{ item.duration }}</div>
             </div>
             <div class="tr">
-                <div class="t">出售价格</div>
+                <div class="t">{{ _t('t49') }}</div>
                 <div class="v">{{ item.sell_price }}</div>
             </div>
             <div class="tr">
-                <div class="t">状态</div>
+                <div class="t">{{ _t('t50') }}</div>
                 <div class="v">{{ item.status_text }}</div>
             </div>
         </div>
@@ -44,6 +44,7 @@ import http from "@/api"
 import { ref } from "vue"
 import { parseTime } from "@/tools/utils"
 import NoData from '@/components/NoData.vue';
+import { _t } from "@/lang/index";
 
 const list = ref([])
 const getList = () => {

@@ -15,22 +15,23 @@
     <div class="form">
 
       <!-- 账号登录 -->
-      <div class="subtitle">账号</div>
+      <div class="subtitle">{{ _t('t1') }}</div>
       <div class="item">
-        <input v-model.trim="form.account" type="text" :placeholder="'请输入账号'">
+        <input v-model.trim="form.account" type="text" :placeholder="_t('t2')">
       </div>
-      <div class="subtitle">密码</div>
+      <div class="subtitle">{{ _t('t3') }}</div>
       <div class="item">
-        <input v-model="form.password" :type="showPass1 ? 'text' : 'password'" :placeholder="'请输入密码'" class="ipt">
+        <input v-model="form.password" :type="showPass1 ? 'text' : 'password'" :placeholder="_t('t4')" class="ipt">
         <van-icon @click="showPass1 = false" v-show="showPass1" class="icon icon_right" name="eye-o" />
         <van-icon @click="showPass1 = true" v-show="!showPass1" class="icon icon_right" name="closed-eye" />
       </div>
 
 
       <!-- <div class="tip" style="text-align: right;color: #4936DF;">忘记密码</div> -->
-      <van-button :loading="loading" @click="submit" class="btn a_btn" type="primary" size="large">登录</van-button>
+      <van-button :loading="loading" @click="submit" class="btn a_btn" type="primary" size="large">{{ _t('t5')
+        }}</van-button>
       <van-button @click="router.push({ name: 'register' })" style="margin-top:4rem" class="btn b_btn" type="primary"
-        size="large">注册</van-button>
+        size="large">{{ _t('t6') }}</van-button>
 
     </div>
 
@@ -71,7 +72,7 @@ const submit = () => {
   loading.value = true
   https.login(form.value).then(res => {
     if (res && res.userinfo) {
-      showToast('登录成功')
+      showToast(_t('t7'))
       store.commit('setToken', res.userinfo.token)
       store.commit('setUserInfo', res.userinfo)
       setTimeout(() => {

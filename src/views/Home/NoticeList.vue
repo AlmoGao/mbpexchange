@@ -1,7 +1,7 @@
 <!-- 公告列表 -->
 <template>
     <div class="page page-notice">
-        <Top :title="'公告'" />
+        <Top :title="_t('t21')" />
 
         <div class="notice" v-for="(item, i) in noticeList" :key="i" @click="goInfo(item)">
             <span>{{ item.title }}</span>
@@ -15,6 +15,7 @@ import Top from '@/components/Top.vue';
 import { ref, computed, onMounted } from "vue"
 import store from "@/store"
 import router from "@/router"
+import { _t } from "@/lang/index";
 
 const noticeList = computed(() => store.state.config.news || []) // 公告
 

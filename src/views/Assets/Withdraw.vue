@@ -1,17 +1,17 @@
 <!-- 提现 -->
 <template>
     <div class="page page-withdraw">
-        <Top :bgColor="'rgba(0,0,0,0)'" :title="'提现'" :rightRecord="true" @clickRight="rightRecord" />
+        <Top :bgColor="'rgba(0,0,0,0)'" :title="_t('t15')" :rightRecord="true" @clickRight="rightRecord" />
 
-        <div class="title">银行</div>
+        <div class="title">{{ _t('t94') }}</div>
         <div class="btns">
-            <div class="btn" :class="{ 'a_btn': type == 'bank' }">银行卡</div>
+            <div class="btn" :class="{ 'a_btn': type == 'bank' }">{{ _t('t71') }}</div>
             <!-- <div class="btn" :class="{ 'a_btn': type == 'trc20' }">Trc-20</div>
             <div class="btn" :class="{ 'a_btn': type == 'erc20' }">Erc-20</div> -->
         </div>
 
         <div class="info" @click="goBank" v-if="!userInfo.bank.length">
-            <div class="info_text">点击添加收款方式</div>
+            <div class="info_text">{{ _t('t95') }}</div>
             <van-icon name="arrow" />
         </div>
         <div class="info" v-if="userInfo.bank.length" @click="showPicker = true">
@@ -21,56 +21,37 @@
 
 
         <!-- 余额 -->
-        <div class="amount">余额：{{ userInfo.money }}</div>
+        <div class="amount">{{ _t('t41') }}：{{ userInfo.money }}</div>
         <!-- <div class="amount">有效余额：0.00</div> -->
 
         <!-- 表单 -->
         <div class="item" style="margin-top: 6rem;">
-            <input v-model="amount" type="number" placeholder="请输入金额" class="ipt">
+            <input v-model="amount" type="number" :placeholder="_t('t90')" class="ipt">
 
-            <span class="all" @click="amount = userInfo.money">全部</span>
+            <span class="all" @click="amount = userInfo.money">{{ _t('t34') }}</span>
         </div>
         <div class="tip">
             <!-- <span>最小提现金额：</span>
             <span class="tip_link">0</span> -->
         </div>
-        <div class="subtitle">手续费</div>
+        <div class="subtitle">{{ _t('t96') }}</div>
         <div class="item">
             <input v-model="fee" type="number" disabled class="ipt">
         </div>
         <div class="tip">
-            <span>手续费：{{ config.withdraw_fee }}%</span>
+            <span>{{ _t('t96') }}：{{ config.withdraw_fee }}%</span>
         </div>
-        <div class="subtitle">交易密码</div>
+        <div class="subtitle">{{ _t('t89') }}</div>
         <div class="item">
-            <input v-model="password" type="password" placeholder="请输入交易密码" class="ipt">
+            <input v-model="password" type="password" :placeholder="_t('t97')" class="ipt">
         </div>
 
-        <div class="a_btn submit" :style="{ opacity: loading ? '0.4' : '1' }" @click="submit">提现</div>
+        <div class="a_btn submit" :style="{ opacity: loading ? '0.4' : '1' }" @click="submit">{{ _t('t15') }}</div>
 
 
         <div class="tip_box">
             <div class="tip_title">*Withdrawal rules*</div>
-            <div>
-                ①. Please keep the total recharge amount of your account.
-            </div>
-            <div>
-                ②. Withdrawal time: Monday to Friday {{ config.withdrawal_start_time }} to {{ config.withdrawal_end_time
-                }}. Withdrawals will be credited within 72 hours.
-            </div>
-            <div>
-                ③. Please bind your accurate real name, bank account number, and IFSC code; Minimum withdrawal amount:
-                300-30,000 rupees.
-            </div>
-            <div>
-                ④. Each withdrawal requires a 20% tax (deducted directly from the withdrawal amount, please note)
-            </div>
-            <div>
-                ⚠️Note: If the withdrawal fails, please double-check whether your bank information is correct.
-            </div>
-            <div>
-                If you have any questions, please contact online customer service
-            </div>
+            <div v-html="config.withdraw_text"></div>
         </div>
     </div>
 
@@ -86,6 +67,7 @@ import { ref, computed } from "vue"
 import store from "@/store"
 import http from "@/api/index"
 import { showToast } from 'vant';
+import { _t } from "@/lang/index";
 
 const userInfo = computed(() => store.state.userInfo || {})
 const config = computed(() => store.state.config || {})
@@ -146,7 +128,7 @@ const submit = () => {
         if (res.code == 1) {
             amount.value = ''
             password.value = ''
-            showToast('申请成功')
+            showToast(_t('t98'))
         }
     }).finally(() => {
         loading.value = false

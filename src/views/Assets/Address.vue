@@ -1,7 +1,7 @@
 <!-- usdt 地址 -->
 <template>
     <div class="page page-address">
-        <Top :title="'提现地址'" />
+        <Top :title="_t('t58')" />
 
         <!-- 列表 -->
         <div class="list_box" v-if="step == 1">
@@ -11,7 +11,7 @@
                     <div class="info">{{ item.address }}</div>
                 </div>
             </div>
-            <div class="a_btn submit" @click="step = 2, address = ''">添加</div>
+            <div class="a_btn submit" @click="step = 2, address = ''">{{ _t('t59') }}</div>
         </div>
 
         <!-- 添加 -->
@@ -22,9 +22,9 @@
             </div>
 
             <div class="box">
-                <div class="subtitle">地址</div>
+                <div class="subtitle">{{ _t('t60') }}</div>
                 <div class="item">
-                    <input v-model="address" class="ipt" type="text" placeholder="地址">
+                    <input v-model="address" class="ipt" type="text" :placeholder="_t('t60')">
                 </div>
                 <!-- <div style="margin:4rem 0;border-top:1px solid #333"></div>
                 <div class="subtitle">交易密码</div>
@@ -35,7 +35,7 @@
 
             <div style="flex: 1;"></div>
 
-            <div class="a_btn submit" @click="add" :class="{ 'loading': loading }">确认</div>
+            <div class="a_btn submit" @click="add" :class="{ 'loading': loading }">{{ _t('t61') }}</div>
         </div>
 
     </div>
@@ -48,6 +48,7 @@ import { ref, computed } from "vue"
 import store from "@/store"
 import { showToast } from "vant"
 import router from "@/router"
+import { _t } from "@/lang/index";
 
 const step = ref(1)
 const wallet = computed(() => store.state.userInfo?.wallet || [])
@@ -63,7 +64,7 @@ const add = () => {
         address: address.value
     }).then(res => {
         if (res.code == 1) {
-            showToast('操作成功')
+            showToast(_t('t62'))
             store.dispatch("updateUser");
             step.value = 1
         }

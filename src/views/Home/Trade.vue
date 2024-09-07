@@ -19,7 +19,7 @@
 
             <div class="amount_box">
                 <div class="left">
-                    <div>余额</div>
+                    <div>{{ _t('t41') }}</div>
                     <div>{{ userInfo.money }}</div>
                 </div>
                 <div class="right" v-if="!currGood.balance_ratio">
@@ -28,12 +28,12 @@
                     <img src="@/assets/home/close.png" alt="x">
                 </div>
                 <div class="right" v-if="currGood.balance_ratio">
-                    投注金额：{{ amount }}
+                    {{ _t('t40') }} ：{{ amount }}
                 </div>
 
                 <!-- 快捷 -->
                 <div class="percents" v-show="openMenu">
-                    <div class="percent a_btn" @click="put(1)">全部</div>
+                    <div class="percent a_btn" @click="put(1)">{{ _t('t34') }}</div>
                     <div class="percent a_btn" @click="put(100)">1/100</div>
                     <div class="percent a_btn" @click="put(5)">1/5</div>
                     <div class="percent a_btn" @click="put(3)">1/3</div>
@@ -44,39 +44,39 @@
             <div class="tabs_box">
                 <div class="tab_item" @click="faster = item.sec" :class="{ 'a_btn': faster == item.sec }"
                     v-for="(item, i) in fasters" :key="i">
-                    <div>{{ item.sec }}</div>
+                    <div>{{ item.sec }}S</div>
                     <div>{{ item.per }}%</div>
                 </div>
             </div>
 
             <div class="btns" :class="{ 'loading': loading }">
-                <div class="btn a_btn" @click="buy(0)">买涨</div>
-                <div class="btn b_btn" @click="buy(1)">买跌</div>
+                <div class="btn a_btn" @click="buy(0)">{{ _t('t42') }}</div>
+                <div class="btn b_btn" @click="buy(1)">{{ _t('t43') }}</div>
             </div>
         </div>
 
         <!-- 记录 -->
         <van-tabs animated v-model:active="active" @change="getList">
-            <van-tab title="持仓">
+            <van-tab :title="_t('t44')">
                 <div class="item" v-for="(item, i) in list" :key="i">
                     <div class="tr" style="margin-bottom: 2rem;">
                         <div class="time">{{ parseTime(item.createtime) }}</div>
                         <div></div>
                     </div>
                     <div class="tr">
-                        <div class="t">方向</div>
-                        <div class="v">{{ item.direction == 0 ? '买涨' : '买跌' }}</div>
+                        <div class="t">{{ _t('t45') }}</div>
+                        <div class="v">{{ item.direction == 0 ? _t('t42') : _t('t43') }}</div>
                     </div>
                     <div class="tr">
-                        <div class="t">金额</div>
+                        <div class="t">{{ _t('t46') }}</div>
                         <div class="v">{{ item.amount }}</div>
                     </div>
                     <div class="tr">
-                        <div class="t">购买价格</div>
+                        <div class="t">{{ _t('t47') }}</div>
                         <div class="v">{{ item.buy_price }}</div>
                     </div>
                     <div class="tr">
-                        <div class="t">时长</div>
+                        <div class="t">{{ _t('t48') }}</div>
                         <div class="v">{{ item.duration }}s</div>
                     </div>
                 </div>
@@ -90,27 +90,27 @@
                             Number(item.pl_amount) > 0 ? '+' + item.pl_amount : item.pl_amount }}</div>
                     </div>
                     <div class="tr">
-                        <div class="t">方向</div>
-                        <div class="v">{{ item.direction == 0 ? '买涨' : '买跌' }}</div>
+                        <div class="t">{{ _t('t45') }}</div>
+                        <div class="v">{{ item.direction == 0 ? _t('t42') : _t('t43') }}</div>
                     </div>
                     <div class="tr">
-                        <div class="t">金额</div>
+                        <div class="t">{{ _t('t46') }}</div>
                         <div class="v">{{ item.amount }}</div>
                     </div>
                     <div class="tr">
-                        <div class="t">购买价格</div>
+                        <div class="t">{{ _t('t47') }}</div>
                         <div class="v">{{ item.buy_price }}</div>
                     </div>
                     <div class="tr">
-                        <div class="t">时长</div>
+                        <div class="t">{{ _t('t48') }}</div>
                         <div class="v">{{ item.duration }}s</div>
                     </div>
                     <div class="tr">
-                        <div class="t">出售价格</div>
+                        <div class="t">{{ _t('t49') }}</div>
                         <div class="v">{{ item.sell_price }}</div>
                     </div>
                     <div class="tr">
-                        <div class="t">状态</div>
+                        <div class="t">{{ _t('t50') }}</div>
                         <div class="v">{{ item.status_text }}</div>
                     </div>
                 </div>
@@ -129,6 +129,7 @@ import { showToast } from "vant"
 import http from "@/api"
 import NoData from '@/components/NoData.vue';
 import { parseTime } from "@/tools/utils"
+import { _t } from "@/lang/index";
 
 const currGood = computed(() => store.state.currGood || {})
 const userInfo = computed(() => store.state.userInfo || {})
@@ -156,8 +157,8 @@ const loading = ref(false)
 const buy = (dir) => {
     if (loading.value) return
     if (!amount.value || amount.value <= 0) return
-    if (Number(amount.value) > Number(userInfo.value.money)) return showToast('余额不足')
-    if (!currGood.value.close) return showToast('获取价格中')
+    if (Number(amount.value) > Number(userInfo.value.money)) return showToast(_t('t51'))
+    if (!currGood.value.close) return showToast(_t('t52'))
     const params = {
         product_id: currGood.value.id,
         buy_price: currGood.value.close,
@@ -168,7 +169,7 @@ const buy = (dir) => {
     loading.value = true
     http.buy(params).then(async res => {
         if (res.code == 1) {
-            showToast('购买成功')
+            showToast(_t('t53'))
             getList()
             await store.dispatch('updateUser')
             amount.value = amount.value = Number(userInfo.value.money * currGood.value.balance_ratio / 100).toFixed(2)

@@ -2,7 +2,7 @@
 <template>
     <div class="page page-team">
         <div class="top">
-            <span>我的团队</span>
+            <span>{{ _t('t22') }}</span>
             <img class="bg" src="@/assets/home/invitebg.png" alt="img">
         </div>
 
@@ -10,35 +10,35 @@
 
             <!-- 时间 -->
             <div class="box time-box" @click="show = true">
-                <span>{{ form.start ? parseTime(form.start, '{y}-{m}-{d}') : '开始时间' }}</span>
+                <span>{{ form.start ? parseTime(form.start, '{y}-{m}-{d}') : _t('t23') }}</span>
                 <span>-</span>
-                <span>{{ form.end ? parseTime(form.end, '{y}-{m}-{d}') : '结束时间' }}</span>
+                <span>{{ form.end ? parseTime(form.end, '{y}-{m}-{d}') : _t('t24') }}</span>
             </div>
 
             <!-- 统计 -->
             <div class="box top-box">
                 <div class="top-item">
-                    <div>团队人数</div>
+                    <div>{{ _t('t25') }}</div>
                     <div class="num">{{ teamInfo.tema_count || 0 }}</div>
                 </div>
                 <div class="top-item">
-                    <div>有效用户</div>
+                    <div>{{ _t('t26') }}</div>
                     <div class="num">{{ teamInfo.valid_user || 0 }}</div>
                 </div>
                 <div class="top-item">
-                    <div>总充值</div>
+                    <div>{{ _t('t27') }}</div>
                     <div class="num">{{ teamInfo.totalrecharge || 0 }}</div>
                 </div>
                 <div class="top-item">
-                    <div>今日人数</div>
+                    <div>{{ _t('t28') }}</div>
                     <div class="num">{{ teamInfo.today_tema_count || 0 }}</div>
                 </div>
                 <div class="top-item">
-                    <div>今日有效</div>
+                    <div>{{ _t('t29') }}</div>
                     <div class="num">{{ teamInfo.today_valid_user || 0 }}</div>
                 </div>
                 <div class="top-item">
-                    <div>总提现</div>
+                    <div>{{ _t('t30') }}</div>
                     <div class="num">{{ teamInfo.totalwithdraw || 0 }}</div>
                 </div>
             </div>
@@ -47,24 +47,24 @@
             <div class="tabs">
                 <div class="tab shadow" @click="copyCode">
                     <div class="left">
-                        <div>邀请码</div>
+                        <div>{{ _t('t31') }}</div>
                         <div class="val">{{ teamInfo.invite_code || '--' }}</div>
                     </div>
                     <van-icon style="font-size: 5rem" name="description" />
                 </div>
                 <div class="tab shadow" @click="copyLink">
                     <div class="left">
-                        <div>邀请链接</div>
+                        <div>{{ _t('t32') }}</div>
                         <div class="val">{{ teamInfo.invite_url || '--' }}</div>
                     </div>
                     <van-icon style="font-size: 5rem" name="description" />
                 </div>
             </div>
-            <div class="box link" @click="copyLink">复制邀请链接</div>
+            <div class="box link" @click="copyLink">{{ _t('t33') }}</div>
 
 
             <van-tabs animated v-model:active="active" @change="changeTab">
-                <van-tab title="全部">
+                <van-tab :title="_t('t34')">
                     <TeamTable :level_list="teamInfo.level_list || []" />
                 </van-tab>
                 <van-tab title="Level1">
@@ -92,6 +92,7 @@ import store from "@/store"
 import { Calendar, showToast } from "vant"
 import { parseTime, copyText } from "@/tools/utils"
 import http from "@/api"
+import { _t } from "@/lang/index";
 
 const userInfo = computed(() => store.state.userInfo || {})
 const active = ref(0)
@@ -99,13 +100,13 @@ const active = ref(0)
 const copyLink = () => {
     if (teamInfo.value.invite_url) {
         copyText(teamInfo.value.invite_url)
-        showToast('已复制')
+        showToast(_t('t35'))
     }
 }
 const copyCode = () => {
     if (teamInfo.value.invite_code) {
         copyText(teamInfo.value.invite_code)
-        showToast('已复制')
+        showToast(_t('t35'))
     }
 }
 

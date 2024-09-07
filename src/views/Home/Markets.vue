@@ -1,7 +1,7 @@
 <!-- 市场 -->
 <template>
     <div class="page page-markets">
-        <div class="title">市场</div>
+        <div class="title">{{ _t('t19') }}</div>
 
         <div class="content">
             <div class="item" v-for="(item, i) in goods" :key="i" @click="goInfo(item)">
@@ -14,7 +14,7 @@
                 </div>
                 <div class="amount" :class="[getPercent(item) > 0 ? 'up' : 'down']">{{ item.close || '--' }}</div>
                 <div class="percent" :class="[getPercent(item) > 0 ? 'up-bg' : 'down-bg']">{{ getPercent(item) ?
-                    getPercent(item) + '%' : '--'}}</div>
+                    getPercent(item) + '%' : '--' }}</div>
             </div>
         </div>
     </div>
@@ -25,6 +25,7 @@ import http from "@/api/index"
 import { ref, computed, onMounted } from "vue"
 import store from "@/store"
 import router from "@/router"
+import { _t } from "@/lang/index";
 
 const goods = computed(() => store.state.goods || [])
 

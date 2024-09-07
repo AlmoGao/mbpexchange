@@ -6,7 +6,7 @@
     <div class="top">
       <img :class="config.logo" v-if="config.logo" src="@/assets/logo.png" alt="">
       <span v-else></span>
-      <span>主页</span>
+      <span>{{ _t('t13') }}</span>
       <img class="lang" @click="router.push({ name: 'lang' })" src="@/assets/lang/lang.png" alt="">
     </div>
 
@@ -22,23 +22,23 @@
       <div class="tabs">
         <div class="tab" @click="jump('recharge')">
           <img src="@/assets/home/tab1.png" alt="img">
-          <div>充值</div>
+          <div>{{ _t('t14') }}</div>
         </div>
         <div class="tab" @click="jump('withdraw')">
           <img src="@/assets/home/tab2.png" alt="img">
-          <div>提现</div>
+          <div>{{ _t('t15') }}</div>
         </div>
         <div class="tab" @click="openLink(whats_app)">
           <img src="@/assets/home/tab3.png" alt="img">
-          <div>合作</div>
+          <div>{{ _t('t16') }}</div>
         </div>
         <div class="tab" @click="openLink(telegram)">
           <img src="@/assets/home/tab4.png" alt="img">
-          <div>客服</div>
+          <div>{{ _t('t17') }}</div>
         </div>
         <div class="tab" @click="jump('team')">
           <img src="@/assets/home/tab5.png" alt="img">
-          <div>邀请</div>
+          <div>{{ _t('t18') }}</div>
         </div>
       </div>
 

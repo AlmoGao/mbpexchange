@@ -18,6 +18,7 @@
 
 <script setup>
 import Top from '@/components/Top.vue';
+import { _t } from "@/lang/index";
 </script>
 
 <style lang="less" scoped>
