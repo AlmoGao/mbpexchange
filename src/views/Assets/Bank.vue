@@ -11,7 +11,7 @@
                     <div class="info">{{ item.ifsc }}-{{ item.card }}</div>
                 </div>
             </div>
-            <div class="a_btn submit" @click="step = 2">{{ _t('t76') }}</div>
+            <div class="a_btn submit" v-if="!bank.length" @click="step = 2">{{ _t('t76') }}</div>
         </div>
 
         <template v-if="step == 2">

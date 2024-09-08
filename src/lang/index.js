@@ -17,7 +17,7 @@ const messages = {
   'hi-Deva': hi
 };
 
-const lang = localStorage.getItem("lang") || "zh-cn";
+const lang = localStorage.getItem("lang") || "en";
 const i18n = createI18n({
   messages,
   locale: lang,

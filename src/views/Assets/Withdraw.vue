@@ -81,7 +81,7 @@ const fee = computed(() => {
 const type = ref('bank')
 const currBank = ref({})
 if (userInfo.value.bank && userInfo.value.bank[0]) {
-    currBank.value = userInfo.value.bank[0]
+    currBank.value = userInfo.value.bank[0] || []
 }
 const showPicker = ref(false)
 const columns = computed(() => {
@@ -117,6 +117,7 @@ const loading = ref(false)
 const submit = () => {
     if (!amount.value || amount.value < 0) return
     if (!password.value) return
+    if (!currBank.value || !currBank.value.id) return
     if (loading.value) return
     loading.value = true
     http.withdraw({

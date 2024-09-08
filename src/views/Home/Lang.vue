@@ -20,7 +20,7 @@ import { _t } from "@/lang/index";
 
 const locale = computed(() => _getLocal())
 const columns = ref([
-    { text: "中文简体", value: "zh-cn" },
+    // { text: "中文简体", value: "zh-cn" },
     { text: "English", value: "en" },
     { text: "हिंदी", value: "hi-Deva" },
 ]);
