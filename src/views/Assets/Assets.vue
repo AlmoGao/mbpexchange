@@ -90,7 +90,7 @@
                 <img class="nav_icon" src="@/assets/assets/t5.png" alt="img">
                 <span>{{ _t('t72') }}</span>
             </div>
-            <div class="nav">
+            <div class="nav" @click="download">
                 <img class="nav_icon" src="@/assets/assets/t6.png" alt="img">
                 <span>{{ _t('t73') }}</span>
             </div>
@@ -109,6 +109,14 @@ import http from "@/api"
 import { _t } from "@/lang/index";
 
 const userInfo = computed(() => store.state.userInfo || {})
+const config = computed(() => store.state.config || {})
+
+const download = () => {
+    if (config.value.app_url) {
+        window.open(config.value.app_url)
+    }
+}
+
 
 const jump = name => {
     router.push({
