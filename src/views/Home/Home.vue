@@ -211,7 +211,7 @@ const jump = name => {
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      font-size: 3.6rem;
+      font-size: 3.2rem;
       margin: 2rem 0 3rem 0;
 
       >img {
