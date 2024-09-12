@@ -82,7 +82,7 @@
                 </div>
                 <NoData v-if="!list.length" />
             </van-tab>
-            <van-tab title="记录">
+            <van-tab :title="_t('t64')">
                 <div class="item" v-for="(item, i) in list" :key="i">
                     <div class="tr" style="margin-bottom: 2rem;">
                         <div class="time">{{ parseTime(item.createtime) }}</div>
