@@ -249,6 +249,10 @@ const logout = () => {
                 border-top: 1px solid #f0f0f0;
                 padding: 4rem 0;
                 font-size: 4rem;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: space-between;
 
                 .num {
                     color: #000;
