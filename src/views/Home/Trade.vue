@@ -131,6 +131,17 @@ import NoData from '@/components/NoData.vue';
 import { parseTime } from "@/tools/utils"
 import { _t } from "@/lang/index";
 
+http.config().then(res => {
+    store.commit('setConfig', res || {})
+})
+//  产品列表
+const products = () => {
+    http.product().then(res => {
+        store.commit('setGoods', res || [])
+    })
+}
+products()
+
 const currGood = computed(() => store.state.currGood || {})
 const userInfo = computed(() => store.state.userInfo || {})
 const openMenu = ref(false)

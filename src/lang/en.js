@@ -1,8 +1,8 @@
 // 英语
 export default {
   lang: "English",
-  t1: 'Account',
-  t2: 'Please enter your account',
+  t1: 'Phone',
+  t2: 'Please enter your Phone number',
   t3: 'Password',
   t4: 'Please enter your password',
   t5: 'Login',
