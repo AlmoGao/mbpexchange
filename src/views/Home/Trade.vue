@@ -24,7 +24,7 @@
                 </div>
                 <div class="right" v-if="!currGood.balance_ratio">
                     <van-icon name="arrow-down" @click="openMenu = !openMenu" />
-                    <input v-model="amount" placeholder="金额" type="number" class="ipt">
+                    <input v-model="amount" :placeholder="_t('t46')" type="number" class="ipt">
                     <img src="@/assets/home/close.png" alt="x">
                 </div>
                 <div class="right" v-if="currGood.balance_ratio">
