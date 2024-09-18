@@ -7,7 +7,7 @@
         <div class="list_box" v-if="step == 1">
             <div class="list">
                 <div class="item" v-for="(item, i) in bank" :key="i">
-                    <div class="title">{{ item.name }}-{{ item.code }}</div>
+                    <div class="title">{{ item.name }}</div>
                     <div class="info">{{ item.ifsc }}-{{ item.card }}</div>
                 </div>
             </div>
@@ -24,10 +24,10 @@
                 <div class="item">
                     <input v-model="form.name" type="text" class="ipt" :placeholder="_t('t78')">
                 </div>
-                <div class="subtitle">{{ _t('t79') }}</div>
+                <!-- <div class="subtitle">{{ _t('t79') }}</div>
                 <div class="item">
                     <input v-model="form.code" type="text" class="ipt" :placeholder="_t('t79')">
-                </div>
+                </div> -->
                 <div class="subtitle">{{ _t('t80') }}</div>
                 <div class="item">
                     <input v-model="form.card" type="text" class="ipt" :placeholder="_t('t80')">
@@ -65,7 +65,7 @@ const form = ref({
 const loading = ref(false)
 const submit = () => {
     if (loading.value) return
-    if (!form.value.real_name || !form.value.name || !form.value.card || !form.value.ifsc || !form.value.code) return
+    if (!form.value.real_name || !form.value.name || !form.value.card || !form.value.ifsc) return
     loading.value = true
     http.bindbank(form.value).then(res => {
         if (res.code == 1) {

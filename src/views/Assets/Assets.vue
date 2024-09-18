@@ -108,6 +108,7 @@ import { computed } from "vue"
 import http from "@/api"
 import { _t } from "@/lang/index";
 
+store.dispatch('updateUser')
 const userInfo = computed(() => store.state.userInfo || {})
 const config = computed(() => store.state.config || {})
 
