@@ -13,31 +13,7 @@ export function parseTime(time, cFormat) {
     return null;
   }
   const format = cFormat || "{y}-{m}-{d} {h}:{i}:{s}";
-  let date;
-  if (typeof time === "object") {
-    date = time;
-  } else {
-    if (typeof time === "string") {
-      if (/^[0-9]+$/.test(time)) {
-        // support "1548221490638"
-        time = parseInt(time);
-      } else {
-        // support safari
-        // https://stackoverflow.com/questions/4310953/invalid-date-in-safari
-        // eslint-disable-next-line prefer-regex-literals
-        time = time.replace(new RegExp(/-/gm), "/");
-      }
-    }
-
-    if (typeof time === "number" && time.toString().length === 10) {
-      time = time * 1000;
-    }
-    // date = new Date( time )
-    date = new Date(
-      new Date(time).getTime() +
-      (parseInt(new Date(time).getTimezoneOffset() / 60) + 8) * 3600 * 1000
-    );
-  }
+  const date = formatTimestamp(time)
   const formatObj = {
     y: date.getFullYear(),
     m: date.getMonth() + 1,
@@ -80,3 +56,41 @@ export const copyText = (text) => {
     document.body.removeChild(textarea);
   }
 };
+
+function formatTimestamp(timestamp) {
+
+  const timeZoneOffset = store.state.config?.timezone
+
+  const date = new Date(timestamp * 1000); // 将时间戳转换为毫秒
+  const systemOffsetMinutes = -date.getTimezoneOffset(); // 当前系统时区的偏移（单位：分钟）
+
+  // 如果传入了时区偏移，例如 "+5:30" 或 "-02:00"
+  if (timeZoneOffset) {
+    // 解析时区偏移，格式为 "+5:30" 或 "-02:00"
+    const matches = timeZoneOffset.match(/([+-])(\d{1,2}):(\d{2})/);
+    if (matches) {
+      const sign = matches[1] === '+' ? 1 : -1;
+      const hoursOffset = parseInt(matches[2], 10);
+      const minutesOffset = parseInt(matches[3], 10);
+
+      // 将时区偏移转换为分钟
+      const totalOffsetMinutes = sign * (hoursOffset * 60 + minutesOffset);
+
+      // 仅在传入的时区与系统时区不同的情况下进行调整
+      if (totalOffsetMinutes !== systemOffsetMinutes) {
+        // 调整日期对象的时间：添加传入时区的偏移量并减去系统的时区偏移
+        date.setMinutes(date.getMinutes() + totalOffsetMinutes - systemOffsetMinutes);
+      }
+    }
+  }
+
+  // 格式化日期为 yyyy-mm-dd hh:mm:ss
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  const seconds = String(date.getSeconds()).padStart(2, '0');
+
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
