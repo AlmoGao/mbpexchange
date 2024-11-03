@@ -17,7 +17,8 @@
       <!-- 账号登录 -->
       <div class="subtitle">{{ _t('t1') }}</div>
       <div class="item">
-        <input v-model.trim="form.account" type="text" :placeholder="_t('t2')">
+        <span style="margin-right: 10px">+91</span>
+        <input class="ipt" v-model.trim="form.account" type="text" :placeholder="_t('t2')">
       </div>
       <div class="subtitle">{{ _t('t3') }}</div>
       <div class="item">

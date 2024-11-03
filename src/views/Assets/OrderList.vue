@@ -4,6 +4,7 @@
         <Top :title="_t('t82')" />
 
         <div class="item" v-for="(item, i) in list" :key="i">
+            <div style="color:#fff;font-size: 5rem;font-weight: bold;margin-bottom: 2rem;">{{ item.coin || '--' }}</div>
             <div class="tr" style="margin-bottom: 2rem;">
                 <div class="time">{{ parseTime(item.createtime) }}</div>
                 <div class="amount" :class="[Number(item.pl_amount) > 0 ? 'up' : 'down']">{{

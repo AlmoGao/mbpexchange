@@ -30,7 +30,7 @@
         <div class="btns">
             <div class="btn a_btn" @click="jump('recharge')">{{ _t('t14') }}</div>
             <div class="btn c_btn" @click="jump('withdraw')">{{ _t('t15') }}</div>
-            <div class="btn c_btn" @click="jump('aList')">{{ _t('t64') }}</div>
+            <!-- <div class="btn c_btn" @click="jump('aList')">{{ _t('t64') }}</div> -->
         </div>
 
         <!-- 统计 -->
@@ -39,10 +39,10 @@
             <div class="title_val">{{ userInfo.total_income || '0' }}</div>
 
             <div class="box_tabs">
-                <div class="box_tab">
+                <!-- <div class="box_tab">
                     <div class="box_title">{{ _t('t66') }}</div>
                     <div class="num">{{ userInfo.yesterday_income || '0' }}</div>
-                </div>
+                </div> -->
                 <div class="box_tab">
                     <div class="box_title">{{ _t('t67') }}</div>
                     <div class="num">{{ userInfo.today_income || '0' }}</div>
@@ -212,7 +212,7 @@ const logout = () => {
         justify-content: space-between;
 
         .btn {
-            width: 31%;
+            width: 48%;
             height: 12rem;
             border-radius: 2rem !important;
             display: flex;

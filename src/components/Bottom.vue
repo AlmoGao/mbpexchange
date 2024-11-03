@@ -63,11 +63,11 @@ const jump = (item) => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #232323;
+  background-color: #0b0b0b;
   color: #9FA6B5;
   border-top-left-radius: 5rem;
   border-top-right-radius: 5rem;
-  box-shadow: 0 -3px 2px 0 rgba(37, 37, 48, .83);
+  box-shadow: 0 -3px 2px 0 rgb(29 29 40 / 83%);
 
   .bottom-tab {
     flex: 1;

@@ -2,13 +2,13 @@
     <div class="team_table">
         <div class="tr" style="background-color: #232323;">
             <div class="td" style="flex:1.5">{{ _t('t36') }}</div>
-            <div class="td">{{ _t('t37') }}</div>
+            <div class="td">{{ _t('t1') }}</div>
             <div class="td">{{ _t('t38') }}</div>
             <div class="td">{{ _t('t39') }}</div>
         </div>
         <div class="tr" v-for="(item, i) in level_list" :key="i">
             <div class="td" style="flex:1.5;font-size: 3rem">{{ parseTime(item.jointime) || '--' }}</div>
-            <div class="td">{{ item.username || '--' }}</div>
+            <div class="td">{{ maskString(item.username || '--') }}</div>
             <div class="td">{{ item.totalrecharge || '--' }}</div>
             <div class="td">{{ item.totalwithdraw || '--' }}</div>
         </div>
@@ -25,6 +25,11 @@ const props = defineProps({
     }
 })
 
+function maskString(str) {
+    const firstThree = str.slice(0, 3); // 获取前3位
+    const lastTwo = str.slice(-2); // 获取后2位
+    return `${firstThree}****${lastTwo}`; // 用 **** 替代中间部分
+}
 </script>
 
 <style lang="less" scoped>

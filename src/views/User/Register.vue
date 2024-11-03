@@ -2,7 +2,7 @@
 <template>
   <div class="page-register">
     <div class="top">
-      <van-icon @click="router.back()" class="back" name="arrow-left" />
+      <van-icon @click="goLogin" class="back" name="arrow-left" />
       <span>{{ _t('t6') }}</span>
       <img class="lang" @click="router.push({ name: 'lang' })" src="@/assets/lang/lang.png" alt="">
     </div>
@@ -12,33 +12,38 @@
     <div class="form">
 
       <!-- 账号注册 -->
-      <div class="subtitle">{{ _t('t1') }}</div>
+      <!-- <div class="subtitle">{{ _t('t1') }}</div> -->
       <div class="item">
-        <input v-model.trim="form.username" type="text" :placeholder="_t('t1')">
+        <span style="margin-right: 10px">+91</span>
+        <input class="ipt" v-model.trim="form.username" type="text" :placeholder="_t('t1')">
       </div>
-      <div class="subtitle">{{ _t('t8') }}</div>
-      <div class="item">
-        <input v-model.trim="form.email" type="text" :placeholder="_t('t8')">
-      </div>
-      <div class="subtitle">{{ _t('t3') }}</div>
+
+      <!-- <div class="subtitle">{{ _t('t3') }}</div> -->
       <div class="item">
         <input v-model="form.password" :type="showPass1 ? 'text' : 'password'" :placeholder="_t('t3')" class="ipt">
         <van-icon @click="showPass1 = false" v-show="showPass1" class="icon icon_right" name="eye-o" />
         <van-icon @click="showPass1 = true" v-show="!showPass1" class="icon icon_right" name="closed-eye" />
       </div>
-      <div class="subtitle">{{ _t('t9') }}</div>
+      <!-- <div class="subtitle">{{ _t('t9') }}</div> -->
       <div class="item">
         <input v-model="form.password2" :type="showPass2 ? 'text' : 'password'" :placeholder="_t('t9')" class="ipt">
         <van-icon @click="showPass2 = false" v-show="showPass2" class="icon icon_right" name="eye-o" />
         <van-icon @click="showPass2 = true" v-show="!showPass2" class="icon icon_right" name="closed-eye" />
       </div>
-      <div class="subtitle">{{ _t('t10') }}</div>
+      <!-- <div class="subtitle">{{ _t('t8') }}</div> -->
+      <div class="item">
+        <input v-model.trim="form.email" type="text" :placeholder="_t('t8')">
+      </div>
+      <!-- <div class="subtitle">{{ _t('t10') }}</div> -->
       <div class="item">
         <input v-model="form.invite_code" type="text" :placeholder="_t('t10')">
       </div>
 
       <van-button :loading="loading" class="btn a_btn" type="primary" size="large" @click="goRegister">{{ _t('t6')
         }}</van-button>
+
+
+      <div @click="goLogin" style="text-align: center;margin-top: 30px;margin-bottom: 20px">{{ _t('t105') }}</div>
     </div>
 
 
@@ -52,6 +57,12 @@ import { showToast } from 'vant';
 import store from "@/store"
 import router from "@/router"
 import { _t } from "@/lang/index";
+
+const goLogin = () => {
+  router.replace({
+    name: 'login'
+  })
+}
 
 const activeTab = ref(1)
 const showPass1 = ref(false)

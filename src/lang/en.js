@@ -43,7 +43,7 @@ export default {
   t40: 'Betting amount',
   t41: 'Balance',
   t42: 'Buy up',
-  t43: 'Buy Short',
+  t43: 'Buy short',
   t44: 'Position',
   t45: 'Direction',
   t46: 'Amount',
@@ -105,4 +105,6 @@ export default {
   t102: 'Market',
   t103: 'Team',
   t104: 'Funds',
+
+  t105: 'Already have an account? Log in',
 };

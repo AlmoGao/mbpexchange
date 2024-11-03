@@ -18,16 +18,21 @@
         </van-swipe-item>
       </van-swipe>
 
-      <!-- tabs -->
-      <div class="tabs">
-        <div class="tab" @click="jump('recharge')">
+
+      <div class="tabs1">
+        <div class="tab1" @click="jump('recharge')">
           <img src="@/assets/home/tab1.png" alt="img">
           <div>{{ _t('t14') }}</div>
         </div>
-        <div class="tab" @click="jump('withdraw')">
+        <div class="tab1" @click="jump('withdraw')">
           <img src="@/assets/home/tab2.png" alt="img">
           <div>{{ _t('t15') }}</div>
         </div>
+      </div>
+      <!-- tabs -->
+      <div class="tabs">
+
+
         <div class="tab" @click="openLink(whats_app)">
           <img src="@/assets/home/tab3.png" alt="img">
           <div>{{ _t('t16') }}</div>
@@ -36,30 +41,30 @@
           <img src="@/assets/home/tab4.png" alt="img">
           <div>{{ _t('t17') }}</div>
         </div>
-        <div class="tab" @click="jump('team')">
+        <div class="tab" @click="jump('team')" style="width: 100%;margin: 2rem 0;">
           <img src="@/assets/home/tab5.png" alt="img">
           <div>{{ _t('t18') }}</div>
         </div>
       </div>
 
       <!-- notice -->
-      <div style="position: relative">
+      <!-- <div style="position: relative">
         <van-notice-bar class="notice-bar shadow" color="#9FA6B5" background="#232323" left-icon="volume-o"
           :text="notice.title" />
 
         <van-icon @click="jump('notice')" style="position: absolute;right: 4rem;top: 2.4rem;font-size: 5.4rem;"
           name="wap-nav" />
-      </div>
+      </div> -->
 
       <!-- tabs2 -->
-      <div class="tabs2">
+      <!-- <div class="tabs2">
         <div class="tab shadow" v-for="(item, i) in recommends" :key="i">
           <div>{{ item.name }}</div>
           <div :class="[getPercent(item) > 0 ? 'up' : 'down']">{{ getPercent(item) ? getPercent(item) + '%' : '--' }}
           </div>
           <div class="amount" :class="[getPercent(item) > 0 ? 'up' : 'down']">{{ item.close || '--' }}</div>
         </div>
-      </div>
+      </div> -->
 
       <!-- list -->
       <div class="list">
@@ -203,21 +208,48 @@ const jump = name => {
 
   .tabs {
     display: flex;
-    align-items: stretch;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 2rem;
+
 
     .tab {
-      flex: 1;
       display: flex;
-      flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
       font-size: 3.2rem;
-      margin: 2rem 0 3rem 0;
+      background-color: #232323;
+      padding: 2rem;
+      border-radius: 2rem;
+      width: 48%;
 
       >img {
         width: 8rem;
         height: 8rem;
-        margin-bottom: 1rem;
+        margin-right: 2rem;
+      }
+    }
+  }
+
+  .tabs1 {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background-color: #232323;
+    padding: 4rem 2rem;
+    border-radius: 4rem;
+
+    .tab1 {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      img {
+        width: 10rem;
+        height: 10rem;
+        margin-bottom: 2rem;
       }
     }
   }

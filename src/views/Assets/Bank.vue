@@ -7,8 +7,10 @@
         <div class="list_box" v-if="step == 1">
             <div class="list">
                 <div class="item" v-for="(item, i) in bank" :key="i">
-                    <div class="title">{{ item.name }}</div>
-                    <div class="info">{{ item.ifsc }}-{{ item.card }}</div>
+                    <div class="title">{{ _t('t78') }}：{{ item.name }}</div>
+                    <div class="info">{{ _t('t77') }}：{{ item.real_name }}</div>
+                    <div class="info">{{ _t('t80') }}：{{ item.card }}</div>
+                    <div class="info">IFSC：{{ item.ifsc }}</div>
                 </div>
             </div>
             <div class="a_btn submit" v-if="!bank.length" @click="step = 2">{{ _t('t76') }}</div>
