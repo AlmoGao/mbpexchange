@@ -80,7 +80,7 @@ export default {
   t77: 'Name',
   t78: 'Bank name',
   t79: 'Bank code',
-  t80: 'Bank card number',
+  t80: 'Bank account number',
   t81: 'Submit',
   t82: 'List',
   t83: 'Login password',

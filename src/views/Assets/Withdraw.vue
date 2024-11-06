@@ -142,7 +142,7 @@ const submit = () => {
     height: 100%;
     padding: 18rem 4rem 24rem 4rem;
     overflow-y: auto;
-    background: linear-gradient(180deg, #0099FF 0%, #010318 32.9%, #0B0B0B 45.68%);
+    background: linear-gradient(180deg, #0099FF 0%, #010318 32.9%, #003159 45.68%);
 
     .title {
         font-size: 6rem;

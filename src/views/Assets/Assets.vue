@@ -1,7 +1,7 @@
 <!-- 资产 -->
 <template>
     <div class="page page-assets">
-        <img class="icon" src="@/assets/assets/icon.png" alt="img">
+        <!-- <img class="icon" src="@/assets/assets/icon.png" alt="img"> -->
 
         <!-- top -->
         <div class="top">
@@ -140,7 +140,7 @@ const logout = () => {
     padding: 4rem 4rem 16rem 4rem;
     height: 100%;
     overflow-y: auto;
-    background-image: url('@/assets/assets/bg.png');
+    background-image: url('@/assets/bg.jpg');
     background-repeat: no-repeat;
     background-size: 100% auto;
 

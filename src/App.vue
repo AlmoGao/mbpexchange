@@ -117,8 +117,8 @@ body {
 
 #app {
   font-size: 3.2rem;
-  background: #0B0B0B;
-  color: #9fa6b5;
+  background: #004e91;
+  color: #d4d9e3;
   width: 100%;
   max-width: 600px;
   margin: 0 auto;

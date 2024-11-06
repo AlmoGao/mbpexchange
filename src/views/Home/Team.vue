@@ -143,7 +143,7 @@ const changeTab = () => {
 
 <style lang="less" scoped>
 .page-team {
-    background: linear-gradient(180deg, #0099FF 0%, #010318 32.9%, #0B0B0B 45.68%);
+    background: linear-gradient(180deg, #0099FF 0%, #010318 32.9%, #003159 45.68%);
     height: 100%;
     padding: 0 0 16rem 0;
     overflow-y: auto;
