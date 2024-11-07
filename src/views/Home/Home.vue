@@ -6,7 +6,7 @@
     <div class="top">
       <img :class="config.logo" style="height: 100%;width:auto" v-if="config.logo" :src="config.logo" alt="">
       <span v-else></span>
-      <span>HTFX</span>
+      <span>{{ config.name }}</span>
       <img class="lang" @click="router.push({ name: 'lang' })" src="@/assets/lang/lang.png" alt="">
     </div>
 
