@@ -4,9 +4,9 @@
 
     <!-- 顶部 -->
     <div class="top">
-      <img :class="config.logo" style="height: 100%;width:auto" v-if="config.logo" src="@/assets/logo.png" alt="">
+      <img :class="config.logo" style="height: 100%;width:auto" v-if="config.logo" :src="config.logo" alt="">
       <span v-else></span>
-      <span>{{ _t('t13') }}</span>
+      <span>HTFX</span>
       <img class="lang" @click="router.push({ name: 'lang' })" src="@/assets/lang/lang.png" alt="">
     </div>
 

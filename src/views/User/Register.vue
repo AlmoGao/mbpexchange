@@ -111,7 +111,7 @@ const goRegister = () => {
 <style lang="less" scoped>
 .page-register {
   padding: 4rem 4rem 12rem 4rem;
-  background-image: url('@/assets/bg.jpg');
+  background-image: url('@/assets/bg.webp');
   background-size: 100% 100%;
   height: 100%;
 

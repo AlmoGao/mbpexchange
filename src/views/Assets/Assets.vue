@@ -140,7 +140,7 @@ const logout = () => {
     padding: 4rem 4rem 16rem 4rem;
     height: 100%;
     overflow-y: auto;
-    background-image: url('@/assets/bg.jpg');
+    background-image: url('@/assets/bg.webp');
     background-repeat: no-repeat;
     background-size: 100% auto;
 

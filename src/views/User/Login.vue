@@ -8,7 +8,7 @@
     </div>
 
     <div class="title">
-      <img class="logo" src="@/assets/logo.png" alt="">
+      <!-- <img class="logo" src="@/assets/logo.png" alt=""> -->
     </div>
 
 
@@ -100,7 +100,7 @@ const goHome = () => {
 <style lang="less" scoped>
 .page-login {
   padding: 4rem 4rem 12rem 4rem;
-  background-image: url('@/assets/bg.jpg');
+  background-image: url('@/assets/bg.webp');
   background-size: 100% 100%;
   height: 100%;
 
